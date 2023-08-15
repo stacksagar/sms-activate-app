@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-gray-50 dark:bg-gray-900;
+}
+
+.container {
+  @apply mx-auto px-4 2xl:max-w-[1280px];
+}
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -16,12 +28,25 @@
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.landing-clip-path {
+  clip-path: "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)";
+}
+
+.section_sub_title {
+  @apply block mb-2 text-lg font-semibold;
+}
+
+.section_title {
+  @apply mb-4 text-3xl font-bold sm:text-4xl md:text-[40px];
+}
+
+.landing_section {
+  @apply bg-white dark:bg-gray-900 py-12 lg:py-24;
+}
+
+.landing_section2 {
+  @apply bg-gray-50 dark:bg-[#0f1523] py-12 lg:py-24;
+}
+p {
+  @apply leading-7;
 }
