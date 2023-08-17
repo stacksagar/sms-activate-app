@@ -1,11 +1,6 @@
 class RequestError extends Error {
-  constructor(errorCode) {
-    super();
-    this.responseCode = errorCode;
-    this.message = this.errorCodes[errorCode];
-  }
-
-  errorCodes = {
+  responseCode: string;
+  errorCodes: any = {
     ACCESS_ACTIVATION: "Сервис успешно активирован",
     ACCESS_CANCEL: "активация отменена",
     ACCESS_READY: "Ожидание нового смс",
@@ -39,57 +34,40 @@ class RequestError extends Error {
       "Ошибка при попытке передать ID активации без переадресации, или же завершенной/не активной активации",
   };
 
+  constructor(errorCode: string) {
+    super();
+    this.responseCode = errorCode;
+    this.message = this.errorCodes[errorCode];
+  }
+
   getErrorCode() {
     return this.responseCode;
   }
 }
 
 class ErrorCodes extends RequestError {
-  constructor(errorCode) {
+  constructor(errorCode: string) {
     super(errorCode);
   }
 
-  checkExist(errorCode) {
-    return errorCodes.hasOwnProperty(errorCode);
+  checkExist(errorCode: string) {
+    return this.errorCodes.hasOwnProperty(errorCode);
   }
 }
 
 class SMSActivate {
-  constructor(apiKey) {
+  url: string;
+  apiKey: string;
+
+  constructor(apiKey: string) {
     this.url = "https://api.sms-activate.org/stubs/handler_api.php";
     this.apiKey = apiKey;
   }
 
-  getBalance() {
-    const data = {
+  async getNumbersStatus(country?: any, operator?: any) {
+    const data: any = {
       api_key: this.apiKey,
-      action: __FUNCTION__,
-    };
-    return this.request(data, "GET");
-  }
-
-  getBalanceAndCashBack() {
-    const data = {
-      api_key: this.apiKey,
-      action: __FUNCTION__,
-    };
-    return this.request(data, "GET");
-  }
-
-  getTopCountriesByService(service = "", freePrice = false) {
-    const data = {
-      api_key: this.apiKey,
-      action: __FUNCTION__,
-      service: service,
-      $freePrice: freePrice,
-    };
-    return this.request(data, "POST", true);
-  }
-
-  getNumbersStatus(country = null, operator = null) {
-    const data = {
-      api_key: this.apiKey,
-      action: __FUNCTION__,
+      action: "getNumbersStatus",
     };
 
     if (country) {
@@ -97,13 +75,13 @@ class SMSActivate {
     }
 
     if (operator && (country == 0 || country == 1 || country == 2)) {
-      data["service"] = operator;
+      data["operator"] = operator;
     }
 
     const response = [];
-    const changeKeys = this.request(data, "GET", true);
+    const changeKeys = await this.request(data, "GET", true);
 
-    for (const services of changeKeys) {
+    for (let services of changeKeys) {
       services = services.trim("_01");
       response[services] = changeKeys[services];
     }
@@ -111,37 +89,144 @@ class SMSActivate {
     return response;
   }
 
-  getNumber(service, country = null, forward = 0, operator = null, ref = null) {
+  getTopCountriesByService(service?: string, freePrice?: boolean) {
+    const data: any = {
+      api_key: this.apiKey,
+      action: "getTopCountriesByService",
+      freePrice,
+    };
+
+    service && (data.service = service);
+
+    return this.request(data, "POST", true);
+  }
+
+  getBalance() {
     const data = {
       api_key: this.apiKey,
-      action: __FUNCTION__,
+      action: "getBalance",
+    };
+    return this.request(data, "GET");
+  }
+
+  getBalanceAndCashBack() {
+    const data = {
+      api_key: this.apiKey,
+      action: "getBalance",
+    };
+    return this.request(data, "GET");
+  }
+
+  getOperators(country?: string) {
+    const data: any = {
+      api_key: this.apiKey,
+      action: "getOperators",
+    };
+    country && (data.country = country);
+    return this.request(data, "GET", true);
+  }
+
+  getActiveActivations() {
+    const data: any = {
+      api_key: this.apiKey,
+      action: "getActiveActivations",
+    };
+    return this.request(data, "GET", true);
+  }
+
+  getNumber(
+    service: string,
+    forward: any,
+    country?: string | number,
+    operator?: string,
+    ref?: string,
+    phoneException?: any,
+    maxPrice?: any,
+    verification?: any
+  ) {
+    const data: any = {
+      api_key: this.apiKey,
+      action: "getNumber",
       service: service,
       forward: forward,
     };
+
     if (country) {
       data["country"] = country;
     }
+
     if (operator && (country == 0 || country == 1 || country == 2)) {
       data["operator"] = operator;
     }
     if (ref) {
       data["ref"] = ref;
     }
-    return this.request(data, "POST", null, 1);
+
+    if (phoneException) {
+      data["phoneException"] = phoneException;
+    }
+    if (maxPrice) {
+      data["maxPrice"] = maxPrice;
+    }
+    if (verification) {
+      data["verification"] = verification;
+    }
+
+    return this.request(data, "POST", true);
+  }
+
+  getNumberV2(
+    service: string,
+    forward: any,
+    country?: string | number,
+    operator?: string,
+    ref?: any,
+    phoneException?: any,
+    maxPrice?: any,
+    verification?: any
+  ) {
+    const data: any = {
+      api_key: this.apiKey,
+      action: "getNumberV2",
+      service: service,
+      forward: forward,
+    };
+    if (operator && (country == 0 || country == 1 || country == 2)) {
+      data["operator"] = operator;
+    }
+    if (ref) {
+      data["ref"] = ref;
+    }
+
+    if (country) {
+      data["country"] = country;
+    }
+
+    if (phoneException) {
+      data["phoneException"] = phoneException;
+    }
+    if (maxPrice) {
+      data["maxPrice"] = maxPrice;
+    }
+    if (verification) {
+      data["verification"] = verification;
+    }
+
+    return this.request(data, "POST", true);
   }
 
   getMultiServiceNumber(
-    services,
-    forward = 0,
-    country = null,
-    operator = null,
-    ref = null
+    services: any,
+    forward: string | number,
+    country: string | number,
+    operator: any,
+    ref: any
   ) {
-    const data = {
+    const data: any = {
       api_key: this.apiKey,
-      action: __FUNCTION__,
+      action: "getMultiServiceNumber",
       multiService: services,
-      forward: forward,
+      multiForward: forward,
     };
     if (country) {
       data["country"] = country;
@@ -155,60 +240,58 @@ class SMSActivate {
     return this.request(data, "POST", true, 1);
   }
 
-  setStatus(id, status, forward = 0) {
-    const data = {
+  setStatus(id: string, status: string, forward?: string) {
+    const data: any = {
       api_key: this.apiKey,
-      action: __FUNCTION__,
-      id: id,
-      status: status,
+      action: "setStatus",
+      id,
+      status,
     };
+
     if (forward) {
       data["forward"] = forward;
     }
-    return this.request(data, "POST", null, 3);
+
+    return this.request(data, "POST", false, 3);
   }
 
-  getStatus(id) {
+  getStatus(id: string) {
     const data = {
       api_key: this.apiKey,
-      action: __FUNCTION__,
+      action: "getStatus",
       id: id,
     };
     return this.request(data, "GET", false, 2);
   }
 
-  getCountries() {
-    const data = {
+  getHistory(start?: any, end?: any) {
+    const data: any = {
       api_key: this.apiKey,
-      action: __FUNCTION__,
+      action: "getHistory",
     };
+
+    start && (data.start = start);
+    end && (data.end = end);
+
+    return this.request(data, "GET", false, 2);
+  }
+
+  getIncomingCallStatus(activationId: string) {
+    const data: any = {
+      api_key: this.apiKey,
+      action: "getIncomingCallStatus",
+      activationId,
+    };
+
     return this.request(data, "GET", true);
   }
 
-  getAdditionalService(service, activationId) {
-    const data = {
+  getPrices(country?: any, service?: any) {
+    const data: any = {
       api_key: this.apiKey,
-      action: __FUNCTION__,
-      service: service,
-      id: activationId,
+      action: "getPrices",
     };
-    return this.request(data, "GET", false, 1);
-  }
 
-  getFullSms(id) {
-    const data = {
-      api_key: this.apiKey,
-      action: __FUNCTION__,
-      id: id,
-    };
-    return this.request(data, "GET");
-  }
-
-  getPrices(country = null, service = null) {
-    const data = {
-      api_key: this.apiKey,
-      action: __FUNCTION__,
-    };
     if (country !== null) {
       data["country"] = country;
     }
@@ -218,42 +301,124 @@ class SMSActivate {
     return this.request(data, "GET", true);
   }
 
-  getRentServicesAndCountries(time = 4, operator = "any") {
-    const data = {
+  getPricesVerification(service?: any) {
+    const data: any = {
       api_key: this.apiKey,
-      action: __FUNCTION__,
-      rent_time: time,
-      operator: operator,
+      action: "getPricesVerification",
     };
-    return this.requestRent(data, "POST", true);
+    if (service) {
+      data["service"] = service;
+    }
+    return this.request(data, "GET", true);
   }
 
-  getRentNumber(service, time = 4, country = 0, operator = "any", url = "") {
+  getCountries() {
     const data = {
       api_key: this.apiKey,
-      action: __FUNCTION__,
+      action: "getCountries",
+    };
+    return this.request(data, "GET", true);
+  }
+
+  getAdditionalService(service: any, activationId: any) {
+    const data = {
+      api_key: this.apiKey,
+      action: "getAdditionalService",
       service: service,
-      rent_time: time,
-      operator: operator,
-      country: country,
-      url: url,
+      id: activationId,
     };
+    return this.request(data, "GET", false, 1);
+  }
+
+  getExtraActivation(activationId: any) {
+    const data = {
+      api_key: this.apiKey,
+      action: "getExtraActivation",
+      activationId,
+    };
+    return this.request(data, "GET", false, 1);
+  }
+
+  checkExtraActivation(activationId: any) {
+    const data = {
+      api_key: this.apiKey,
+      action: "checkExtraActivation",
+      activationId,
+    };
+    return this.request(data, "GET", false, 1);
+  }
+
+  createTaskForCall(activationId: any, phone: string) {
+    const data = {
+      api_key: this.apiKey,
+      action: "createTaskForCall",
+      activationId,
+      phone,
+    };
+    return this.request(data, "GET", true);
+  }
+
+  getOutgoingCalls(date: string, activationId: any) {
+    const data = {
+      api_key: this.apiKey,
+      action: "getOutgoingCalls",
+      date,
+      activationId,
+    };
+    return this.request(data, "GET", true);
+  }
+
+  // Rent APIs
+  getRentServicesAndCountries(
+    country?: string,
+    operator?: string,
+    time?: number
+  ) {
+    const data: any = {
+      api_key: this.apiKey,
+      action: "getRentServicesAndCountries",
+    };
+
+    time && (data.rent_time = time);
+    operator && (data.operator = operator);
+    country && (data.country = country);
+
     return this.requestRent(data, "POST", true);
   }
 
-  getRentStatus(id) {
+  getRentNumber(
+    service: any,
+    country: any,
+    rent_time: any,
+    operator: any,
+    url: string
+  ) {
     const data = {
       api_key: this.apiKey,
-      action: __FUNCTION__,
+      action: "getRentNumber",
+      service,
+      country,
+      // rent_time,
+      // operator,
+      url,
+    };
+    return this.requestRent(data, "GET", true);
+  }
+
+  getRentStatus(id: string) {
+    const data = {
+      api_key: this.apiKey,
+      action: "getRentStatus",
       id: id,
     };
+
     return this.requestRent(data, "POST", true);
   }
 
-  setRentStatus(id, status) {
+  setRentStatus(id: any, status: any) {
     const data = {
       api_key: this.apiKey,
-      action: __FUNCTION__,
+      action: "setRentStatus",
       id: id,
       status: status,
     };
@@ -263,34 +428,36 @@ class SMSActivate {
   getRentList() {
     const data = {
       api_key: this.apiKey,
-      action: __FUNCTION__,
+      action: "getRentList",
     };
     return this.requestRent(data, "POST", true);
   }
 
-  continueRentNumber(id, time = 4) {
+  continueRentNumber(id: any, time: any) {
     const data = {
       api_key: this.apiKey,
-      action: __FUNCTION__,
+      action: "continueRentNumber",
       id: id,
       rent_time: time,
     };
     return this.requestRent(data, "POST", true);
   }
 
-  getContinueRentPriceNumber(id, time) {
+  getContinueRentPriceNumber(id: any) {
     const data = {
       api_key: this.apiKey,
-      action: __FUNCTION__,
+      action: "getContinueRentPriceNumber",
       id: id,
-      rent_time: time,
     };
     return this.requestRent(data, "POST", false);
   }
 
-  async request(data, method, parseAsJSON = null, getNumber = null) {
-    method = method.toUpperCase();
-
+  async request(
+    data: any,
+    method: "GET" | "POST",
+    parseAsJSON?: boolean,
+    getNumber?: number
+  ) {
     if (!["GET", "POST"].includes(method)) {
       throw new Error("Method can only be GET or POST");
     }
@@ -312,17 +479,6 @@ class SMSActivate {
 
     const result = await response.text();
 
-    const responseError = new ErrorCodes(result);
-    const check = responseError.checkExist(result);
-
-    try {
-      if (check) {
-        throw new RequestError(result);
-      }
-    } catch (error) {
-      return error.getResponseCode();
-    }
-
     if (parseAsJSON) {
       return JSON.parse(result);
     }
@@ -332,18 +488,24 @@ class SMSActivate {
     if (getNumber === 1) {
       return { id: parsedResponse[1], number: parsedResponse[2] };
     }
+
     if (getNumber === 2) {
       return { status: parsedResponse[0], code: parsedResponse[1] };
     }
+
     if (getNumber === 3) {
       return { status: parsedResponse[0] };
     }
+
     return parsedResponse[1];
   }
 
-  async requestRent(data, method, parseAsJSON = null, getNumber = null) {
-    method = method.toUpperCase();
-
+  async requestRent(
+    data: any,
+    method: "GET" | "POST",
+    parseAsJSON?: boolean,
+    getNumber?: number
+  ) {
     if (!["GET", "POST"].includes(method)) {
       throw new Error("Method can only be GET or POST");
     }
@@ -379,3 +541,5 @@ class SMSActivate {
     return result;
   }
 }
+
+export const smsActive = new SMSActivate("d2e9A91b4eA76de3f32Acec74d5957d0");

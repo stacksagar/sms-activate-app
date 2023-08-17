@@ -1,11 +1,13 @@
-import Button from "@/common/Buttons/Button";
+"use client";
+
 import FIcon from "@/common/FIcon";
 import Input from "@/common/Forms/Input";
 import ClientFooter from "@/components/client/footer/ClientFooter";
 import ClientHeader from "@/components/client/header/ClientHeader";
+
 import React from "react";
 
-export default function Dashboard() {
+export default function Dashboard(props: any) {
   return (
     <>
       <ClientHeader />

@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/cache": "^11.11.0",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
     "@fortawesome/free-brands-svg-icons": "^6.4.2",
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
@@ -16,24 +19,34 @@
     "@headlessui/react": "^1.7.16",
     "@heroicons/react": "^2.0.18",
     "@lottiefiles/react-lottie-player": "^3.5.3",
+    "@mui/icons-material": "^5.14.3",
+    "@mui/material": "^5.14.5",
     "@szhsin/react-accordion": "^1.2.3",
     "@tailwindcss/forms": "^0.5.4",
     "@types/node": "20.4.9",
     "@types/react": "18.2.19",
     "@types/react-dom": "18.2.7",
     "autoprefixer": "10.4.14",
+    "axios": "^1.4.0",
     "classnames": "^2.3.2",
     "eslint": "8.46.0",
     "eslint-config-next": "13.4.13",
     "formik": "^2.4.3",
     "framer-motion": "^10.15.1",
+    "js-cookie": "^3.0.5",
     "next": "13.4.13",
+    "next-themes": "^0.2.1",
     "postcss": "8.4.27",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-responsive-pagination": "^2.2.2",
+    "react-top-loading-bar": "^2.3.1",
     "tailwindcss": "3.3.3",
     "tw-elements-react": "^1.0.0-alpha1",
-    "typescript": "5.1.6"
+    "typescript": "5.1.6",
+    "uid": "^2.0.2"
+  },
+  "devDependencies": {
+    "@types/js-cookie": "^3.0.3"
   }
 }

@@ -18,15 +18,18 @@ const navigation = [
   { name: "How It Work", href: "#how-it-works" },
   { name: "F.A.Q", href: "#faq" },
   { name: "Pricing", href: "#pricing" },
+  { name: "Test", href: "/test" },
+  { name: "Test2", href: "/test2" },
+  { name: "Server", href: "/server" },
 ];
 
 export default function ClientHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="z-50 border-b dark:border-b-gray-600 py-2">
+    <header className="z-50 border-b dark:border-b-gray-600">
       <nav
-        className="container flex items-center justify-between py-6"
+        className="h-[80px] container flex items-center justify-between"
         aria-label="Global"
       >
         <div className="flex lg:flex-1">
@@ -51,13 +54,13 @@ export default function ClientHeader() {
 
         <div className="hidden lg:flex lg:gap-x-12 items-center justify-end pr-10 w-full">
           {navigation.map((item) => (
-            <a
+            <Link
               key={item.name}
               href={item.href}
               className="text-sm font-semibold leading-6 "
             >
               {item.name}
-            </a>
+            </Link>
           ))}
           <ThemeToggler />
         </div>
@@ -88,10 +91,10 @@ export default function ClientHeader() {
         <div className="fixed inset-0 z-50" />
         <Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white dark:bg-gray-900 px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between">
-            <a href="#" className="-m-1.5 p-1.5">
+            <Link href="/" className="-m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
               <Image src="/logo.svg" width={44} height={44} alt="logo" />
-            </a>
+            </Link>
             <button
               type="button"
               className="-m-2.5 rounded-md p-2.5 "
@@ -106,22 +109,22 @@ export default function ClientHeader() {
             <div className="-my-6 divide-y divide-gray-500/10">
               <div className="space-y-2 py-6">
                 {navigation.map((item) => (
-                  <a
+                  <Link
                     key={item.name}
                     href={item.href}
                     className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7  hover:bg-gray-50"
                   >
                     {item.name}
-                  </a>
+                  </Link>
                 ))}
               </div>
               <div className="py-6">
-                <a
+                <Link
                   href="#"
                   className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7  hover:bg-gray-50"
                 >
                   Log in
-                </a>
+                </Link>
               </div>
             </div>
           </div>

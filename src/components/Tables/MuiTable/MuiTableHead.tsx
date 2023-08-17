@@ -1,0 +1,95 @@
+import React from "react";
+
+import {
+  Box,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
+  TableSortLabel,
+  Toolbar,
+  Typography,
+  Paper,
+  Checkbox,
+  IconButton,
+} from "@mui/material";
+import { visuallyHidden } from "@mui/utils";
+
+interface Props {
+  numSelected: number;
+  onRequestSort: (event: React.MouseEvent<unknown>, property: any) => void;
+  onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  order: TableOrder;
+  orderBy: string;
+  rowCount: number;
+
+  headCells: MuiTableHeader<any>[];
+
+  hideActions?: boolean;
+  hideCheckbox?: boolean;
+}
+
+export default function MuiTableHead({
+  onSelectAllClick,
+  order,
+  orderBy,
+  numSelected,
+  rowCount,
+  onRequestSort,
+  headCells,
+
+  hideActions,
+  hideCheckbox,
+}: Props) {
+  const createSortHandler =
+    (property: any) => (event: React.MouseEvent<unknown>) => {
+      onRequestSort(event, property);
+    };
+
+  return (
+    <TableHead>
+      <TableRow>
+        {hideCheckbox ? null : (
+          <TableCell padding="checkbox">
+            <Checkbox
+              color="primary"
+              indeterminate={numSelected > 0 && numSelected < rowCount}
+              checked={rowCount > 0 && numSelected === rowCount}
+              onChange={onSelectAllClick}
+              inputProps={{
+                "aria-label": "select all desserts",
+              }}
+            />
+          </TableCell>
+        )}
+
+        {headCells.map((headCell) => (
+          <TableCell
+            key={headCell.key as string}
+            align={headCell.numeric ? "right" : "left"}
+            padding={headCell.disablePadding ? "none" : "normal"}
+            sortDirection={orderBy === headCell.key ? order : false}
+          >
+            <TableSortLabel
+              active={orderBy === headCell.key}
+              direction={orderBy === headCell.key ? order : "asc"}
+              onClick={createSortHandler(headCell.key)}
+            >
+              {headCell.label}
+              {orderBy === headCell.key ? (
+                <Box component="span" sx={visuallyHidden}>
+                  {order === "desc" ? "sorted descending" : "sorted ascending"}
+                </Box>
+              ) : null}
+            </TableSortLabel>
+          </TableCell>
+        ))}
+
+        {hideActions ? null : <TableCell>Actions</TableCell>}
+      </TableRow>
+    </TableHead>
+  );
+}

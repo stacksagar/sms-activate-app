@@ -2,21 +2,22 @@
 
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useTheme } from "@/context/ThemeProvider";
 
 export default function ThemeToggler() {
-  const [theme, setTheme] = useState<"light" | "dark">("light");
+  const { theme, setTheme } = useTheme();
+
+  // const [theme, setTheme] = useState<"light" | "dark">("light");
+
+  // function toggle() {
+  //   setTheme((p) => (p === "light" ? "dark" : "light"));
+  // }
+
+
 
   function toggle() {
-    setTheme((p) => (p === "light" ? "dark" : "light"));
+    setTheme((p) => (p === "dark" ? "light" : "dark"));
   }
-
-  useEffect(() => {
-    if (theme === "light") {
-      document.documentElement.classList.remove("dark");
-    } else {
-      document.documentElement.classList.add("dark");
-    }
-  }, [theme]);
 
   return (
     <motion.button
@@ -25,7 +26,7 @@ export default function ThemeToggler() {
       className="cursor-pointer bg-white text-black shadow p-2 rounded-full"
       onClick={toggle}
     >
-      {theme === "dark" ? (
+      {"dark" === "dark" ? (
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="20"
