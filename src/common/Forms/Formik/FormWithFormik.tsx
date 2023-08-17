@@ -1,11 +1,13 @@
 import { useFormik } from "formik";
-import setFormikField from "../../../utils/formik/setFormikField";
-import onChangeSetURL from "../../../utils/onChangeSetURL";
+
 import Button from "../../Buttons/Button";
 import FileInput from "../FileInput";
 import FormikInput from "./FormikInput";
 import FormikTextarea from "./FormikTextarea";
 import { Fragment } from "react";
+import onChangeSetURL from "@/utils/onChangeSetURL";
+import setFormikField from "@/utils/formik/setFormikField";
+import Image from "next/image";
 interface MyFormikProps {
   fields?: {
     [key: string]: {
@@ -32,15 +34,6 @@ export default function FormWithFormik({
   const formik = useFormik({
     initialValues,
     onSubmit,
-    // validate: function signup_validation(values) {
-    //   const errors: any = {};
-    //   Object.keys(initialValues).map((key) => {
-    //     if (!values[key]) {
-    //       errors[key] = `${splitKey(key)} is required`;
-    //     }
-    //   });
-    //   return errors;
-    // },
   });
 
   function splitKey(key: string) {
@@ -80,9 +73,12 @@ export default function FormWithFormik({
                 title={splitKey(key)}
               />
             </div>
-            <img
+
+            <Image
               className="w-44 rounded pb-3"
               src={formik.values[key]}
+              width={100}
+              height={100}
               alt=""
             />
           </div>
