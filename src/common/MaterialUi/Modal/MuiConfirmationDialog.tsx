@@ -1,12 +1,12 @@
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTheme } from '@mui/material/styles';
-import { CircularProgress } from '@mui/material';
-import ComponentTopLoader from '../../Loaders/ComponentTopLoader';
-import { UseBoolean } from '../../../hooks/state/useBoolean'; 
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
+import { CircularProgress } from "@mui/material";
+import ComponentTopLoader from "@/components/Loaders/ComponentTopLoader";
+import { UseBoolean } from "@/hooks/state/useBoolean";
 
 interface Props {
   showModal: UseBoolean;
@@ -26,7 +26,7 @@ export default function MuiConfirmationDialog({
   confirmButtonText,
 }: Props) {
   const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+  const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   const handleClose = () => {
     showModal.toggle();
@@ -47,7 +47,7 @@ export default function MuiConfirmationDialog({
           aria-hidden="true"
           focusable="false"
           data-prefix="fas"
-          className='w-6'
+          className="w-6"
           data-icon="triangle-exclamation"
           role="img"
           xmlns="http://www.w3.org/2000/svg"
@@ -76,7 +76,7 @@ export default function MuiConfirmationDialog({
               variant="contained"
               className="flex items-center gap-2"
             >
-              <span> {confirmButtonText || 'Submit'} </span>
+              <span> {confirmButtonText || "Submit"} </span>
               {loading ? <CircularProgress color="inherit" size={18} /> : null}
             </Button>
           </div>

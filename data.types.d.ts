@@ -39,7 +39,7 @@ type Activation = {
   cost: number;
   status: ActivationStatus;
   sms_code: string[];
-  sms_text?: string;
+  sms_text?: string[];
   canGetAnotherSms?: boolean;
   operator?: string;
 

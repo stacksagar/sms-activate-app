@@ -1,7 +1,7 @@
 import { NextApiRequest } from "next";
 import { NextResponse } from "next/server";
 
-export function uploadFile(req: NextApiRequest) {
+export default function uploadFile(req: NextApiRequest) {
   console.log("Middleware");
 
   console.log(req.url);

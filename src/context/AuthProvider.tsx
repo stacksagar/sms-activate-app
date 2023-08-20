@@ -2,7 +2,7 @@ import { createContext, useContext, useState } from "react";
 
 interface AuthContext {
   auth?: {
-    user?: User;
+    user?: UserT;
     access_token?: string;
     error?: string;
   };
