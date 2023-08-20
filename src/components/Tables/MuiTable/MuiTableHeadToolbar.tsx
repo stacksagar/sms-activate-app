@@ -5,10 +5,10 @@ import { alpha } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
-import MuiConfirmationDialog from "@/components/Modal/MuiConfirmationDialog";
 import useBoolean, { UseBoolean } from "@/hooks/state/useBoolean";
 import { useState, useEffect } from "react";
 import useTracking from "@/hooks/useTracking";
+import MuiConfirmationDialog from "@/common/MaterialUi/Modal/MuiConfirmationDialog";
 
 interface Props {
   tableTitle: string;
