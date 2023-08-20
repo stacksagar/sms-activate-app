@@ -4,7 +4,7 @@ type ID = string | number;
 type Theme = "dark" | "light";
 
 type MuiTableHeader<T> = {
-  key: keyof T;
+  key: keyof (T & { actions: string });
   label: string;
   disablePadding?: boolean;
   numeric?: boolean;

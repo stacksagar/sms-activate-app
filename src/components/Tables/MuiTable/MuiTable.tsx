@@ -30,6 +30,7 @@ interface MuiTableProps {
   tableTitle: string;
   onDeleteMultiple?: (id: ID[]) => void;
   deleting: UseBoolean;
+  hideActions?: boolean;
 }
 
 export default function MuiTable({
@@ -38,6 +39,7 @@ export default function MuiTable({
   tableTitle,
   onDeleteMultiple,
   deleting,
+  hideActions,
 }: MuiTableProps) {
   const [order, setOrder] = React.useState<TableOrder>("asc");
   const [orderBy, setOrderBy] = React.useState<keyof BodyRow>("name");
@@ -129,6 +131,7 @@ export default function MuiTable({
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
               headCells={tableCells}
+              hideActions={hideActions}
             />
 
             <TableBody>
@@ -184,26 +187,28 @@ export default function MuiTable({
                     )
                   )}
 
-                  <TableCell>
-                    <div className="space-x-1">
-                      <Button
-                        color="warning"
-                        variant="contained"
-                        size="small"
-                        startIcon={<FIcon icon="pencil" className="w-3" />}
-                      >
-                        Edit
-                      </Button>
-                      <Button
-                        color="info"
-                        variant="contained"
-                        size="small"
-                        startIcon={<FIcon icon="trash" className="w-3" />}
-                      >
-                        Delete
-                      </Button>
-                    </div>
-                  </TableCell>
+                  {hideActions ? null : (
+                    <TableCell>
+                      <div className="space-x-1">
+                        <Button
+                          color="warning"
+                          variant="contained"
+                          size="small"
+                          startIcon={<FIcon icon="pencil" className="w-3" />}
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          color="info"
+                          variant="contained"
+                          size="small"
+                          startIcon={<FIcon icon="trash" className="w-3" />}
+                        >
+                          Delete
+                        </Button>
+                      </div>
+                    </TableCell>
+                  )}
                 </TableRow>
               ))}
 

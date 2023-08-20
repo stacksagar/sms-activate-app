@@ -50,3 +50,8 @@ body {
 p {
   @apply leading-7;
 }
+
+.shadow_unset,
+.shadow_unset * {
+  box-shadow: unset !important;
+}

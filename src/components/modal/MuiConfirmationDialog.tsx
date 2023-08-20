@@ -6,7 +6,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import { CircularProgress } from "@mui/material";
 import { UseBoolean } from "@/hooks/state/useBoolean";
-import ComponentTopLoader from "../loaders/ComponentTopLoader";
+import ComponentTopLoader from "../Loaders/ComponentTopLoader";
 
 interface Props {
   showModal: UseBoolean;

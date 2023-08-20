@@ -1,19 +1,11 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import { useTheme } from "@/context/ThemeProvider";
 
 export default function ThemeToggler() {
   const { theme, setTheme } = useTheme();
-
-  // const [theme, setTheme] = useState<"light" | "dark">("light");
-
-  // function toggle() {
-  //   setTheme((p) => (p === "light" ? "dark" : "light"));
-  // }
-
-
 
   function toggle() {
     setTheme((p) => (p === "dark" ? "light" : "dark"));
@@ -26,7 +18,7 @@ export default function ThemeToggler() {
       className="cursor-pointer bg-white text-black shadow p-2 rounded-full"
       onClick={toggle}
     >
-      {"dark" === "dark" ? (
+      {theme === "dark" ? (
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="20"

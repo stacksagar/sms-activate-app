@@ -1,3 +1,5 @@
+import axios from "axios";
+
 class RequestError extends Error {
   responseCode: string;
   errorCodes: any = {
@@ -176,8 +178,8 @@ class SMSActivate {
   }
 
   getNumberV2(
-    service: string,
-    forward: any,
+    service?: string,
+    forward?: any,
     country?: string | number,
     operator?: string,
     ref?: any,
@@ -190,10 +192,13 @@ class SMSActivate {
       action: "getNumberV2",
       service: service,
       forward: forward,
+      operator: "tmobile",
     };
-    if (operator && (country == 0 || country == 1 || country == 2)) {
-      data["operator"] = operator;
-    }
+
+    // if (operator && (country == 0 || country == 1 || country == 2)) {
+    //   data["operator"] = operator;
+    // }
+
     if (ref) {
       data["ref"] = ref;
     }
@@ -301,7 +306,7 @@ class SMSActivate {
     return this.request(data, "GET", true);
   }
 
-  getPricesVerification(service?: any) {
+  getPricesVerification(service?: string) {
     const data: any = {
       api_key: this.apiKey,
       action: "getPricesVerification",
@@ -309,6 +314,7 @@ class SMSActivate {
     if (service) {
       data["service"] = service;
     }
+    console.log("data ", data);
     return this.request(data, "GET", true);
   }
 
@@ -452,52 +458,74 @@ class SMSActivate {
     return this.requestRent(data, "POST", false);
   }
 
-  async request(
-    data: any,
-    method: "GET" | "POST",
-    parseAsJSON?: boolean,
-    getNumber?: number
-  ) {
+  // async request(
+  //   data: any,
+  //   method: "GET" | "POST",
+  //   parseAsJSON?: boolean,
+  //   getNumber?: number | unknown
+  // ) {
+  //   if (!["GET", "POST"].includes(method)) {
+  //     throw new Error("Method can only be GET or POST");
+  //   }
+
+  //   const serializedData = new URLSearchParams(data).toString();
+  //   let response;
+
+  //   if (method === "GET") {
+  //     const requestUrl = `${this.url}?${serializedData}`;
+  //     response = await fetch(requestUrl);
+  //   } else {
+  //     const requestOptions = {
+  //       method: "POST",
+  //       headers: { "Content-type": "application/x-www-form-urlencoded" },
+  //       body: serializedData,
+  //     };
+  //     response = await fetch(this.url, requestOptions);
+  //   }
+
+  //   console.log("response", response);
+  //   const result = await response.text();
+
+  //   if (result.includes("{") || parseAsJSON) {
+  //     return JSON.parse(result || "'{}'");
+  //   }
+
+  //   const parsedResponse = result.split(":");
+
+  //   if (getNumber === 1) {
+  //     return { id: parsedResponse[1], number: parsedResponse[2] };
+  //   }
+
+  //   if (getNumber === 2) {
+  //     return { status: parsedResponse[0], code: parsedResponse[1] };
+  //   }
+
+  //   if (getNumber === 3) {
+  //     return { status: parsedResponse[0] };
+  //   }
+
+  //   return parsedResponse[1];
+  // }
+
+  async request(data: any, method: "GET" | "POST", _a?: any, _b?: any) {
     if (!["GET", "POST"].includes(method)) {
       throw new Error("Method can only be GET or POST");
     }
 
-    const serializedData = new URLSearchParams(data).toString();
-    let response;
+    const { data: responseData } = await axios.request({
+      method,
+      url: this.url,
+      params: {
+        apiKey: this.apiKey,
+        ...data,
+      },
 
-    if (method === "GET") {
-      const requestUrl = `${this.url}?${serializedData}`;
-      response = await fetch(requestUrl);
-    } else {
-      const requestOptions = {
-        method: "POST",
-        headers: { "Content-type": "application/x-www-form-urlencoded" },
-        body: serializedData,
-      };
-      response = await fetch(this.url, requestOptions);
-    }
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    });
 
-    const result = await response.text();
-
-    if (parseAsJSON) {
-      return JSON.parse(result);
-    }
-
-    const parsedResponse = result.split(":");
-
-    if (getNumber === 1) {
-      return { id: parsedResponse[1], number: parsedResponse[2] };
-    }
-
-    if (getNumber === 2) {
-      return { status: parsedResponse[0], code: parsedResponse[1] };
-    }
-
-    if (getNumber === 3) {
-      return { status: parsedResponse[0] };
-    }
-
-    return parsedResponse[1];
+    return responseData;
   }
 
   async requestRent(

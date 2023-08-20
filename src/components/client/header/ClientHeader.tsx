@@ -6,25 +6,21 @@ import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import ThemeToggler from "@/common/ThemeToggler";
-import ButtonTransparent from "@/common/Buttons/ButtonTransparent";
-import Button from "@/common/Buttons/Button";
-import FIcon from "@/common/FIcon";
 import Link from "next/link";
 import TextLogo from "@/common/TextLogo";
+import HeaderAuth from "./HeaderAuth";
+import HeaderUnAuth from "./HeaderUnAuth";
+import { useSession } from "next-auth/react";
 
 const navigation = [
-  { name: "Blog", href: "/blog" },
   { name: "Features", href: "#features" },
   { name: "How It Work", href: "#how-it-works" },
   { name: "F.A.Q", href: "#faq" },
-  { name: "Pricing", href: "#pricing" },
-  { name: "Test", href: "/test" },
-  { name: "Test2", href: "/test2" },
-  { name: "Server", href: "/server" },
 ];
 
 export default function ClientHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { data: session } = useSession();
 
   return (
     <header className="z-50 border-b dark:border-b-gray-600">
@@ -66,20 +62,7 @@ export default function ClientHeader() {
         </div>
 
         <div className="hidden lg:flex lg:flex-1 lg:justify-end gap-2">
-          <Link href="/signup" className="w-fit">
-            <Button
-              color="pink"
-              className="hover:scale-105 transition-all hover:gap-x-4"
-            >
-              Signup
-            </Button>
-          </Link>
-
-          <Link href="/signin" className="w-fit">
-            <Button className="hover:scale-105 transition-all hover:gap-x-4">
-              Signin
-            </Button>
-          </Link>
+          {session?.user?.name ? <HeaderAuth /> : <HeaderUnAuth />}
         </div>
       </nav>
       <Dialog
@@ -118,13 +101,8 @@ export default function ClientHeader() {
                   </Link>
                 ))}
               </div>
-              <div className="py-6">
-                <Link
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7  hover:bg-gray-50"
-                >
-                  Log in
-                </Link>
+              <div className="py-6 flex items-center gap-2">
+                {session?.user?.name ? <HeaderAuth /> : <HeaderUnAuth />}
               </div>
             </div>
           </div>

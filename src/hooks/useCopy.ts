@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 type CopiedValue = string | null;
-type CopyFn = (text: string) => void;
+type CopyFn = (text?: string) => void;
 
 function useCopy(): {
   copiedText: CopiedValue;
@@ -18,8 +18,8 @@ function useCopy(): {
     }
 
     try {
-      await navigator.clipboard.writeText(text);
-      setCopiedText(text);
+      await navigator.clipboard.writeText(text || "");
+      setCopiedText(text || "");
       setIsCopied(true);
       setTimeout(() => {
         setIsCopied(false);

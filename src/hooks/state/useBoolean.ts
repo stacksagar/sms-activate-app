@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 export default function useBoolean(_default?: boolean) {
   const [isTrue, set] = useState(_default || false);

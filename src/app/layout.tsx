@@ -3,8 +3,7 @@ import "react-responsive-pagination/themes/classic.css";
 
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
-import ThemeRegistry from "@/components/MaterialTheme/ThemeRegistry";
-import ContextProvider from "@/context/ContextProvider";
+import Providers from "./Providers";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -29,9 +28,7 @@ export default function RootLayout({
           " text-gray-900 dark:text-gray-100 bg-gray-50 dark:bg-gray-900"
         }
       >
-        <ContextProvider>
-          <ThemeRegistry>{children}</ThemeRegistry>
-        </ContextProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

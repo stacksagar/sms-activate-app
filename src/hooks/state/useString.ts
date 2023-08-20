@@ -1,15 +1,15 @@
-import { useState } from 'react';
-import useBoolean from './useBoolean';
+import { useState } from "react";
+import useBoolean from "./useBoolean";
 
 const useString = <T>(defaultValue?: T) => {
-  const [value, setValue] = useState<T>(defaultValue || ('' as T));
+  const [value, setValue] = useState<T | string>(defaultValue || "");
   const loading = useBoolean();
 
   return {
     value,
-    reset: () => setValue('' as T),
+    reset: () => setValue("" as T),
     change: (e: any) => setValue(e.target.value),
-    setCustom: (val?: T) => setValue(val || ('' as T)),
+    setCustom: (val?: T) => setValue(val || ("" as T)),
 
     loading,
   };
