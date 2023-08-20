@@ -5,7 +5,6 @@ import DialogTitle from "@mui/material/DialogTitle";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import { CircularProgress } from "@mui/material";
-import ComponentTopLoader from "@/components/Loaders/ComponentTopLoader";
 import { UseBoolean } from "@/hooks/state/useBoolean";
 
 interface Props {
@@ -40,7 +39,6 @@ export default function MuiConfirmationDialog({
       aria-labelledby="responsive-dialog-title"
     >
       {/* Top Loader */}
-      <ComponentTopLoader loading={loading} />
 
       <DialogTitle className="flex items-center gap-2 border-b border-b-slate-300 dark:border-b-slate-600 text-center text-xl font-semibold">
         <svg
