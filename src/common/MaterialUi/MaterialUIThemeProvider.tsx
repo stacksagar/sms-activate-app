@@ -1,6 +1,5 @@
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-
-import { useTheme } from '../../context/theme';
+import { useTheme } from "@/context/ThemeProvider";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 type Props = {
   children: React.ReactNode;
@@ -12,10 +11,10 @@ export default function MaterialUIThemeProvider({ children }: Props) {
     <ThemeProvider
       theme={createTheme({
         palette: {
-          mode: theme || 'light',
+          mode: theme || "light",
           background: {
-            paper: theme === 'dark' ? '#24303F' : '#ffffff',
-            default: theme === 'dark' ? '#24303F' : '#ffffff',
+            paper: theme === "dark" ? "#24303F" : "#ffffff",
+            default: theme === "dark" ? "#24303F" : "#ffffff",
           },
         },
       })}
