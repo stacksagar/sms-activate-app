@@ -8,7 +8,7 @@ interface State {
 }
 
 const initialState: State = {
-  data: JSON.parse(localStorage.getItem("activations") || "") || [
+  data: [
     {
       id: 1,
       activationId: "1678177405",
@@ -65,8 +65,6 @@ const activationSlice = createSlice({
         ...state.data[index],
         ...action.payload.data,
       };
-
-      localStorage.setItem("activations", JSON.stringify(state.data));
     },
 
     updateActivations(state, action) {
@@ -90,8 +88,6 @@ const activationSlice = createSlice({
           }
         }
       }
-
-      localStorage.setItem("activations", JSON.stringify(state.data));
     },
 
     cancelActivationsStatus(state) {
@@ -100,14 +96,10 @@ const activationSlice = createSlice({
           state.data[i].status = "STATUS_CANCEL";
         }
       }
-
-      localStorage.setItem("activations", JSON.stringify(state.data));
     },
 
     addActivation(state, action) {
       state.data.unshift(action.payload);
-
-      localStorage.setItem("activations", JSON.stringify(state.data));
     },
   },
 
