@@ -1,20 +1,22 @@
-import { createContext, useContext, useState } from "react";
+import axios from "axios";
+import { useSession } from "next-auth/react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 interface AuthContext {
-  auth?: {
-    user?: UserT;
-    access_token?: string;
-    error?: string;
-  };
+  user: UserT;
+  setUser: React.Dispatch<React.SetStateAction<UserT>>;
 
-  setAuth: any;
-  persist: any;
-  setPersist: React.Dispatch<any>;
   loading: boolean;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 
+  fetched: boolean;
+  setFetched: React.Dispatch<React.SetStateAction<boolean>>;
+
   error: string;
   setError: React.Dispatch<React.SetStateAction<string>>;
+
+  api_balance: number;
+  setApiBalance: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const AuthContext = createContext<AuthContext>({} as AuthContext);
@@ -24,22 +26,61 @@ export default function AuthProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [auth, setAuth] = useState();
+  const session = useSession();
+
+  const [user, setUser] = useState<UserT>({} as UserT);
   const [error, setError] = useState("");
-  const [persist, setPersist] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [fetched, setFetched] = useState(false);
+  const [api_balance, setApiBalance] = useState(0);
+
+  useEffect(() => {
+    const sessionUser = session?.data?.user as UserT;
+    if (!sessionUser?.id) return;
+
+    setLoading(true);
+    setUser(sessionUser);
+
+    async function fetch() {
+      try {
+        const userBalanceRes = await axios.get(
+          `/api/auth/get_balance?id=${sessionUser?.id}`
+        );
+
+        setUser((p) => ({
+          ...p,
+          balance: userBalanceRes?.data?.balance || 0,
+          role: userBalanceRes?.data?.user?.role || "user",
+        }));
+
+        const apiBalanceRes = await axios.get(`/api/sms-active/getBalance`);
+
+        const api_balance = Number(apiBalanceRes?.data?.data?.split(":")[1]);
+        setApiBalance(api_balance);
+      } catch (error) {
+        console.log("ERROR Context AuthProvider: ", error);
+      } finally {
+        setLoading(false);
+        setFetched(true);
+      }
+    }
+
+    fetch();
+  }, [session]);
 
   return (
     <AuthContext.Provider
       value={{
-        auth,
-        setAuth,
-        persist,
-        setPersist,
+        user,
+        setUser,
         loading,
         setLoading,
         error,
         setError,
+        api_balance,
+        setApiBalance,
+        fetched,
+        setFetched,
       }}
     >
       {children}

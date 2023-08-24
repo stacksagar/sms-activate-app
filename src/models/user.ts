@@ -1,29 +1,29 @@
-import mongoose, { Schema, models, connect } from "mongoose";
+import sequelize from "@/lib/database/sequelize";
+import { Model, DataTypes, Optional } from "sequelize";
 
-const userSchema = new Schema<UserT>(
+class User extends Model<UserT, Optional<UserT, "id">> {}
+
+User.init(
   {
-    name: {
-      type: String,
-      required: true,
+    id: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      autoIncrement: true,
+      primaryKey: true,
     },
-    phone: {
-      type: String,
-    },
-    email: {
-      type: String,
-      required: true,
-    },
-    password: {
-      type: String,
-      required: true,
-    },
-    balance: {
-      type: Number,
-      default: 0,
+
+    balance: { type: DataTypes.INTEGER, defaultValue: 0 },
+    name: { type: DataTypes.STRING },
+    email: { type: DataTypes.STRING },
+    phone: { type: DataTypes.STRING },
+    password: { type: DataTypes.STRING },
+    image: { type: DataTypes.STRING },
+    role: {
+      type: DataTypes.ENUM("user", "mode", "admin"),
+      defaultValue: "user",
     },
   },
-  { timestamps: true }
+
+  { tableName: "Users", sequelize }
 );
 
-const User = models.User || mongoose.model("User", userSchema);
 export default User;

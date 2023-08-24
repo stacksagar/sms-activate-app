@@ -1,12 +1,14 @@
 import { configureStore, AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
 import { useDispatch, useSelector, TypedUseSelectorHook } from "react-redux";
-import serviceSlice from "./features/services/servicesSlice";
-import activationSlice from "./features/activations/activationsSlice";
+import servicesSlice from "./features/services/servicesSlice";
+import activationsSlice from "./features/activations/activationsSlice";
+import usersSlice from "./features/users/usersSlice";
 
 const redux_store = configureStore({
   reducer: {
-    services: serviceSlice.reducer,
-    activations: activationSlice.reducer,
+    services: servicesSlice.reducer,
+    activations: activationsSlice.reducer,
+    users: usersSlice.reducer,
   },
 
   devTools: process.env.NODE_ENV === "development",

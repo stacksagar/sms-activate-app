@@ -98,6 +98,7 @@ const serviceSlice = createSlice({
 
     builder.addCase(fetchCountries.fulfilled, (state, action) => {
       state.countries = action?.payload?.data;
+
       state.error = "";
       state.countries_loading = false;
       state.countries_fetched = true;

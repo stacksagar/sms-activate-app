@@ -11,7 +11,7 @@ type ServiceData = {
 };
 
 type Country = {
-  id: number;
+  id: number | string;
   rus: string;
   eng: string;
   chn: string;
@@ -19,6 +19,7 @@ type Country = {
   retry: number;
   rent: number;
   multiService: number;
+  logo?: string;
 };
 
 type Roles = "user" | "moderator" | "admin";
@@ -28,21 +29,3 @@ type ActivationStatus =
   | "WRONG_ACTIVATION_ID"
   | "STATUS_CANCEL"
   | "COMPLETED";
-
-type Activation = {
-  id: number | string;
-  activationId: string;
-  country_logo: string;
-  service_logo: string;
-  phoneNumber: string;
-  time?: string | Date;
-  cost: number;
-  status: ActivationStatus;
-  sms_code: string[];
-  sms_text?: string[];
-  canGetAnotherSms?: boolean;
-  operator?: string;
-
-  countryCode?: string;
-  serviceCode?: string;
-};

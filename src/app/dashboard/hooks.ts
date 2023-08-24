@@ -29,7 +29,7 @@ export function useGetActivationsCode(fetchingCode?: UseBoolean) {
       console.count(new Date().toLocaleTimeString());
       const response = await axios.get(`/api/sms-active/getActiveActivations`);
       const data: GetActiveActivations = response?.data?.data;
-      if (data.error || data.status === "error") {
+      if (data?.error || data?.status === "error") {
         clearInterval(fetch_code);
         if (receivedAll(data)) {
           updateData(data);
@@ -42,7 +42,7 @@ export function useGetActivationsCode(fetchingCode?: UseBoolean) {
     const response = await axios.get(`/api/sms-active/getActiveActivations`);
     const data: GetActiveActivations = response?.data?.data;
 
-    if (data.error || data.status === "error") {
+    if (data?.error || data?.status === "error") {
       clearInterval(fetch_code);
       if (receivedAll(data)) {
         updateData(data);
@@ -80,7 +80,7 @@ export function useOrderNumber(
         toastify.dismiss();
         toast({
           message: data?.data,
-          type: "warn",
+          type: "warning",
         });
       } else {
         toast({

@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 interface State {
-  data: Activation[];
+  data: ActivationT[];
   loading: boolean;
   fetched: boolean;
   error?: string;

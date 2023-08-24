@@ -27,7 +27,7 @@ export default function CountryDetailsByService({
     if (session?.user?.email === "bangladeshisoftware@gmail.com") {
       handleOrderNumber();
     } else {
-      toast({ message: "Insufficient Balance!", type: "warn" });
+      toast({ message: "Insufficient Balance!", type: "warning" });
     }
   }
 

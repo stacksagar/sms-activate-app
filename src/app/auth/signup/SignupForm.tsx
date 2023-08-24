@@ -1,134 +1,128 @@
 "use client";
 
-import Input from "@/common/Forms/Input";
-import ClientFooter from "@/components/client/footer/ClientFooter";
-import ClientHeader from "@/components/client/header/ClientHeader";
-import useString from "@/hooks/state/useString";
+import FIcon from "@/common/FIcon";
+import MuiTextField from "@/common/MaterialUi/Forms/MuiTextField";
+import MuiButton from "@/common/MaterialUi/MuiButton";
+import TextLogo from "@/common/TextLogo";
+import AuthPageLayout from "@/components/AuthPageLayout";
+import error_message from "@/lib/error_message";
 import toast from "@/lib/toast";
-import error_message from "@/utils/error_message";
+import { fields_required } from "@/validations/formik_validations";
 import axios from "axios";
+import { useFormik } from "formik";
 import { signIn } from "next-auth/react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function SignupForm() {
   const router = useRouter();
-  const name = useString("");
-  const phone = useString("");
-  const email = useString("");
-  const password = useString("");
-  const error = useString("");
 
-  async function signup_handle(e: React.ChangeEvent<HTMLFormElement>) {
-    e?.preventDefault();
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      phone: "",
+      password: "",
+    },
 
-    try {
-      await axios.post(`/api/auth/signup`, {
-        name: name.value,
-        phone: phone.value,
-        email: email.value,
-        password: password.value,
-      });
+    validate: fields_required([
+      "name",
+      "email",
+      {
+        field: "password",
+        message: "Please provide your password!",
+      },
+    ]),
 
-      await signIn("credentials", {
-        email: email.value,
-        password: password.value,
-        redirect: false,
-      });
-      router.replace("/dashboard");
+    onSubmit: async (values) => {
+      try {
+        await axios.post(`/api/auth/signup`, {
+          name: values.name,
+          phone: values.phone,
+          email: values.email,
+          password: values.password,
+        });
 
-      toast({ message: "Registration Successfull!" });
-    } catch (error) {
-      toast({ message: error_message(error), type: "error" });
-    }
-  }
+        await signIn("credentials", {
+          email: values.email,
+          password: values.password,
+          redirect: true,
+        });
+
+        router.replace("/dashboard");
+
+        toast({ message: "Registration Successfull!" });
+      } catch (error) {
+        toast({ message: error_message(error), type: "error" });
+      }
+    },
+  });
 
   return (
-    <>
-      <ClientHeader />
+    <AuthPageLayout>
+      <form onSubmit={formik.handleSubmit} className="h-fit w-full space-y-6">
+        <h2 className="flex items-center gap-x-2 pb-4 text-center text-2xl font-semibold text-blue-500">
+          <FIcon icon="user" />
+          <span>Register</span>
+          <span className="hidden sm:block">to</span>
+          <div className="hidden scale-75 transform sm:block">
+            <TextLogo />
+          </div>
+        </h2>
 
-      <section className="flex flex-1 flex-col justify-center px-6 py-12 lg:px-8 min-h-[70vh]">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-            Create new Account
-          </h2>
+        <MuiTextField
+          required={true}
+          label="Your Name"
+          {...formik.getFieldProps("name")}
+          touched={formik.touched.name}
+          error={formik.errors.name}
+        />
+
+        <MuiTextField
+          required={true}
+          label="Email"
+          type="email"
+          {...formik.getFieldProps("email")}
+          touched={formik.touched.email}
+          error={formik.errors.email}
+        />
+
+        <MuiTextField
+          required={false}
+          label="Phone"
+          {...formik.getFieldProps("phone")}
+          touched={formik.touched.phone}
+          error={formik.errors.phone}
+        />
+
+        <MuiTextField
+          required={true}
+          label="Password"
+          type="password"
+          autoComplete="off"
+          aria-autocomplete="none"
+          {...formik.getFieldProps("password")}
+          touched={formik.touched.password}
+          error={formik.errors.password}
+        />
+
+        <div className="w-full sm:w-fit">
+          <MuiButton loading={formik.isSubmitting} type="submit">
+            Create Account
+          </MuiButton>
         </div>
 
-        <div className="mt-10 sm:mx-auto sm:w-full md:max-w-screen-sm">
-          <form
-            onSubmit={signup_handle}
-            className="space-y-6 bg-white p-12 dark:bg-gray-950"
+        {/* Signup Message */}
+        <p className="text-gray-500 dark:text-gray-400 text-sm font-light">
+          <span className="mr-1"> Already have an account? </span>
+          <Link
+            href="/auth/signin"
+            className="text-primary-600 dark:text-primary-500 font-medium hover:underline"
           >
-            <div>
-              <label
-                htmlFor="name"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Name
-              </label>
-              <div className="mt-2">
-                <Input onChange={name.change} placeholder="Name" />
-              </div>
-            </div>
-
-            <div>
-              <label
-                htmlFor="phone"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Phone
-              </label>
-              <div className="mt-2">
-                <Input onChange={phone.change} placeholder="Phone" />
-              </div>
-            </div>
-
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Email address
-              </label>
-              <div className="mt-2">
-                <Input
-                  onChange={email.change}
-                  placeholder="Email"
-                  type="email"
-                />
-              </div>
-            </div>
-
-            <div>
-              <div className="flex items-center justify-between">
-                <label
-                  htmlFor="password"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  Password
-                </label>
-              </div>
-              <div className="mt-2">
-                <Input
-                  onChange={password.change}
-                  placeholder="Password"
-                  type="password"
-                />
-              </div>
-            </div>
-
-            <div>
-              <button
-                type="submit"
-                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                Signup
-              </button>
-            </div>
-          </form>
-        </div>
-      </section>
-
-      <ClientFooter />
-    </>
+            Sign in here
+          </Link>
+        </p>
+      </form>
+    </AuthPageLayout>
   );
 }

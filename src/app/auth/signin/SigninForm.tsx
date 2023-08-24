@@ -1,103 +1,115 @@
 "use client";
-import Input from "@/common/Forms/Input";
-import ClientFooter from "@/components/client/footer/ClientFooter";
-import ClientHeader from "@/components/client/header/ClientHeader";
-import useString from "@/hooks/state/useString";
+import MuiTextField from "@/common/MaterialUi/Forms/MuiTextField";
 import toast from "@/lib/toast";
-import error_message from "@/utils/error_message";
+import error_message from "@/lib/error_message";
+import { Checkbox } from "@mui/material";
 import { signIn } from "next-auth/react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
+
+import { useFormik } from "formik";
+import TextLogo from "@/common/TextLogo";
+import FIcon from "@/common/FIcon";
+import MuiButton from "@/common/MaterialUi/MuiButton";
+import AuthPageLayout from "@/components/AuthPageLayout";
+import { all_fields_required } from "@/validations/formik_validations";
+
 export default function SigninForm() {
   const router = useRouter();
-  const email = useString("");
-  const password = useString("");
 
-  async function signin_handle(e: React.ChangeEvent<HTMLFormElement>) {
-    e?.preventDefault();
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
 
-    try {
-      await signIn("credentials", {
-        email: email.value,
-        password: password.value,
-        redirect: false,
-      });
-      router.replace("/dashboard");
+    validate: all_fields_required,
 
-      toast({ message: "Login Successfull!" });
-    } catch (error) {
-      toast({ message: error_message(error), type: "error" });
-    }
-  }
+    onSubmit: async (values) => {
+      try {
+        const data = await signIn("credentials", {
+          email: values.email,
+          password: values.password,
+          redirect: true,
+        });
+
+        router.replace("/dashboard");
+
+        console.log("data ", data);
+      } catch (error) {
+        toast({ message: error_message(error), type: "error" });
+      }
+    },
+  });
 
   return (
-    <>
-      <ClientHeader />
+    <AuthPageLayout>
+      <form onSubmit={formik.handleSubmit} className="h-fit w-full space-y-6">
+        <h2 className="flex items-center gap-x-2 pb-4 text-center text-2xl font-semibold text-blue-500">
+          <FIcon icon="unlock-alt" />
+          <span>Signin</span>
+          <span className="hidden sm:block">to</span>
+          <div className="hidden scale-75 transform sm:block">
+            <TextLogo />
+          </div>
+        </h2>
 
-      <section className="flex flex-1 flex-col justify-center px-6 py-12 lg:px-8 min-h-[70vh]">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-            Sign in to your account
-          </h2>
+        <MuiTextField
+          required={true}
+          placeholder="Email"
+          type="email"
+          {...formik.getFieldProps("email")}
+          touched={formik.touched.email}
+          error={formik.errors.email}
+        />
+
+        <MuiTextField
+          required={true}
+          placeholder="Password"
+          type="password"
+          {...formik.getFieldProps("password")}
+          touched={formik.touched.password}
+          error={formik.errors.password}
+        />
+
+        {/* Forgot Password Message */}
+        <small>
+          <Link
+            href="/auth/forgot-password"
+            className="text-primary-600 dark:text-primary-500 hover:underline"
+          >
+            Forgot Password?
+          </Link>
+        </small>
+
+        <div className="flex items-center gap-2 dark:text-white">
+          <Checkbox id="remember" />
+          <label
+            htmlFor="remember"
+            className="flex cursor-pointer items-center gap-x-1"
+            title="If you want to save your Login/Credentials for long time then checked it! Otherwise, If you don't want to save any information then don't checked it!"
+          >
+            Trust This Device
+          </label>
         </div>
 
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form onSubmit={signin_handle} className="space-y-6">
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Email address
-              </label>
-              <div className="mt-2">
-                <Input
-                  onChange={email.change}
-                  placeholder="Email"
-                  type="email"
-                />
-              </div>
-            </div>
-
-            <div>
-              <div className="flex items-center justify-between">
-                <label
-                  htmlFor="password"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  Password
-                </label>
-                <div className="text-sm">
-                  <a
-                    href="#"
-                    className="font-semibold text-indigo-600 hover:text-indigo-500"
-                  >
-                    Forgot password?
-                  </a>
-                </div>
-              </div>
-
-              <div className="mt-2">
-                <Input
-                  onChange={password.change}
-                  placeholder="Password"
-                  type="password"
-                />
-              </div>
-            </div>
-
-            <div>
-              <button
-                type="submit"
-                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                Sign in
-              </button>
-            </div>
-          </form>
+        <div className="w-full sm:w-fit">
+          <MuiButton loading={formik.isSubmitting} type="submit">
+            Signin
+          </MuiButton>
         </div>
-      </section>
 
-      <ClientFooter />
-    </>
+        {/* Signup Message */}
+        <p className="text-gray-500 dark:text-gray-400 text-sm font-light">
+          <span className="mr-1"> Do not have an account? </span>
+          <Link
+            href="/auth/signup"
+            className="text-primary-600 dark:text-primary-500 font-medium hover:underline"
+          >
+            Create account!
+          </Link>
+        </p>
+      </form>
+    </AuthPageLayout>
   );
 }

@@ -3,6 +3,7 @@ import { useState } from "react";
 export default function useBoolean(_default?: boolean) {
   const [isTrue, set] = useState(_default || false);
   const [loading, setLoading] = useState(false);
+  const [finished, setFinished] = useState(false);
 
   return {
     true: isTrue,
@@ -23,6 +24,8 @@ export default function useBoolean(_default?: boolean) {
       set(e.target.checked),
     loading,
     setLoading,
+    finished,
+    setFinished,
   };
 }
 

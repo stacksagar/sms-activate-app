@@ -1,32 +1,22 @@
-import Button from "@/common/Buttons/Button";
-import FIcon from "@/common/FIcon";
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
-
-import Link from "next/link";
-
 import React from "react";
+import Image from "next/image";
 type ServiceCardProps = {
-  icon: IconProp;
-  title: string;
-  details: string;
+  service: string;
+  logo: string;
+  price: number;
 };
 
-const ServiceCard = ({ icon, title, details }: ServiceCardProps) => {
+const ServiceCard = ({ service, logo, price }: ServiceCardProps) => {
   return (
-    <>
-      <div className="w-full text-center bg-[#00000009] dark:bg-[#ffffff09]">
-        <div className="p-4 space-y-2">
-          <h1 className="text-3xl">
-            <FIcon icon={icon} />
-          </h1>
-          <h4 className="text-xl font-semibold text-dark">{title}</h4>
-          <p className="text-body-color">{details}</p>
-          <div className="w-fit mx-auto">
-            <Button color="indigo">Verify</Button>
-          </div>
-        </div>
+    <div className="flex items-center justify-between rounded overflow-hidden">
+      <div className="bg-gray-200 dark:bg-gray-800 p-3 flex items-center gap-1">
+        <Image width={25} height={25} alt="" src={logo} className="rounded" />
+        {service}
       </div>
-    </>
+      <div className="bg-gray-100 dark:bg-gray-700 p-3">
+        ${price?.toFixed(2)}
+      </div>
+    </div>
   );
 };
 
@@ -42,36 +32,126 @@ export default function ServiceSection() {
             </div>
           </div>
         </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="flex flex-wrap gap-4 justify-center">
           <ServiceCard
-            title="Facebook Verification"
-            details="Verify your Facebook account using our virtual phone numbers. Facebook sms verification starts from $0.05."
-            icon="facebook"
+            service="Google Voice"
+            logo="https://smsactivate.s3.eu-central-1.amazonaws.com/assets/ico/gf0.webp"
+            price={4.5}
           />
           <ServiceCard
-            title="Twitter Verification"
-            details="Verify your Twitter account using our virtual phone numbers. Twitter sms verification starts from $0.05."
-            icon="twitter"
+            service="WhatsApp"
+            logo="https://smsactivate.s3.eu-central-1.amazonaws.com/assets/ico/wa0.webp"
+            price={5}
           />
           <ServiceCard
-            title="Telegram Verification"
-            details="Verify your Telegram account using our virtual phone numbers. Telegram sms verification starts from $0.5."
-            icon="telegram"
+            service="Facebook"
+            logo="https://smsactivate.s3.eu-central-1.amazonaws.com/assets/ico/fb0.webp"
+            price={0.2}
           />
           <ServiceCard
-            title="Whatsapp Verification"
-            details="Verify your Whatsapp account using our virtual phone numbers. Whatsapp sms verification starts from $0.82."
-            icon="whatsapp"
+            service="Craigslist"
+            logo="https://smsactivate.s3.eu-central-1.amazonaws.com/assets/ico/wc0.webp"
+            price={0.2}
           />
           <ServiceCard
-            title="Discord Verification"
-            details="Verify your Discord account using our virtual phone numbers. Discord sms verification starts from $0.05."
-            icon="whatsapp"
+            service="Discord"
+            logo="https://smsactivate.s3.eu-central-1.amazonaws.com/assets/ico/ds0.webp"
+            price={0.2}
           />
           <ServiceCard
-            title="Instagram Verification"
-            details="Verify your Instagram account using our virtual phone numbers. Instagram sms verification starts from $0.05."
-            icon="instagram"
+            service="LinkedIn"
+            logo="https://smsactivate.s3.eu-central-1.amazonaws.com/assets/ico/lf0.webp"
+            price={0.2}
+          />
+          <ServiceCard
+            service="Twitter"
+            logo="https://smsactivate.s3.eu-central-1.amazonaws.com/assets/ico/tw0.webp"
+            price={0.2}
+          />
+          <ServiceCard
+            service="DoorDash"
+            logo="https://smsactivate.s3.eu-central-1.amazonaws.com/assets/ico/ac0.webp"
+            price={0.2}
+          />
+          <ServiceCard
+            service="Google / Gmail / Youtube"
+            logo="https://smsactivate.s3.eu-central-1.amazonaws.com/assets/ico/go0.webp"
+            price={0.35}
+          />
+          <ServiceCard
+            service="Poshmark"
+            logo="https://smsactivate.s3.eu-central-1.amazonaws.com/assets/ico/oz0.webp"
+            price={0.2}
+          />
+          <ServiceCard
+            service="Apple"
+            logo="https://smsactivate.s3.eu-central-1.amazonaws.com/assets/ico/wx0.webp"
+            price={0.2}
+          />
+          <ServiceCard
+            service="Tinder"
+            logo="https://smsactivate.s3.eu-central-1.amazonaws.com/assets/ico/oi0.webp"
+            price={0.5}
+          />
+          <ServiceCard
+            service="Bumble"
+            logo="https://smsactivate.s3.eu-central-1.amazonaws.com/assets/ico/mo0.webp"
+            price={0.4}
+          />
+          <ServiceCard
+            service="TikTok"
+            logo="https://smsactivate.s3.eu-central-1.amazonaws.com/assets/ico/lf0.webp"
+            price={0.2}
+          />
+          <ServiceCard
+            service="Nike"
+            logo="https://smsactivate.s3.eu-central-1.amazonaws.com/assets/ico/ew0.webp"
+            price={0.27}
+          />
+          <ServiceCard
+            service="Instagram"
+            logo="https://smsactivate.s3.eu-central-1.amazonaws.com/assets/ico/ig0.webp"
+            price={0.2}
+          />{" "}
+          <ServiceCard
+            service="WeChat"
+            logo="https://smsactivate.s3.eu-central-1.amazonaws.com/assets/ico/wb0.webp"
+            price={0.25}
+          />
+          <ServiceCard
+            service="Uber"
+            logo="https://smsactivate.s3.eu-central-1.amazonaws.com/assets/ico/ub0.webp"
+            price={0.1}
+          />
+          <ServiceCard
+            service="Hinge"
+            logo="https://smsactivate.s3.eu-central-1.amazonaws.com/assets/ico/vz0.webp"
+            price={0.5}
+          />
+          <ServiceCard
+            service="eBay"
+            logo="https://smsactivate.s3.eu-central-1.amazonaws.com/assets/ico/dh0.webp"
+            price={0.2}
+          />
+          <ServiceCard
+            service="Grindr"
+            logo="https://smsactivate.s3.eu-central-1.amazonaws.com/assets/ico/yw0.webp"
+            price={0.3}
+          />
+          <ServiceCard
+            service="Coinbase"
+            logo="https://smsactivate.s3.eu-central-1.amazonaws.com/assets/ico/re0.webp"
+            price={0.8}
+          />
+          <ServiceCard
+            service="Ticketmaster"
+            logo="https://smsactivate.s3.eu-central-1.amazonaws.com/assets/ico/gp0.webp"
+            price={0.4}
+          />
+          <ServiceCard
+            service="LINE messenger"
+            logo="https://smsactivate.s3.eu-central-1.amazonaws.com/assets/ico/me0.webp"
+            price={0.2}
           />
         </div>
       </div>

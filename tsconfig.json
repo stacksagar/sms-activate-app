@@ -28,7 +28,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/lib/sms-activate.ts"
+    "src/lib/sms-activate.ts",
+    "src/lib/database/connection.js"
   ],
   "exclude": ["node_modules"]
 }

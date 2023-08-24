@@ -5,7 +5,11 @@ type Theme = "dark" | "light";
 
 type MuiTableHeader<T> = {
   key: keyof (T & { actions: string });
-  label: string;
+
+  startIcon?: React.ReactNode | string;
+  endIcon?: React.ReactNode | string;
+
+  label?: string;
   disablePadding?: boolean;
   numeric?: boolean;
   className?: string;

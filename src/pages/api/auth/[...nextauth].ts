@@ -1,21 +1,19 @@
-import { connectMongoDB } from "@/lib/mongodb";
-import User from "@/models/user";
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { AuthOptions } from "next-auth";
+import User from "@/models/User";
+import { connectDB } from "@/lib/database/connectDB";
 
 export const authOptions: AuthOptions = {
   providers: [
     CredentialsProvider({
-      name: "credentials",
+      name: "Credentials",
+      type: "credentials",
+
       credentials: {
-        id: { type: "text" },
-        name: { type: "text" },
-        email: { type: "text" },
-        password: { type: "password" },
-        balance: { type: "number" },
-        phone: { type: "text" },
+        email: { label: "Email", type: "text" },
+        password: { label: "Password", type: "password" },
       },
 
       async authorize(credentials, req) {
@@ -23,18 +21,22 @@ export const authOptions: AuthOptions = {
         const password = credentials?.password as string;
 
         try {
-          await connectMongoDB();
-          const user = await User.findOne({ email });
+          const user = await User.findOne({ where: { email } });
+
           if (!user) {
             return null;
           }
 
-          const passwordsMatch = await bcrypt.compare(password, user.password);
+          const passwordsMatch = await bcrypt.compare(
+            password,
+            user.dataValues.password
+          );
 
           if (!passwordsMatch) {
             return null;
           }
-          return user;
+
+          return user.dataValues as any;
         } catch (error) {
           console.log("Error: ", error);
         }
@@ -50,6 +52,17 @@ export const authOptions: AuthOptions = {
 
   pages: {
     signIn: "/auth/signin",
+  },
+
+  callbacks: {
+    async jwt({ token, user }) {
+      let newData: any = { ...token, ...user, password: "protected" };
+      return newData;
+    },
+
+    async session({ session, token }) {
+      return { ...session, user: token };
+    },
   },
 };
 

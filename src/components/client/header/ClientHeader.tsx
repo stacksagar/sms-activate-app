@@ -1,113 +1,140 @@
 "use client";
-
-import Image from "next/image";
-
-import { useState } from "react";
-import { Dialog } from "@headlessui/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import ThemeToggler from "@/common/ThemeToggler";
-import Link from "next/link";
+import * as React from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import CssBaseline from "@mui/material/CssBaseline";
+import Divider from "@mui/material/Divider";
+import Drawer from "@mui/material/Drawer";
+import IconButton from "@mui/material/IconButton";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemText from "@mui/material/ListItemText";
+import MenuIcon from "@mui/icons-material/Menu";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
 import TextLogo from "@/common/TextLogo";
-import HeaderAuth from "./HeaderAuth";
-import HeaderUnAuth from "./HeaderUnAuth";
-import { useSession } from "next-auth/react";
+import Link from "next/link";
+import ClientHeaderRight from "./ClintHeaderRight";
+import ThemeToggler from "@/common/ThemeToggler";
 
+interface Props {
+  /**
+   * Injected by the documentation to work in an iframe.
+   * You won't need it on your project.
+   */
+  window?: () => Window;
+}
+
+const drawerWidth = 240;
 const navigation = [
   { name: "Features", href: "#features" },
   { name: "How It Work", href: "#how-it-works" },
   { name: "F.A.Q", href: "#faq" },
 ];
 
-export default function ClientHeader() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { data: session } = useSession();
+export default function ClientHeader(props: Props) {
+  const { window } = props;
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+
+  const handleDrawerToggle = () => {
+    setMobileOpen((prevState) => !prevState);
+  };
+
+  const drawer = (
+    <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
+      <Typography variant="h6" sx={{ my: 2 }}>
+        <Link href="/" className="flex items-center justify-center">
+          <TextLogo />
+        </Link>
+      </Typography>
+      <Divider />
+      <List>
+        {navigation.map((item) => (
+          <ListItem key={item.name} disablePadding>
+            <Link href={item.href}>
+              <ListItemButton sx={{ textAlign: "center" }}>
+                <ListItemText primary={item.name} />
+              </ListItemButton>
+            </Link>
+          </ListItem>
+        ))}
+      </List>
+    </Box>
+  );
+
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <header className="z-50 border-b dark:border-b-gray-600">
-      <nav
-        className="h-[80px] container flex items-center justify-between"
-        aria-label="Global"
-      >
-        <div className="flex lg:flex-1">
-          <Link href="/" className="-m-1.5 p-1.5">
-            <TextLogo />
-          </Link>
-        </div>
-
-        <div className="flex lg:hidden items-center">
-          <div className="flex items-center pr-5">
-            <ThemeToggler />
-          </div>
-          <button
-            type="button"
-            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 "
-            onClick={() => setMobileMenuOpen(true)}
-          >
-            <span className="sr-only">Open main menu</span>
-            <Bars3Icon className="h-6 w-6" aria-hidden="true" />
-          </button>
-        </div>
-
-        <div className="hidden lg:flex lg:gap-x-12 items-center justify-end pr-10 w-full">
-          {navigation.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              className="text-sm font-semibold leading-6 "
-            >
-              {item.name}
-            </Link>
-          ))}
-          <ThemeToggler />
-        </div>
-
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end gap-2">
-          {session?.user?.name ? <HeaderAuth /> : <HeaderUnAuth />}
-        </div>
-      </nav>
-      <Dialog
-        as="div"
-        className="lg:hidden"
-        open={mobileMenuOpen}
-        onClose={setMobileMenuOpen}
-      >
-        <div className="fixed inset-0 z-50" />
-        <Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white dark:bg-gray-900 px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-          <div className="flex items-center justify-between">
-            <Link href="/" className="-m-1.5 p-1.5">
-              <span className="sr-only">Your Company</span>
-              <Image src="/logo.svg" width={44} height={44} alt="logo" />
-            </Link>
-            <button
-              type="button"
-              className="-m-2.5 rounded-md p-2.5 "
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              <span className="sr-only">Close menu</span>
-              <XMarkIcon className="h-6 w-6" aria-hidden="true" />
-            </button>
-          </div>
-
-          <div className="mt-6 flow-root">
-            <div className="-my-6 divide-y divide-gray-500/10">
-              <div className="space-y-2 py-6">
+    <div>
+      <CssBaseline />
+      <AppBar component="nav" color="inherit">
+        <div className="w-[98%] 2xl:max-w-[1280px] h-[90px] flex items-center mx-auto">
+          <div className="w-full">
+            <Toolbar>
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                edge="start"
+                onClick={handleDrawerToggle}
+                sx={{ display: { md: "none" } }}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Typography
+                variant="h6"
+                component="div"
+                sx={{
+                  flexGrow: 1,
+                  display: { display: "none", md: "block" },
+                }}
+              >
+                <Link href="/">
+                  <TextLogo />
+                </Link>
+              </Typography>
+              <Box sx={{ display: { display: "none", md: "block" } }}>
                 {navigation.map((item) => (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7  hover:bg-gray-50"
-                  >
-                    {item.name}
+                  <Link key={item.name} href={item.href}>
+                    <Button>{item.name}</Button>
                   </Link>
                 ))}
+              </Box>
+              <div className="ml-auto flex items-center gap-2">
+                <div className="mx-8">
+                  <ThemeToggler />
+                </div>
+                <ClientHeaderRight />
               </div>
-              <div className="py-6 flex items-center gap-2">
-                {session?.user?.name ? <HeaderAuth /> : <HeaderUnAuth />}
-              </div>
-            </div>
+            </Toolbar>
           </div>
-        </Dialog.Panel>
-      </Dialog>
-    </header>
+        </div>
+      </AppBar>
+      <Box component="nav">
+        <Drawer
+          container={container}
+          variant="temporary"
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true, // Better open performance on mobile.
+          }}
+          sx={{
+            display: { sm: "block", md: "none" },
+            "& .MuiDrawer-paper": {
+              bosmizing: "border-box",
+              width: drawerWidth,
+            },
+          }}
+        >
+          {drawer}
+        </Drawer>
+      </Box>
+      <Box component="main">
+        <Toolbar />
+      </Box>{" "}
+    </div>
   );
 }

@@ -3,7 +3,7 @@ import ClientHeader from "../header/ClientHeader";
 import { motion } from "framer-motion";
 import { Player } from "@lottiefiles/react-lottie-player";
 import Link from "next/link";
-import Button from "@/common/Buttons/Button";
+import MuiButton from "@/common/MaterialUi/MuiButton";
 
 const visible = { opacity: 1, y: 0, transition: { duration: 0.5 } };
 
@@ -17,16 +17,15 @@ export default function HeroSection() {
 
   return (
     <div className="bg-white dark:bg-gray-900">
-      <ClientHeader />
       <div className="container">
         <motion.div
           initial="hidden"
           animate="visible"
           exit={{ opacity: 0, transition: { duration: 1 } }}
           variants={{ visible: { transition: { staggerChildren: 0.3 } } }}
-          className="relative isolate grid grid-cols-12"
+          className="relative isolate grid grid-cols-1 md:grid-cols-12"
         >
-          <div className="col-span-4 flex items-center justify-end">
+          <div className="hidden md:flex col-span-4 items-center justify-end">
             <motion.div className="drag-area" ref={constraintsRef} />
             <motion.div
               animate={{
@@ -81,13 +80,13 @@ export default function HeroSection() {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.9 }}
                   >
-                    <Link href="/panel">
-                      <Button color="purple">Panel</Button>
+                    <Link href="/dashboard">
+                      <MuiButton color="secondary">Dashboard</MuiButton>
                     </Link>
                   </motion.div>
 
                   <Link
-                    href="/signin"
+                    href="/auth/signin"
                     className="text-sm font-semibold leading-6 group"
                   >
                     Signin

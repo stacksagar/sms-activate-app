@@ -11,7 +11,7 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-  title: "YEN:SMS Verification",
+  title: "YAN:SMS Verification",
   description: "Text Verification Web Application",
 };
 

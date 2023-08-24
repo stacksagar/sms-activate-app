@@ -8,12 +8,20 @@ import MaterialThemeProvider from "@/components/MaterialTheme/MaterialThemeProvi
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { SessionProvider } from "next-auth/react";
+import ClientHeader from "@/components/client/header/ClientHeader";
+import ClientFooter from "@/components/client/footer/ClientFooter";
+import { usePathname } from "next/navigation";
 
 type Props = {
   children: React.ReactNode;
 };
 
 export default function Providers({ children }: Props) {
+  const pathname = usePathname();
+  function isAdmin() {
+    return pathname?.toLowerCase()?.includes("admin");
+  }
+
   return (
     <SessionProvider>
       <ContextProvider>
@@ -26,7 +34,9 @@ export default function Providers({ children }: Props) {
               draggable
               pauseOnHover
             />
+            {isAdmin() ? <></> : <ClientHeader />}
             {children}
+            {isAdmin() ? <></> : <ClientFooter />}
           </ReduxProvider>
         </MaterialThemeProvider>
       </ContextProvider>

@@ -28,7 +28,7 @@ export default function ClientFooter() {
       <div className="container py-8 border-t">
         <div className="flex flex-col-reverse md:flex-row items-center justify-between">
           <span className="block text-lg text-gray-500 sm:text-center dark:text-gray-400">
-            ©YenSMS 2023 All Rights Reserved.
+            ©YanSMS 2023 All Rights Reserved.
           </span>
 
           <div className="flex items-center justify-center xl:justify-end flex-wrap gap-1 md:gap-2 xl:gap-5">
