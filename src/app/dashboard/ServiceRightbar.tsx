@@ -99,7 +99,7 @@ export default function ServiceRightbar() {
   return (
     <div className="col-span-8 bg-white dark:bg-gray-800">
       <MuiTable
-        onDeleteMultiple={onDelete}
+        onDelete={onDelete}
         tableCells={tableCells}
         rows={data}
         tableTitle="Activations"

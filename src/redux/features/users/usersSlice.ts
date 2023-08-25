@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { fetchUsers } from "./requests";
 
 interface State {
@@ -18,7 +18,12 @@ const initialState: State = {
 const usersSlice = createSlice({
   name: "users",
   initialState,
-  reducers: {},
+  reducers: {
+    deleteByIds(state, action: PayloadAction<ID[]>) {
+      const ids = action.payload;
+      state.data = state.data.filter((user) => !ids.includes(user?._id));
+    },
+  },
 
   extraReducers: (builder) => {
     builder.addCase(fetchUsers.pending, (state) => {

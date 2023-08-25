@@ -1,8 +1,8 @@
-import error_message from "@/lib/error_message";
-import fs, { writeFile } from "fs/promises";
+import fs from "fs/promises";
 import { NextApiRequest, NextApiResponse } from "next";
 
 import { IncomingForm } from "formidable";
+import Res from "@/lib/server/Res";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -10,8 +10,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (method !== "POST") return;
 
     const form = new IncomingForm();
-
-    console.log("form ", form);
 
     form.parse(req, async (err, fields, files) => {
       if (err) throw new Error(err);
@@ -27,9 +25,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         .json({ message: "File uploaded and saved successfully" });
     });
   } catch (error) {
-    res.status(400).json({
-      message: error_message(error),
-    });
+    return Res.err(res, error);
   }
 };
 

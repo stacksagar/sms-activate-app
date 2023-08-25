@@ -1,6 +1,8 @@
 import { Sequelize } from "sequelize";
 
-const sequelize = new Sequelize(
+import error_message from "../error_message";
+
+const mySequelize = new Sequelize(
   process.env.DB_NAME as string,
   process.env.DB_USER as string,
   process.env.DB_PASSWORD as string,
@@ -12,13 +14,22 @@ const sequelize = new Sequelize(
   }
 );
 
-sequelize
+mySequelize
   .authenticate()
   .then(() => console.log("MySQL Database Connected."))
   .catch((error) =>
     console.log("ERROR::", error?.message || "Database Connection Error!")
   );
 
-sequelize.sync();
+mySequelize.sync();
 
-export default sequelize;
+export const connectDB = async () => {
+  try {
+    mySequelize.authenticate();
+    console.log("Database Connected!");
+  } catch (error) {
+    console.log("MySQL Connection ERROR::", error_message(error));
+  }
+};
+
+export default mySequelize;

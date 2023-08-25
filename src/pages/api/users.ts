@@ -1,7 +1,7 @@
-import error_message from "@/lib/error_message";
-import json_response from "@/lib/server/json_response";
-import User from "@/models/User";
+import delay from "@/lib/delay";
+import User from "@/models/mongodb/User";
 import { NextApiRequest, NextApiResponse } from "next";
+import Res from "@/lib/server/Res";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -9,18 +9,30 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     switch (method) {
       case "GET":
-        const users = await User.findAll();
-        return json_response(res, { users });
+        const users = await User.find();
+        return Res.json(res, { users });
 
       case "PUT":
-        await User.update(req.body, { where: { id: req.query?.id } });
-        const user = await User.findOne({ where: { id: req.query?.id } });
-        return json_response(res, { user }, 201);
+        const user = await User.findByIdAndUpdate(req?.query?.id, {
+          $set: {
+            ...req.body,
+          },
+        });
+        return Res.json(res, { user }, 201);
+
+      case "DELETE":
+        const IDsToDelete = req.body?.ids;
+        await delay(3000);
+        await User.deleteMany({
+          _id: {
+            $in: IDsToDelete,
+          },
+        });
+
+        return Res.msg(res, "Successfully deleted", 200);
     }
   } catch (error) {
-    res.status(400).json({
-      message: error_message(error),
-    });
+    return Res.err(res, error);
   }
 };
 

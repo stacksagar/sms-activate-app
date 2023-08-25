@@ -36,13 +36,15 @@ const usersTableCells: MuiTableHeader<UserT>[] = [
             </a>
             <ButtonWithCopy value={row.email} size="small" />
           </div>
-          <div>
-            <a href={`tel:${row.phone}`}>
-              <FIcon icon="phone" />
-              <span> {row.phone} </span>
-            </a>
-            <ButtonWithCopy value={row.phone} size="small" />
-          </div>
+          {row?.phone ? (
+            <div>
+              <a href={`tel:${row.phone}`}>
+                <FIcon icon="phone" />
+                <span> {row.phone} </span>
+              </a>
+              <ButtonWithCopy value={row.phone} size="small" />
+            </div>
+          ) : null}
         </div>
       );
     },

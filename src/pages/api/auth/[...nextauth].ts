@@ -2,8 +2,7 @@ import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { AuthOptions } from "next-auth";
-import User from "@/models/User";
-import { connectDB } from "@/lib/database/connectDB";
+import User from "@/models/mongodb/User";
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -21,22 +20,19 @@ export const authOptions: AuthOptions = {
         const password = credentials?.password as string;
 
         try {
-          const user = await User.findOne({ where: { email } });
+          const user = await User.findOne({ email });
 
           if (!user) {
             return null;
           }
 
-          const passwordsMatch = await bcrypt.compare(
-            password,
-            user.dataValues.password
-          );
+          const passwordsMatch = await bcrypt.compare(password, user?.password);
 
           if (!passwordsMatch) {
             return null;
           }
 
-          return user.dataValues as any;
+          return user?._doc as any;
         } catch (error) {
           console.log("Error: ", error);
         }
@@ -56,7 +52,14 @@ export const authOptions: AuthOptions = {
 
   callbacks: {
     async jwt({ token, user }) {
-      let newData: any = { ...token, ...user, password: "protected" };
+      let newData: any = {
+        ...token,
+        ...user,
+        password: "",
+        __v: "",
+      };
+      delete newData.password;
+      delete newData.__v;
       return newData;
     },
 

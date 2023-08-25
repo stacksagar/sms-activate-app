@@ -1,7 +1,10 @@
-type TimeStamps = { createdAt?: string; updatedAt?: string };
-interface UserT extends TimeStamps {
-  id: number;
+type ModelCommonAttributes = {
+  _id: string;
+  createdAt?: string;
+  updatedAt?: string;
+};
 
+interface UserT extends ModelCommonAttributes {
   name: string;
   email: string;
   balance: number;
@@ -12,8 +15,7 @@ interface UserT extends TimeStamps {
   role: Roles;
 }
 
-interface ActivationT extends TimeStamps {
-  id?: number;
+interface ActivationT extends ModelCommonAttributes {
   activationId: string;
   country_logo: string;
   service_logo: string;
@@ -29,9 +31,7 @@ interface ActivationT extends TimeStamps {
   serviceCode?: string;
 }
 
-interface SettingT extends TimeStamps {
-  id: number;
-
+interface SettingT extends ModelCommonAttributes {
   header?: {
     logo?: string;
   };
@@ -63,8 +63,7 @@ interface SettingT extends TimeStamps {
   };
 }
 
-interface SMSServicePrice extends TimeStamps {
-  id: number;
+interface SMSServicePrice extends ModelCommonAttributes {
   service: string;
   service_logo: string;
   service_code: string;

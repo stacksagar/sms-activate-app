@@ -1,31 +1,31 @@
-import error_message from "@/lib/error_message";
-import Setting from "@/models/Setting";
+import Res from "@/lib/server/Res";
+import Setting from "@/models/mongodb/Setting";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const method = req.method?.toUpperCase();
-    let settings: Setting | null;
+    let settings: SettingT | null;
 
     switch (method) {
       case "GET":
-        settings = await Setting.findOne({ where: { id: 1 } });
+        settings = await Setting.findById("64e8586a9fc5ead50982daea");
         break;
 
       case "PUT":
-        await Setting.update(req.body, { where: { id: 1 } });
-        settings = await Setting.findOne({ where: { id: 1 } });
+        settings = await Setting.findByIdAndUpdate("64e8586a9fc5ead50982daea", {
+          $set: {
+            ...req.body,
+          },
+        });
         break;
 
       default:
-        settings = await Setting.findOne({ where: { id: 1 } });
+        settings = await Setting.findById("64e8586a9fc5ead50982daea");
     }
-
-    res.status(200).json({ settings });
+    return Res.json(res, { settings });
   } catch (error) {
-    res.status(400).json({
-      message: error_message(error),
-    });
+    return Res.err(res, error);
   }
 };
 

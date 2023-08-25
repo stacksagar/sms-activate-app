@@ -19,7 +19,7 @@ export default function Users() {
   return (
     <div>
       <MuiTable
-        onDeleteMultiple={onMultipleDelete}
+        onDelete={onMultipleDelete}
         tableCells={usersTableCells}
         rows={[]}
         tableTitle="Activations"

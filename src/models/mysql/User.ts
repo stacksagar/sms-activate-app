@@ -1,7 +1,7 @@
-import sequelize from "@/lib/database/sequelize";
+import mySequelize from "@/lib/database/mySequelize";
 import { Model, DataTypes, Optional } from "sequelize";
 
-class User extends Model<UserT, Optional<UserT, "id">> {}
+class User extends Model<Optional<UserT, "_id">> {}
 
 User.init(
   {
@@ -23,7 +23,7 @@ User.init(
     },
   },
 
-  { tableName: "Users", sequelize }
+  { tableName: "Users", sequelize: mySequelize }
 );
 
 export default User;

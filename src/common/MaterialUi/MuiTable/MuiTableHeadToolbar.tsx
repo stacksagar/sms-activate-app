@@ -1,51 +1,40 @@
 import { Toolbar, Typography, Tooltip } from "@mui/material";
-
+import { motion } from "framer-motion";
 import { alpha } from "@mui/material/styles";
 
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import useBoolean, { UseBoolean } from "@/hooks/state/useBoolean";
-import { useState, useEffect } from "react";
-import useTracking from "@/hooks/useTracking";
-import MuiConfirmationDialog from "@/common/MaterialUi/Modal/MuiConfirmationDialog";
+import FIcon from "@/common/FIcon";
 
 interface Props {
   tableTitle: string;
   selected: ID[];
-  onDeleteMultiple?: (id: ID[]) => void;
-  deleting?: UseBoolean;
+  showDeleteWarning: UseBoolean;
+  onRefreshData?: () => void;
+  clearDeleteID: () => void;
 }
 
 export default function MuiTableHeadToolbar(props: Props) {
-  const { selected, tableTitle, onDeleteMultiple, deleting } = props;
+  const {
+    selected,
+    tableTitle,
+    showDeleteWarning,
+    onRefreshData,
+    clearDeleteID,
+  } = props;
 
-  const showDeleteWarning = useBoolean();
-
-  const tracking = useTracking();
-
-  useEffect(() => {
-    tracking.start(deleting?.true);
-    tracking.finish(!deleting?.true);
-  }, [tracking, deleting]);
-
-  useEffect(() => {
-    if (tracking.done) {
-      showDeleteWarning.setFalse();
-      tracking.reset();
-    }
-  }, [showDeleteWarning, tracking]);
+  const refreshig = useBoolean(false);
+  async function handleOnRefresh() {
+    if (!onRefreshData) return;
+    refreshig.setTrue();
+    await onRefreshData();
+    refreshig.setFalse();
+  }
 
   return (
     <>
-      <MuiConfirmationDialog
-        loading={deleting?.true}
-        showModal={showDeleteWarning}
-        warningText={`Want to delete all selected '${selected?.length}' items?`}
-        onConfirm={() => onDeleteMultiple && onDeleteMultiple(selected)}
-        confirmButtonText={`Delete (${selected.length}) items!`}
-      />
-
       <Toolbar
         sx={{
           pl: { sm: 2 },
@@ -69,18 +58,41 @@ export default function MuiTableHeadToolbar(props: Props) {
             {selected.length} selected
           </Typography>
         ) : (
-          <Typography
-            sx={{ flex: "1 1 100%" }}
-            variant="h6"
-            id="tableTitle"
-            component="div"
-          >
-            {tableTitle}
-          </Typography>
+          <div className="flex items-center gap-2 mr-auto">
+            {onRefreshData ? (
+              <motion.div
+                whileHover={{ scale: 1.2 }}
+                whileTap={{ scale: 0.8 }}
+                onClick={handleOnRefresh}
+              >
+                <IconButton size="small">
+                  {refreshig.true ? (
+                    <FIcon icon="refresh" className="animate-spin" />
+                  ) : (
+                    <FIcon icon="refresh" />
+                  )}
+                </IconButton>
+              </motion.div>
+            ) : null}
+
+            <Typography
+              sx={{ flex: "1 1 100%" }}
+              variant="h6"
+              id="tableTitle"
+              component="div"
+            >
+              {tableTitle}
+            </Typography>
+          </div>
         )}
         {selected.length > 0 ? (
           <Tooltip title="Delete">
-            <IconButton onClick={showDeleteWarning.setTrue}>
+            <IconButton
+              onClick={() => {
+                showDeleteWarning.setTrue();
+                clearDeleteID();
+              }}
+            >
               <DeleteIcon />
             </IconButton>
           </Tooltip>

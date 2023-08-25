@@ -5,6 +5,11 @@ import { fetchUsers } from "@/redux/features/users/requests";
 import { useReduxDispatch, useReduxSelector } from "@/redux/redux_store";
 import React, { useEffect } from "react";
 import usersTableCells from "./usersTableCells";
+import delay from "@/lib/delay";
+import toast_async from "@/lib/toast_async";
+import axios from "axios";
+import { userActions } from "@/redux/features/users/usersSlice";
+import MuiBreadcrumbs from "@/common/MaterialUi/MuiBreadcrumbs";
 
 export default function Users() {
   const { data: users, fetched } = useReduxSelector((state) => state.users);
@@ -16,12 +21,41 @@ export default function Users() {
     dispatch(fetchUsers(null));
   }, [dispatch, fetched]);
 
-  function onMultipleDelete() {}
+  async function onMultipleDelete(ids: ID[]) {
+    deleting.setTrue();
+    try {
+      await toast_async(axios.delete("/api/users", { data: { ids } }), {
+        start: "Deleting.. wait a moment!",
+        success: `Successfully deleted ${ids?.length} items!`,
+        error: "",
+      });
+      dispatch(userActions.deleteByIds(ids));
+    } finally {
+      deleting.setFalse();
+    }
+  }
 
   return (
     <div>
+      <MuiBreadcrumbs
+        links={[
+          {
+            title: "Dashboard",
+            icon: "home",
+            href: "/admin",
+          },
+
+          {
+            title: "Users",
+            icon: "users",
+            href: "/admin/users",
+          },
+        ]}
+      />
+      <br />
       <MuiTable
-        onDeleteMultiple={onMultipleDelete}
+        onRefreshData={() => dispatch(fetchUsers(null))}
+        onDelete={onMultipleDelete}
         tableCells={usersTableCells}
         rows={users}
         loading={!fetched}

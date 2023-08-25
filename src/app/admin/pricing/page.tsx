@@ -104,7 +104,7 @@ export default function Pricing() {
       </div>
       <br />
       <MuiTable
-        onDeleteMultiple={onMultipleDelete}
+        onDelete={onMultipleDelete}
         tableCells={pricingTableCells}
         rows={[]}
         loading={false}

@@ -36,15 +36,17 @@ export default function AuthProvider({
 
   useEffect(() => {
     const sessionUser = session?.data?.user as UserT;
-    if (!sessionUser?.id) return;
+    if (!sessionUser?.email) {
+      setFetched(true);
+      return;
+    }
 
     setLoading(true);
     setUser(sessionUser);
-
     async function fetch() {
       try {
         const userBalanceRes = await axios.get(
-          `/api/auth/get_balance?id=${sessionUser?.id}`
+          `/api/auth/get_balance?id=${sessionUser?._id}`
         );
 
         setUser((p) => ({
@@ -67,6 +69,10 @@ export default function AuthProvider({
 
     fetch();
   }, [session]);
+
+  useEffect(() => {
+    console.log(fetched ? "[Fast Refreshed::]" : "[Fast Refreshing::]");
+  }, [fetched]);
 
   return (
     <AuthContext.Provider

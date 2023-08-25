@@ -1,4 +1,4 @@
-import sequelize from "@/lib/database/sequelize";
+import mySequelize from "@/lib/database/mySequelize";
 import { Model, DataTypes, Optional } from "sequelize";
 
 class Setting extends Model<SettingT, Optional<SettingT, "id">> {}
@@ -37,7 +37,7 @@ Setting.init(
     },
   },
 
-  { tableName: "Settings", sequelize }
+  { tableName: "Settings", sequelize: mySequelize }
 );
 
 export default Setting;
