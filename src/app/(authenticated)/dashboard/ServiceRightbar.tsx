@@ -14,6 +14,7 @@ import { countryLogo, serviceLogo } from "@/data/dynamic_logos";
 import showDate from "@/lib/showDate";
 import services_name from "@/data/services_name";
 import moment from "moment";
+import { useSetting } from "@/context/SettingProvider";
 
 const ServiceDetails = ({ row }: { row: ActivationT }) => {
   return (
@@ -113,7 +114,13 @@ const tableCells: MuiTableHeader<ActivationT>[] = [
     key: "total_cost",
     label: "Cost",
     RenderComponent({ row }) {
-      return <div>{row.total_cost} ₽</div>;
+      const { setting } = useSetting();
+
+      return (
+        <div>
+          {row.total_cost} {setting?.public?.currency}
+        </div>
+      );
     },
   },
 

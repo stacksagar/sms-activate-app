@@ -127,15 +127,15 @@ export default function MuiTable({
   if (loading) return <MuiTableSkeleton tableTitle={tableTitle} />;
 
   return (
-    <>
+    <div className="max-w-[100%]">
       <MuiTableDeleteWarning
         deleting={deleting}
         showDeleteWarning={showDeleteWarning}
         onConfirm={() => onDelete && onDelete(deleteID ? [deleteID] : selected)}
         total={deleteID ? 1 : selected?.length}
       />
-      <Box sx={{ width: "100%" }}>
-        <Paper sx={{ width: "100%", mb: 2 }}>
+      <Box>
+        <Paper sx={{ mb: 2 }}>
           <MuiTableHeadToolbar
             clearDeleteID={() => setDeleteID("" as ID)}
             tableTitle={tableTitle}
@@ -270,6 +270,6 @@ export default function MuiTable({
           />
         </Paper>
       </Box>{" "}
-    </>
+    </div>
   );
 }
