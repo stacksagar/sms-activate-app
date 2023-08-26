@@ -23,6 +23,7 @@ export default function SettingProvider({
   const fetched = useBoolean(false);
 
   useEffect(() => {
+    if (fetched?.true) return;
     axios
       .get(`/api/settings`)
       .then(({ data }) => {
