@@ -64,6 +64,7 @@ export default function MuiTableHead({
             align={headCell.numeric ? "right" : "left"}
             padding={headCell.disablePadding ? "none" : "normal"}
             sortDirection={orderBy === headCell.key ? order : false}
+            className="whitespace-nowrap"
           >
             <TableSortLabel
               active={orderBy === headCell.key}

@@ -68,9 +68,14 @@ export default function ClientHeader(props: Props) {
     window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <div>
+    <header>
       <CssBaseline />
-      <AppBar component="nav" color="inherit">
+      <AppBar
+        component="nav"
+        color="inherit"
+        style={{ boxShadow: "none" }}
+        className="border-b dark:border-none"
+      >
         <div className="w-[98%] 2xl:max-w-[1280px] h-[90px] flex items-center mx-auto">
           <div className="w-full">
             <Toolbar>
@@ -134,7 +139,7 @@ export default function ClientHeader(props: Props) {
       </Box>
       <Box component="main">
         <Toolbar />
-      </Box>{" "}
-    </div>
+      </Box>
+    </header>
   );
 }

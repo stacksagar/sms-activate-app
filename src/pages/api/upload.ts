@@ -1,8 +1,8 @@
-import fs from "fs/promises";
-import { NextApiRequest, NextApiResponse } from "next";
+import { IncomingForm } from 'formidable';
+import fs from 'fs/promises';
+import { NextApiRequest, NextApiResponse } from 'next';
 
-import { IncomingForm } from "formidable";
-import Res from "@/lib/server/Res";
+import Res from '@/lib/server/Res';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {

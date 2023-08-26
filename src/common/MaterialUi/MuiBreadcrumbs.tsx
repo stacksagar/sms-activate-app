@@ -29,6 +29,7 @@ export default function MuiBreadcrumbs({ links }: Props) {
             </Link>
           ) : (
             <Typography
+              key={item.title}
               sx={{ display: "flex", alignItems: "center", gap: "1" }}
               color="text.primary"
             >

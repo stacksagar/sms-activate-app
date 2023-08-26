@@ -5,38 +5,27 @@ import FIcon from "@/common/FIcon";
 import useBoolean from "@/hooks/state/useBoolean";
 import { useReduxSelector } from "@/redux/redux_store";
 import { useOrderNumber } from "./hooks";
-import { useSession } from "next-auth/react";
-import toast from "@/lib/toast";
+import { useSetting } from "@/context/SettingProvider";
 
 export default function CountryDetailsByService({
   service,
 }: {
   service: ServiceData & Country;
 }) {
-  const { data: session } = useSession();
+  const { setting } = useSetting();
   const loading = useBoolean();
   const { selectedService } = useReduxSelector((s) => s.services);
 
-  const handleOrderNumber = useOrderNumber(
-    selectedService?.shortName,
-    service.country,
-    loading
-  );
-
-  function handleOrderNumberBtn() {
-    if (session?.user?.email === "bangladeshisoftware@gmail.com") {
-      handleOrderNumber();
-    } else {
-      toast({ message: "Insufficient Balance!", type: "warning" });
-    }
-  }
+  const handleOrder = useOrderNumber();
 
   return (
     <div>
       <ListItem>
         <ListItemButton
           disabled={loading.true}
-          onClick={handleOrderNumberBtn}
+          onClick={() =>
+            handleOrder(selectedService?.shortName, service.country, loading)
+          }
           className="flex items-center justify-between gap-2"
         >
           <div className="flex items-center gap-2">
@@ -56,15 +45,15 @@ export default function CountryDetailsByService({
           <div className="w-fit ml-auto flex items-center gap-2">
             <div className="flex flex-col leading-4">
               <small>Price</small>
-              <small className="font-semibold">
-                {service?.price}.
-                <FIcon icon="ruble" />
-              </small>
+              <div>
+                <small className="font-semibold">{service?.price}.</small>
+                <small>{setting?.public?.currency}</small>
+              </div>
             </div>
 
-            <IconButton color="warning">
+            <div className="text-yellow-600">
               <FIcon icon="shopping-cart" />
-            </IconButton>
+            </div>
           </div>
         </ListItemButton>
       </ListItem>

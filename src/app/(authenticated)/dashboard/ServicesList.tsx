@@ -14,13 +14,33 @@ import { uid } from "uid";
 import { serviceActions } from "@/redux/features/services/servicesSlice";
 import ManageSelectedService from "./ManageSelectedService";
 import ShowAndLessButton from "@/common/ShowAndLessButton";
+import { useSetting } from "@/context/SettingProvider";
+import { useOrderNumber } from "./hooks";
+import useBoolean from "@/hooks/state/useBoolean";
 
 export default function ServicesList() {
+  const { setting } = useSetting();
   const { services, loading, fetched, selectedService, visibleValue } =
     useReduxSelector((state) => state.services);
   const dispatch = useReduxDispatch();
 
   const search = useString("");
+
+  const ordering = useBoolean();
+  const handleOrder = useOrderNumber();
+
+  function handleSetService(service: SMSService) {
+    if (setting?.public?.selected_country) {
+      handleOrder(
+        service?.shortName,
+        setting?.public?.selected_country,
+        ordering
+      );
+    } else {
+      dispatch(serviceActions.setSelectedService(service));
+      search.setCustom("");
+    }
+  }
 
   useEffect(() => {
     if (fetched) return;
@@ -72,10 +92,8 @@ export default function ServicesList() {
                       className={`w-full flex flex-col items-start justify-start`}
                     >
                       <ListItemButton
-                        onClick={() => {
-                          dispatch(serviceActions.setSelectedService(service));
-                          search.setCustom("");
-                        }}
+                        disabled={ordering.true}
+                        onClick={() => handleSetService(service)}
                         className="block w-full"
                       >
                         <div className="flex items-center gap-2">

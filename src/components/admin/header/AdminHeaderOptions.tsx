@@ -17,6 +17,7 @@ export default function AdminHeaderOptions() {
 
   return (
     <TogglerOptions
+      size="small"
       title={
         !fetched ? (
           <div className="w-[130px] flex items-center gap-2">

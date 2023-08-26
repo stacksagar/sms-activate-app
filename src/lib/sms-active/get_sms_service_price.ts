@@ -1,7 +1,6 @@
 import axios from "axios";
 import toast from "../toast";
 import error_message from "../error_message";
-import toast_async from "../toast_async";
 
 type CostAndCount = {
   cost: number;
@@ -13,7 +12,7 @@ export default async function get_sms_service_price(
   country?: string
 ) {
   try {
-    let url = `/api/sms-active/getPrices`;
+    let url = `/api/sms-active/action/getPrices`;
 
     if (service && country) {
       url += `?service=${service}&country=${country}`;

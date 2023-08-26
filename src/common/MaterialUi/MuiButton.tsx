@@ -31,6 +31,7 @@ export default function MuiButton({
       variant={variant || "contained"}
       size={size || "large"}
       color={color || "primary"}
+      disabled={loading}
       {...buttonProps}
     >
       <span></span>

@@ -1,16 +1,10 @@
 import mySequelize from "@/lib/database/mySequelize";
 import { Model, DataTypes, Optional } from "sequelize";
 
-class Setting extends Model<SettingT, Optional<SettingT, "id">> {}
+class Setting extends Model<Optional<SettingT, "_id">> {}
 
 Setting.init(
   {
-    id: {
-      type: DataTypes.INTEGER.UNSIGNED,
-      autoIncrement: true,
-      primaryKey: true,
-    },
-
     header: {
       type: DataTypes.JSON,
       allowNull: true,

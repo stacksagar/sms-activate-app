@@ -1,8 +1,10 @@
-import NextAuth from "next-auth/next";
-import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { AuthOptions } from "next-auth";
+import NextAuth from "next-auth/next";
+import CredentialsProvider from "next-auth/providers/credentials";
+
 import User from "@/models/mongodb/User";
+import error_message from "@/lib/error_message";
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -15,9 +17,10 @@ export const authOptions: AuthOptions = {
         password: { label: "Password", type: "password" },
       },
 
-      async authorize(credentials, req) {
+      async authorize(credentials, _req) {
         const email = credentials?.email as string;
         const password = credentials?.password as string;
+        if (!email || !password) return;
 
         try {
           const user = await User.findOne({ email });
@@ -29,12 +32,12 @@ export const authOptions: AuthOptions = {
           const passwordsMatch = await bcrypt.compare(password, user?.password);
 
           if (!passwordsMatch) {
-            return null;
+            throw new Error("Invalid credentials!");
           }
 
           return user?._doc as any;
         } catch (error) {
-          console.log("Error: ", error);
+          return error_message(error);
         }
       },
     }),

@@ -1,8 +1,8 @@
 import { toast } from "react-toastify";
 
-export default async function toast_async(
+export default async function toast_async<Data>(
   func: Promise<{
-    data?: any;
+    data?: Data;
     headers?: any;
     request?: any;
     status?: number;
@@ -22,7 +22,12 @@ export default async function toast_async(
       },
       error: {
         render({ data }: any) {
-          return messages?.error || data?.message || data?.data?.message;
+          return (
+            messages?.error ||
+            data?.response?.data?.message ||
+            data?.message ||
+            data?.data?.message
+          );
         },
       },
     },

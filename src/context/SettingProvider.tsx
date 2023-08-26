@@ -1,13 +1,12 @@
 import useBoolean, { UseBoolean } from "@/hooks/state/useBoolean";
-import toast from "@/lib/toast";
-import { usePathname } from "next/navigation";
+import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
-import { toast as toastify } from "react-toastify";
 
 interface SettingContext {
   setting: SettingT;
   setSetting: React.Dispatch<React.SetStateAction<SettingT>>;
   url_changing: UseBoolean;
+  fetched: UseBoolean;
 }
 
 const SettingContext = createContext<SettingContext>({} as SettingContext);
@@ -17,10 +16,22 @@ export default function SettingProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const pathname = usePathname();
-  const [currentPath, setCurrentPath] = useState("");
+  // const pathname = usePathname();
+  // const [currentPath, setCurrentPath] = useState("");
   const [setting, setSetting] = useState({} as SettingT);
   const url_changing = useBoolean();
+  const fetched = useBoolean(false);
+
+  useEffect(() => {
+    axios
+      .get(`/api/settings`)
+      .then(({ data }) => {
+        setSetting(data?.settings);
+      })
+      .finally(() => {
+        fetched.setTrue();
+      });
+  }, [fetched]);
 
   // useEffect(() => {
   //   setCurrentPath(pathname || "");
@@ -63,6 +74,7 @@ export default function SettingProvider({
         setting,
         setSetting,
         url_changing,
+        fetched,
       }}
     >
       {children}

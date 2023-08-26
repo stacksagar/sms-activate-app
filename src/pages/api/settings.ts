@@ -1,6 +1,7 @@
+import { NextApiRequest, NextApiResponse } from "next";
+
 import Res from "@/lib/server/Res";
 import Setting from "@/models/mongodb/Setting";
-import { NextApiRequest, NextApiResponse } from "next";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -13,11 +14,17 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         break;
 
       case "PUT":
-        settings = await Setting.findByIdAndUpdate("64e8586a9fc5ead50982daea", {
-          $set: {
-            ...req.body,
+        settings = await Setting.findByIdAndUpdate(
+          "64e8586a9fc5ead50982daea",
+          {
+            $set: {
+              ...req.body,
+            },
           },
-        });
+          {
+            new: true,
+          }
+        );
         break;
 
       default:

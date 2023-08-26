@@ -7,15 +7,19 @@ import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-import { useFormik } from "formik";
+import { ErrorMessage, useFormik } from "formik";
 import TextLogo from "@/common/TextLogo";
 import FIcon from "@/common/FIcon";
 import MuiButton from "@/common/MaterialUi/MuiButton";
 import AuthPageLayout from "@/components/AuthPageLayout";
 import { all_fields_required } from "@/validations/formik_validations";
+import toast_async from "@/lib/toast_async";
+import { useAuth } from "@/context/AuthProvider";
+import WarningText from "@/common/WarningText";
 
 export default function SigninForm() {
   const router = useRouter();
+  const { error, setError } = useAuth();
 
   const formik = useFormik({
     initialValues: {
@@ -30,13 +34,23 @@ export default function SigninForm() {
         const data = await signIn("credentials", {
           email: values.email,
           password: values.password,
-          redirect: true,
+          redirect: false,
         });
 
-        router.replace("/dashboard");
-
-        console.log("data ", data);
+        if (data?.error) {
+          setError("Invalid Credentials!");
+          setTimeout(() => {
+            setError("");
+          }, 2500);
+        } else {
+          toast({
+            message: "You're logged in now!",
+            duration: 2000,
+          });
+          router.replace("/dashboard");
+        }
       } catch (error) {
+        console.log("ERORR: ", error);
         toast({ message: error_message(error), type: "error" });
       }
     },
@@ -47,12 +61,15 @@ export default function SigninForm() {
       <form onSubmit={formik.handleSubmit} className="h-fit w-full space-y-6">
         <h2 className="flex items-center gap-x-2 pb-4 text-center text-2xl font-semibold text-blue-500">
           <FIcon icon="unlock-alt" />
-          <span>Signin</span>
+          <span>Login</span>
           <span className="hidden sm:block">to</span>
           <div className="hidden scale-75 transform sm:block">
             <TextLogo />
           </div>
         </h2>
+        {error ? <p className="text-red-500"> {error} </p> : null}
+
+        <WarningText shouldShow={error} type="error" />
 
         <MuiTextField
           required={true}
@@ -62,7 +79,6 @@ export default function SigninForm() {
           touched={formik.touched.email}
           error={formik.errors.email}
         />
-
         <MuiTextField
           required={true}
           placeholder="Password"
@@ -71,7 +87,6 @@ export default function SigninForm() {
           touched={formik.touched.password}
           error={formik.errors.password}
         />
-
         {/* Forgot Password Message */}
         <small>
           <Link
@@ -81,7 +96,6 @@ export default function SigninForm() {
             Forgot Password?
           </Link>
         </small>
-
         <div className="flex items-center gap-2 dark:text-white">
           <Checkbox id="remember" />
           <label
@@ -92,13 +106,11 @@ export default function SigninForm() {
             Trust This Device
           </label>
         </div>
-
         <div className="w-full sm:w-fit">
           <MuiButton loading={formik.isSubmitting} type="submit">
             Signin
           </MuiButton>
         </div>
-
         {/* Signup Message */}
         <p className="text-gray-500 dark:text-gray-400 text-sm font-light">
           <span className="mr-1"> Do not have an account? </span>

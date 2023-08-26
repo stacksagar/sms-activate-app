@@ -5,12 +5,6 @@ class User extends Model<Optional<UserT, "_id">> {}
 
 User.init(
   {
-    id: {
-      type: DataTypes.INTEGER.UNSIGNED,
-      autoIncrement: true,
-      primaryKey: true,
-    },
-
     balance: { type: DataTypes.INTEGER, defaultValue: 0 },
     name: { type: DataTypes.STRING },
     email: { type: DataTypes.STRING },

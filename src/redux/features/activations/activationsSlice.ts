@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface State {
   data: ActivationT[];
@@ -8,39 +8,7 @@ interface State {
 }
 
 const initialState: State = {
-  data: [
-    {
-      id: 1,
-      activationId: "1678177405",
-      phoneNumber: "18652331277",
-      country_logo:
-        "https://smsactivate.s3.eu-central-1.amazonaws.com/assets/ico/country/187.svg",
-      service_logo:
-        "https://smsactivate.s3.eu-central-1.amazonaws.com/assets/ico/lf0.webp",
-      time: "13 min",
-      cost: 20,
-      status: "STATUS_WAIT_CODE",
-      sms_code: ["453453"],
-      sms_text: [],
-    },
-
-    {
-      id: 2,
-      activationId: "1678259901",
-      phoneNumber: "14257255007",
-      time: "2023-08-20 12:40:40",
-      operator: "any",
-      cost: 30,
-      canGetAnotherSms: false,
-      status: "STATUS_WAIT_CODE",
-      sms_code: [],
-      sms_text: [],
-      country_logo:
-        "https://smsactivate.s3.eu-central-1.amazonaws.com/assets/ico/country/187.svg",
-      service_logo:
-        "https://smsactivate.s3.eu-central-1.amazonaws.com/assets/ico/fb0.webp",
-    },
-  ],
+  data: [],
   loading: false,
   fetched: false,
   error: "",
@@ -54,7 +22,7 @@ const activationSlice = createSlice({
       if (!action.payload?.id) return;
       let index = -1;
       for (let i = 0; i < state.data.length; i++) {
-        if (state.data[i].id === action.payload?.id) {
+        if (state.data[i]._id === action.payload?.id) {
           index = i;
           break;
         }
@@ -98,7 +66,7 @@ const activationSlice = createSlice({
       }
     },
 
-    addActivation(state, action) {
+    addActivation(state, action: PayloadAction<ActivationT>) {
       state.data.unshift(action.payload);
     },
   },

@@ -65,9 +65,10 @@ type Item = {
 interface Props {
   title: React.ReactNode | string;
   items: Item[];
+  size?: "small" | "medium" | "large";
 }
 
-export default function TogglerOptions({ title, items }: Props) {
+export default function TogglerOptions({ title, items, size }: Props) {
   const buttonID = useString(uid().toString());
   const menuID = useString(uid().toString());
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -89,7 +90,7 @@ export default function TogglerOptions({ title, items }: Props) {
         variant="outlined"
         disableElevation
         onClick={handleClick}
-        size="medium"
+        size={size || "medium"}
       >
         {title}
 

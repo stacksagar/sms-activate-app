@@ -98,7 +98,7 @@ export default function MuiSearchSelect({
                     width={30}
                     height={30}
                     alt=""
-                    className="rounded"
+                    className="rounded w-8 h-auto"
                     src={option[imageKey]}
                   />
                 ) : null}

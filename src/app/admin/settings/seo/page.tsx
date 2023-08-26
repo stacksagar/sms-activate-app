@@ -1,21 +1,14 @@
 "use client";
 
-import FormWithFormik from "@/common/Form/FormWithFormik";
 import { useSetting } from "@/context/SettingProvider";
-import useBoolean from "@/hooks/state/useBoolean";
+import SettingForm from "../SettingForm";
 
 export default function SeoSetting() {
   const { setting } = useSetting();
-  const submitting = useBoolean();
-
-  function submit(values: object) {
-    console.log("values ", values);
-  }
 
   return (
-    <FormWithFormik
-      onSubmit={submit}
-      submitting={submitting.true}
+    <SettingForm
+      keyValue="seo"
       fields={{
         meta_keywords: { type: "text", value: setting?.seo?.meta_keywords },
 

@@ -11,9 +11,9 @@ import FIcon from "@/common/FIcon";
 interface Props {
   tableTitle: string;
   selected: ID[];
-  showDeleteWarning: UseBoolean;
+  showDeleteWarning?: UseBoolean;
   onRefreshData?: () => void;
-  clearDeleteID: () => void;
+  clearDeleteID?: () => void;
 }
 
 export default function MuiTableHeadToolbar(props: Props) {
@@ -89,8 +89,8 @@ export default function MuiTableHeadToolbar(props: Props) {
           <Tooltip title="Delete">
             <IconButton
               onClick={() => {
-                showDeleteWarning.setTrue();
-                clearDeleteID();
+                showDeleteWarning && showDeleteWarning.setTrue();
+                clearDeleteID && clearDeleteID();
               }}
             >
               <DeleteIcon />

@@ -4,6 +4,11 @@ type ModelCommonAttributes = {
   updatedAt?: string;
 };
 
+type PromiseExtraAttributes = {
+  messages?: string;
+  error?: unknown;
+};
+
 interface UserT extends ModelCommonAttributes {
   name: string;
   email: string;
@@ -15,25 +20,10 @@ interface UserT extends ModelCommonAttributes {
   role: Roles;
 }
 
-interface ActivationT extends ModelCommonAttributes {
-  activationId: string;
-  country_logo: string;
-  service_logo: string;
-  phoneNumber: string;
-  time?: string | Date;
-  cost: number;
-  status: ActivationStatus;
-  sms_code: string[];
-  sms_text?: string[];
-  canGetAnotherSms?: boolean;
-  operator?: string;
-  countryCode?: string;
-  serviceCode?: string;
-}
-
 interface SettingT extends ModelCommonAttributes {
   header?: {
     logo?: string;
+    text_logo?: string;
   };
 
   seo?: {
@@ -51,6 +41,7 @@ interface SettingT extends ModelCommonAttributes {
     site_title?: string;
     favicon?: string;
     currency?: string;
+    selected_country?: number | string;
     website_thumbnail?: string;
   };
 
@@ -65,10 +56,25 @@ interface SettingT extends ModelCommonAttributes {
 
 interface SMSServicePrice extends ModelCommonAttributes {
   service: string;
-  service_logo: string;
-  service_code: string;
   country: string;
-  country_code: string;
   api_cost: number;
   user_cost: number;
 }
+
+interface ActivationT extends ModelCommonAttributes {
+  user: UserT;
+  activationId: string;
+  activationTime?: string | Date;
+  activationOperator?: string;
+  activationCost: number;
+  total_cost: number;
+  phoneNumber: string;
+  canGetAnotherSms?: boolean;
+  status: ActivationStatus;
+  countryCode: string;
+  serviceCode: string;
+  sms_code?: string[];
+  sms_text?: string[];
+}
+
+type ActivationPromise = { activation: ActivationT };

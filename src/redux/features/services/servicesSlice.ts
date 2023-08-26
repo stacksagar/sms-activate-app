@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchCountries, fetchServices } from "./requests";
 import services_name from "@/data/services_name";
+import { serviceLogo } from "@/data/dynamic_logos";
 
 type Data = {
   [key: string]: {
@@ -73,7 +74,7 @@ const serviceSlice = createSlice({
           acc[val] = {
             shortName: val,
             name: services_name[val],
-            logo: `https://smsactivate.s3.eu-central-1.amazonaws.com/assets/ico/${val}0.webp`,
+            logo: serviceLogo(val),
           };
           return acc;
         },

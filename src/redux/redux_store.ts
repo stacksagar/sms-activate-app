@@ -3,12 +3,14 @@ import { useDispatch, useSelector, TypedUseSelectorHook } from "react-redux";
 import servicesSlice from "./features/services/servicesSlice";
 import activationsSlice from "./features/activations/activationsSlice";
 import usersSlice from "./features/users/usersSlice";
+import servicesPricesSlice from "./features/servicesPricesSlice/servicesPricesSlice";
 
 const redux_store = configureStore({
   reducer: {
     services: servicesSlice.reducer,
     activations: activationsSlice.reducer,
     users: usersSlice.reducer,
+    services_prices: servicesPricesSlice.reducer,
   },
 
   devTools: process.env.NODE_ENV === "development",

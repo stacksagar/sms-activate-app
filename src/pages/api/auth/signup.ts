@@ -1,7 +1,8 @@
-import User from "@/models/mongodb/User";
-import bcrypt from "bcryptjs";
-import { NextApiRequest, NextApiResponse } from "next";
-import error_message from "@/lib/error_message";
+import bcrypt from 'bcryptjs';
+import { NextApiRequest, NextApiResponse } from 'next';
+
+import error_message from '@/lib/error_message';
+import User from '@/models/mongodb/User';
 
 export default async function SIGNUP(
   req: NextApiRequest,

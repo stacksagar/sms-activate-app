@@ -45,17 +45,18 @@ export default function AuthProvider({
     setUser(sessionUser);
     async function fetch() {
       try {
-        const userBalanceRes = await axios.get(
-          `/api/auth/get_balance?id=${sessionUser?._id}`
+        const userRes = await axios.get<{ user: UserT }>(
+          `/api/auth/_fetch?id=${sessionUser?._id}`
         );
 
         setUser((p) => ({
           ...p,
-          balance: userBalanceRes?.data?.balance || 0,
-          role: userBalanceRes?.data?.user?.role || "user",
+          ...userRes?.data?.user,
         }));
 
-        const apiBalanceRes = await axios.get(`/api/sms-active/getBalance`);
+        const apiBalanceRes = await axios.get(
+          `/api/sms-active/action/getBalance`
+        );
 
         const api_balance = Number(apiBalanceRes?.data?.data?.split(":")[1]);
         setApiBalance(api_balance);

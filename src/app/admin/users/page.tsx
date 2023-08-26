@@ -24,7 +24,7 @@ export default function Users() {
   async function onMultipleDelete(ids: ID[]) {
     deleting.setTrue();
     try {
-      await toast_async(axios.delete("/api/users", { data: { ids } }), {
+      await toast_async<any>(axios.delete("/api/users", { data: { ids } }), {
         start: "Deleting.. wait a moment!",
         success: `Successfully deleted ${ids?.length} items!`,
         error: "",

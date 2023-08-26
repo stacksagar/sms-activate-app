@@ -165,9 +165,9 @@ export default function AdminLayout({ children }: Props) {
         open={open}
         color="inherit"
         style={{
-          boxShadow: "none !important",
-          borderBottom: "1px solid rgba(0, 0, 0, 0.12)",
+          boxShadow: "none",
         }}
+        className="border-b border-b-[rgba(0, 0, 0, 0.12)] dark:border-b-0"
       >
         <Toolbar>
           <IconButton

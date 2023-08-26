@@ -5,11 +5,13 @@ import Link from "next/link";
 import React from "react";
 import Image from "next/image";
 import { useAuth } from "@/context/AuthProvider";
-import { Skeleton, IconButton } from "@mui/material";
-import FIcon from "@/common/FIcon";
+import { Skeleton } from "@mui/material";
 import unkown_person from "@/data/unkown_person";
+import { useSetting } from "@/context/SettingProvider";
+import FIcon from "@/common/FIcon";
 
 export default function ClientHeaderRight() {
+  const { setting } = useSetting();
   const { loading, fetched, setLoading, user } = useAuth();
 
   function signOutHandle() {
@@ -32,27 +34,25 @@ export default function ClientHeaderRight() {
 
   return user?.email ? (
     <TogglerOptions
+      size="small"
       title={
         <div className="flex items-center gap-2 sm:gap-4">
           <Image
             src={user?.image || unkown_person}
-            width={35}
-            height={35}
+            width={30}
+            height={30}
             className="rounded"
             alt=""
           />
 
-          <div className="flex flex-col gap-0 leading-5 items-start">
+          <div className="flex flex-col gap-0 leading-4 items-start">
             <span className="block max-w-[80px] sm:max-w-[120px] truncate">
               {user?.name}
             </span>
             <div className="flex items-center gap-1">
               <small className="text-orange-600 dark:text-orange-300 font-medium">
-                ৳ {user?.balance?.toFixed(2)}
+                {setting?.public?.currency} {user?.balance?.toFixed(2)}
               </small>
-              <Link href="/add-balance">
-                <FIcon icon="plus" className="text-xs" />
-              </Link>
             </div>
           </div>
         </div>
@@ -91,13 +91,15 @@ export default function ClientHeaderRight() {
     />
   ) : (
     <>
-      <Link href="/auth/signup" className="w-fit">
-        <MuiButton size="medium" color="info">
-          Signup
+      <Link href="/auth/signin" className="w-fit">
+        <MuiButton size="medium">
+          <FIcon icon="lock" /> Login
         </MuiButton>
       </Link>
-      <Link href="/auth/signin" className="w-fit">
-        <MuiButton size="medium">Signin</MuiButton>
+      <Link href="/auth/signup" className="w-fit">
+        <MuiButton size="medium" color="info">
+          <FIcon icon="user" /> Signup
+        </MuiButton>
       </Link>
     </>
   );

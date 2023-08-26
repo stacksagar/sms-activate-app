@@ -1,5 +1,4 @@
 import axios from "axios";
-
 import { NextApiRequest, NextApiResponse } from "next";
 
 async function request(params: any, method: "GET" | "POST") {
@@ -11,7 +10,7 @@ async function request(params: any, method: "GET" | "POST") {
     method,
     url: "https://api.sms-activate.org/stubs/handler_api.php",
     params: {
-      api_key: "d2e9A91b4eA76de3f32Acec74d5957d0",
+      api_key: process.env.SMS_ACTIVE_API_KEY,
       ...params,
     },
 
@@ -28,10 +27,8 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    const data = await request(
-      req.query,
-      req.method?.toUpperCase()?.trim() === "GET" ? "GET" : "POST"
-    );
+    const method = req.method?.toUpperCase() as Methods;
+    const data = await request(req.query, method === "GET" ? "GET" : "POST");
 
     res.status(200).json({ data });
   } catch (error: any) {

@@ -1,19 +1,26 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 import Res from "@/lib/server/Res";
-import User from "@/models/mongodb/User";
+import SMSServicePrice from "@/models/mongodb/SMSServicePrice";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const method = req.method?.toUpperCase() as Methods;
 
     switch (method) {
+      case "POST":
+        const { service, country } = req.body;
+        const exist = await SMSServicePrice.findOne({ service, country });
+        if (exist) throw new Error("service/country already exist!");
+        const price = await SMSServicePrice.create(req.body);
+        return Res.json(res, { price });
+
       case "GET":
-        const users = await User.find().sort({ createdAt: -1 });
-        return Res.json(res, { users });
+        const prices = await SMSServicePrice.find().sort({ createdAt: -1 });
+        return Res.json(res, { prices });
 
       case "PUT":
-        const user = await User.findByIdAndUpdate(
+        const user = await SMSServicePrice.findByIdAndUpdate(
           req?.query?.id,
           {
             $set: {
@@ -24,11 +31,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             new: true,
           }
         );
+
         return Res.json(res, { user }, 201);
 
       case "DELETE":
         const IDsToDelete = req.body?.ids;
-        await User.deleteMany({
+        await SMSServicePrice.deleteMany({
           _id: {
             $in: IDsToDelete,
           },

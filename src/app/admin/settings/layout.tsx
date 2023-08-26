@@ -91,6 +91,7 @@ export default function NavTabs({ children }: Props) {
             value={value}
             onChange={handleChange}
             allowScrollButtonsMobile
+            className="dark:bg-gray-800"
             variant="scrollable"
           >
             {Object.entries(settingTabs).map(([link, info]) => (

@@ -10,19 +10,46 @@ import Image from "next/image";
 import React, { useEffect } from "react";
 import { useGetActivationsCode } from "./hooks";
 import ButtonWithCopy from "@/common/ButtonWithCopy";
+import { countryLogo, serviceLogo } from "@/data/dynamic_logos";
+import showDate from "@/lib/showDate";
+import services_name from "@/data/services_name";
+import moment from "moment";
 
 const ServiceDetails = ({ row }: { row: ActivationT }) => {
   return (
     <div className="flex items-center gap-2">
       <Image
         className="dark:rounded-lg"
-        src={row.service_logo}
+        src={serviceLogo(row.serviceCode)}
         alt=""
         width={28}
         height={28}
       />
-      <Image src={row.country_logo} alt="" width={28} height={28} />
 
+      <span> {services_name[row?.serviceCode]} </span>
+    </div>
+  );
+};
+
+const CountryDetails = ({ row }: { row: ActivationT }) => {
+  const { countries } = useReduxSelector((s) => s.services);
+  return (
+    <div className="flex items-center gap-2">
+      <Image
+        className="dark:rounded-lg"
+        src={countryLogo(row.countryCode)}
+        alt=""
+        width={28}
+        height={28}
+      />
+      <span> {countries[row?.countryCode]?.eng} </span>
+    </div>
+  );
+};
+
+const PhoneNumber = ({ row }: { row: ActivationT }) => {
+  return (
+    <div className="flex items-center gap-2">
       <ButtonWithCopy value={row?.phoneNumber} showValue />
     </div>
   );
@@ -53,26 +80,47 @@ const CodeAndStatus = ({ row }: { row: ActivationT }) => {
 
 const tableCells: MuiTableHeader<ActivationT>[] = [
   {
-    key: "service_logo",
-    label: "Service Details",
+    key: "createdAt",
+    label: "Date/Time",
     RenderComponent({ row }) {
-      return <ServiceDetails row={row} />;
+      return (
+        <div>
+          <div>{showDate(row?.createdAt || new Date().toString(), true)}</div>
+          <div>{moment(new Date(row?.createdAt || Date.now())).fromNow()}</div>
+        </div>
+      );
     },
   },
+
   {
-    key: "cost",
+    key: "serviceCode",
+    label: "Service Details",
+    RenderComponent: ServiceDetails,
+  },
+  {
+    key: "countryCode",
+    label: "Country",
+    RenderComponent: CountryDetails,
+  },
+
+  {
+    key: "phoneNumber",
+    label: "Phone Number",
+    RenderComponent: PhoneNumber,
+  },
+
+  {
+    key: "total_cost",
     label: "Cost",
     RenderComponent({ row }) {
-      return <div>{row.cost} ₽</div>;
+      return <div>{row.total_cost} ₽</div>;
     },
   },
 
   {
     key: "status",
     label: "Status/Code",
-    RenderComponent({ row }) {
-      return <CodeAndStatus row={row} />;
-    },
+    RenderComponent: CodeAndStatus,
   },
 ];
 
