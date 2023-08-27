@@ -1,64 +1,23 @@
 import { useAuth } from "@/context/AuthProvider";
 import { UseBoolean } from "@/hooks/state/useBoolean";
-import toast from "@/lib/toast";
 import toast_async from "@/lib/toast_async";
 import { activationActions } from "@/redux/features/activations/activationsSlice";
+import { fetchActivations } from "@/redux/features/activations/requests";
 import { useReduxDispatch } from "@/redux/redux_store";
 import axios from "axios";
-import { toast as toastify } from "react-toastify";
 
-export function useGetActivationsCode(fetchingCode?: UseBoolean) {
+export function useRefreshActivations() {
+  const { user } = useAuth();
   const dispatch = useReduxDispatch();
 
   return async () => {
-    fetchingCode?.setTrue();
-
-    function updateData(data: GetActiveActivations) {
-      dispatch(activationActions.updateActivations(data?.activeActivations));
-    }
-
-    function receivedAll(data: GetActiveActivations) {
-      return data?.activeActivations?.every((a) => a.smsCode);
-    }
-
-    function cancelStatus() {
-      dispatch(activationActions.cancelActivationsStatus());
-    }
-
-    let fetch_code = setInterval(async () => {
-      console.count(new Date().toLocaleTimeString());
-      const response = await axios.get(
-        `/api/sms-active/action/getActiveActivations`
-      );
-      const data: GetActiveActivations = response?.data?.data;
-      if (data?.error || data?.status === "error") {
-        clearInterval(fetch_code);
-        if (receivedAll(data)) {
-          updateData(data);
-        } else {
-          cancelStatus();
-        }
-      } else updateData(data);
-    }, 30000);
-
-    const response = await axios.get(
-      `/api/sms-active/action/getActiveActivations`
-    );
-    const data: GetActiveActivations = response?.data?.data;
-
-    if (data?.error || data?.status === "error") {
-      clearInterval(fetch_code);
-      if (receivedAll(data)) {
-        updateData(data);
-      } else {
-        cancelStatus();
-      }
-    } else updateData(data);
+    dispatch(fetchActivations({ id: user?._id }));
+    console.count(" ::Refreshed at " + new Date().toLocaleTimeString());
   };
 }
 
 export function useOrderNumber() {
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
   const dispatch = useReduxDispatch();
 
   return async (
@@ -82,6 +41,14 @@ export function useOrderNumber() {
 
       data?.activation &&
         dispatch(activationActions.addActivation(data?.activation));
+      setUser((p) => ({
+        ...p,
+        balance:
+          p.balance -
+          (typeof data?.activation?.total_cost === "number"
+            ? data?.activation?.total_cost
+            : 0),
+      }));
     } finally {
       loading && loading.setFalse();
     }

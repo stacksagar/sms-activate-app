@@ -5,7 +5,7 @@ type ActiveActivation = {
   activationCost?: string;
   activationStatus?: string;
   smsCode: string[];
-  smsText?: string;
+  smsText?: string[];
   activationTime?: string;
   discount?: string;
   repeated?: string;

@@ -5,13 +5,19 @@ import { fetchUsers } from "@/redux/features/users/requests";
 import { useReduxDispatch, useReduxSelector } from "@/redux/redux_store";
 import React, { useEffect } from "react";
 import usersTableCells from "./activationTableCells";
+import { fetchActivations } from "@/redux/features/activations/requests";
 
 export default function Users() {
   const dispatch = useReduxDispatch();
+  const { data: activations } = useReduxSelector((s) => s.activations);
   const deleting = useBoolean();
 
   useEffect(() => {
     dispatch(fetchUsers(null));
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(fetchActivations({}));
   }, [dispatch]);
 
   function onMultipleDelete() {}
@@ -21,7 +27,7 @@ export default function Users() {
       <MuiTable
         onDelete={onMultipleDelete}
         tableCells={usersTableCells}
-        rows={[]}
+        rows={activations}
         tableTitle="Activations"
         deleting={deleting}
         hideActions

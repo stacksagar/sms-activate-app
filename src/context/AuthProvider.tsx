@@ -44,6 +44,7 @@ export default function AuthProvider({
     setLoading(true);
     setUser(sessionUser);
     async function fetch() {
+      console.log("sessionUser ", sessionUser);
       try {
         const userRes = await axios.get<{ user: UserT }>(
           `/api/auth/_fetch?id=${sessionUser?._id}`

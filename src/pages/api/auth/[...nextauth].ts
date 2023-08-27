@@ -20,24 +20,21 @@ export const authOptions: AuthOptions = {
       async authorize(credentials, _req) {
         const email = credentials?.email as string;
         const password = credentials?.password as string;
-        if (!email || !password) return;
 
         try {
+          if (!email || !password) throw new Error("All fields are required!");
+
           const user = await User.findOne({ email });
 
-          if (!user) {
-            return null;
-          }
+          if (!user?._id) throw new Error("Invalid info.., not found!");
 
           const passwordsMatch = await bcrypt.compare(password, user?.password);
 
-          if (!passwordsMatch) {
-            throw new Error("Invalid credentials!");
-          }
+          if (!passwordsMatch) throw new Error("Invalid credentials!");
 
           return user?._doc as any;
         } catch (error) {
-          return error_message(error);
+          throw error;
         }
       },
     }),

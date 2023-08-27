@@ -7,13 +7,12 @@ import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-import { ErrorMessage, useFormik } from "formik";
+import { useFormik } from "formik";
 import TextLogo from "@/common/TextLogo";
 import FIcon from "@/common/FIcon";
 import MuiButton from "@/common/MaterialUi/MuiButton";
 import AuthPageLayout from "@/components/AuthPageLayout";
 import { all_fields_required } from "@/validations/formik_validations";
-import toast_async from "@/lib/toast_async";
 import { useAuth } from "@/context/AuthProvider";
 import WarningText from "@/common/WarningText";
 
@@ -34,7 +33,10 @@ export default function SigninForm() {
         const data = await signIn("credentials", {
           email: values.email,
           password: values.password,
+          redirect: false,
         });
+
+        console.log("data ", data);
 
         if (data?.error) {
           setError("Invalid Credentials!");
@@ -46,10 +48,9 @@ export default function SigninForm() {
             message: "You're logged in now!",
             duration: 2000,
           });
-          router.replace("/dashboard");
+          router.push("/dashboard");
         }
       } catch (error) {
-        console.log("ERORR: ", error);
         toast({ message: error_message(error), type: "error" });
       }
     },
@@ -66,7 +67,6 @@ export default function SigninForm() {
             <TextLogo />
           </div>
         </h2>
-        {error ? <p className="text-red-500"> {error} </p> : null}
 
         <WarningText shouldShow={error} type="error" />
 

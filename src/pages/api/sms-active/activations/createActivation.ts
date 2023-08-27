@@ -5,13 +5,15 @@ import SMSServicePrice from "@/models/mongodb/SMSServicePrice";
 import User from "@/models/mongodb/User";
 import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
+import getActiveActivations from "./getActiveActivations";
 
 export default async function createActivation(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   const { user: user_id, serviceCode, countryCode } = req.body;
-  if (!user_id || !serviceCode || !countryCode) throw new Error("requiredAll!");
+  if (!user_id || !serviceCode || !countryCode?.toString())
+    throw new Error("requiredAll!");
 
   try {
     // :: check user
@@ -69,13 +71,13 @@ export default async function createActivation(
 
     // :: Let's calculate user balance and minus
     if (serviceCustomPrice) {
+      console.log("Service cost");
       user.balance = user.balance - serviceCustomPrice.user_cost;
     } else {
+      console.log("default cost");
       user.balance = user.balance - Number(activationCost || "0");
     }
     await user.save();
-
-    console.log("serviceCustomPrice ", serviceCustomPrice?._doc);
 
     // :: Save activation data to our database
     let activation = await Activation.create({
@@ -93,6 +95,14 @@ export default async function createActivation(
       sms_text: [],
       status: "STATUS_WAIT_CODE",
     });
+
+    let count = 0;
+    let get_activations_interval = setInterval(() => {
+      if (count === 40) return;
+      count++;
+      getActiveActivations(() => clearInterval(get_activations_interval));
+      console.log("GetActiveActivations count=", count);
+    }, 30000);
 
     return { activation, message: "Congrats, Order created!" };
   } catch (error) {

@@ -3,6 +3,8 @@ import { NextApiRequest, NextApiResponse } from "next";
 import Res from "@/lib/server/Res";
 import Activation from "@/models/mongodb/Activation";
 import createActivation from "./createActivation";
+import getActiveActivations from "./getActiveActivations";
+import deleteActivations from "./deleteActivations";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -15,8 +17,28 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       case "GET": {
-        const activations = await Activation.find().sort({ createdAt: -1 });
-        return Res.json(res, { activations });
+        if (req?.query?.id) {
+          const activations = await Activation.find({
+            user: req.query?.id,
+          }).sort({
+            createdAt: -1,
+          });
+
+          let count = 0;
+          let get_activations_interval = setInterval(() => {
+            if (count === 40) return;
+            count++;
+            getActiveActivations(() => clearInterval(get_activations_interval));
+            console.log("GetActiveActivations count=", count);
+          }, 30000);
+
+          return Res.json(res, { activations });
+        } else {
+          const activations = await Activation.find().sort({
+            createdAt: -1,
+          });
+          return Res.json(res, { activations });
+        }
       }
 
       case "PUT": {
@@ -35,12 +57,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       case "DELETE": {
-        const IDsToDelete = req.body?.ids;
-        await Activation.deleteMany({
-          _id: {
-            $in: IDsToDelete,
-          },
-        });
+        await deleteActivations(req, res);
         return Res.msg(res, "Successfully deleted", 200);
       }
     }

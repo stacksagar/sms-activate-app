@@ -1,12 +1,12 @@
 import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
 
-async function request(params: any, method: "GET" | "POST") {
+export async function sms_active_request(params: any, method: "GET" | "POST") {
   if (!["GET", "POST"].includes(method)) {
     throw new Error("Method can only be GET or POST");
   }
 
-  const { data } = await axios.request({
+  const response = await axios.request({
     method,
     url: "https://api.sms-activate.org/stubs/handler_api.php",
     params: {
@@ -19,7 +19,7 @@ async function request(params: any, method: "GET" | "POST") {
     },
   });
 
-  return data;
+  return response;
 }
 
 export default async function handler(
@@ -28,7 +28,10 @@ export default async function handler(
 ) {
   try {
     const method = req.method?.toUpperCase() as Methods;
-    const data = await request(req.query, method === "GET" ? "GET" : "POST");
+    const { data } = await sms_active_request(
+      req.query,
+      method === "GET" ? "GET" : "POST"
+    );
 
     res.status(200).json({ data });
   } catch (error: any) {

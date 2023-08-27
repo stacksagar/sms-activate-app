@@ -1,8 +1,9 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
+import IconButton from "@mui/material/IconButton";
 import { useReduxDispatch, useReduxSelector } from "@/redux/redux_store";
 import Image from "next/image";
 import MuiTextField from "@/common/MaterialUi/Forms/MuiTextField";
@@ -17,12 +18,22 @@ import ShowAndLessButton from "@/common/ShowAndLessButton";
 import { useSetting } from "@/context/SettingProvider";
 import { useOrderNumber } from "./hooks";
 import useBoolean from "@/hooks/state/useBoolean";
+import FIcon from "@/common/FIcon";
+import { fetchServicesPrices } from "@/redux/features/servicesPricesSlice/requests";
 
 export default function ServicesList() {
   const { setting } = useSetting();
   const { services, loading, fetched, selectedService, visibleValue } =
     useReduxSelector((state) => state.services);
   const dispatch = useReduxDispatch();
+
+  const { data: prices, fetched: fetched_prices } = useReduxSelector(
+    (s) => s.services_prices
+  );
+
+  function get_price(serviceCode?: string) {
+    return prices.find((p) => p.service === serviceCode);
+  }
 
   const search = useString("");
 
@@ -43,6 +54,11 @@ export default function ServicesList() {
   }
 
   useEffect(() => {
+    if (fetched_prices) return;
+    dispatch(fetchServicesPrices(null));
+  }, [dispatch, fetched_prices]);
+
+  useEffect(() => {
     if (fetched) return;
     dispatch(fetchServices(null));
   }, [dispatch, fetched]);
@@ -54,6 +70,33 @@ export default function ServicesList() {
       dispatch(serviceActions.removeSelectedService());
     }
   }, [search, dispatch, selectedService]);
+
+  const [favorites, setFavorites] = React.useState<SMSService[]>([]);
+
+  useEffect(() => {
+    let favorite = JSON.parse(
+      localStorage.getItem("favorite_services") || "[]"
+    ) as SMSService[];
+    setFavorites(favorite);
+  }, []);
+
+  function addFavoriteHandle(service: SMSService) {
+    let favorite = JSON.parse(
+      localStorage.getItem("favorite_services") || "[]"
+    ) as SMSService[];
+
+    const exist = favorite.some((f) => f?.shortName === service?.shortName);
+    if (exist) {
+      favorite = favorite.filter((f) => f?.shortName !== service?.shortName);
+    } else {
+      favorite.push({
+        ...service,
+        favorite: true,
+      });
+    }
+    localStorage.setItem("favorite_services", JSON.stringify(favorite));
+    setFavorites(favorite);
+  }
 
   return (
     <>
@@ -79,24 +122,26 @@ export default function ServicesList() {
               <>
                 {(search?.value?.length > 1
                   ? dynamic_filter(
-                      Object.values(services || {}),
+                      [...favorites, ...Object.values(services || {})],
                       ["name"],
                       search.value
                     )
-                  : Object.values(services).filter((_, i) => i <= visibleValue)
+                  : [...favorites, ...Object.values(services)].filter(
+                      (_, i) => i <= visibleValue
+                    )
                 )?.map((service: SMSService) =>
                   service?.name ? (
                     <ListItem
                       key={uid()}
                       component="div"
-                      className={`w-full flex flex-col items-start justify-start`}
+                      className={`w-full flex items-start justify-between`}
                     >
                       <ListItemButton
                         disabled={ordering.true}
                         onClick={() => handleSetService(service)}
                         className="block w-full"
                       >
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 w-full">
                           <Image
                             className="rounded"
                             src={service.logo}
@@ -109,8 +154,24 @@ export default function ServicesList() {
                               __html: service?.name || "",
                             }}
                           ></div>
+
+                          <small className="text-orange-600 font-medium">
+                            {setting?.public?.currency}
+                            {get_price(service?.shortName)?.user_cost || 0}
+                          </small>
                         </div>
                       </ListItemButton>
+                      <IconButton
+                        onClick={() => addFavoriteHandle(service)}
+                        size="small"
+                        className="ml-auto"
+                      >
+                        {service?.favorite ? (
+                          <FIcon icon="star" className="text-red-600" />
+                        ) : (
+                          <FIcon icon="star" className="opacity-50" />
+                        )}
+                      </IconButton>
                     </ListItem>
                   ) : null
                 )}

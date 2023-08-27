@@ -221,20 +221,20 @@ export default function MuiTable({
                     {hideActions ? null : (
                       <TableCell>
                         <div className="space-x-1 whitespace-nowrap">
-                          <Button
+                          {/* <Button
                             color="warning"
                             variant="contained"
                             size="small"
-                            startIcon={<FIcon icon="pencil" className="w-3" />}
+                            startIcon={<FIcon icon="pencil" className="w-3" />} 
                           >
                             Edit
-                          </Button>
+                          </Button> */}
                           <Button
                             onClick={() => {
                               setDeleteID(row?._id);
                               showDeleteWarning.setTrue();
                             }}
-                            color="info"
+                            color="warning"
                             variant="contained"
                             size="small"
                             startIcon={<FIcon icon="trash" className="w-3" />}

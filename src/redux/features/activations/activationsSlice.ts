@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { fetchActivations } from "./requests";
 
 interface State {
   data: ActivationT[];
@@ -18,6 +19,12 @@ const activationSlice = createSlice({
   name: "activations",
   initialState,
   reducers: {
+    // :: delete activations by single/multiple IDs
+    deleteByIds(state, action: PayloadAction<ID[]>) {
+      const ids = action.payload;
+      state.data = state.data.filter((user) => !ids.includes(user?._id));
+    },
+
     updateActivation(state, action) {
       if (!action.payload?.id) return;
       let index = -1;
@@ -71,7 +78,25 @@ const activationSlice = createSlice({
     },
   },
 
-  extraReducers: (builder) => {},
+  extraReducers: (builder) => {
+    builder.addCase(fetchActivations.pending, (state) => {
+      state.loading = true;
+    });
+
+    builder.addCase(fetchActivations.fulfilled, (state, action) => {
+      state.loading = false;
+      state.data = action.payload?.activations || [];
+      state.error = "";
+      state.fetched = true;
+    });
+
+    builder.addCase(fetchActivations.rejected, (state, action) => {
+      state.loading = false;
+      state.data = [];
+      state.fetched = true;
+      state.error = action.error?.message;
+    });
+  },
 });
 
 export const activationActions = activationSlice.actions;

@@ -2,6 +2,7 @@ type SMSService = {
   shortName: string;
   name: string;
   logo: string;
+  favorite?: boolean;
 };
 
 type ServiceData = {
