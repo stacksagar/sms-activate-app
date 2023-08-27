@@ -20,6 +20,8 @@ import { useOrderNumber } from "./hooks";
 import useBoolean from "@/hooks/state/useBoolean";
 import FIcon from "@/common/FIcon";
 import { fetchServicesPrices } from "@/redux/features/servicesPricesSlice/requests";
+import get_sms_service_price from "@/lib/sms-active/get_sms_service_price";
+import axios from "axios";
 
 export default function ServicesList() {
   const { setting } = useSetting();
@@ -30,9 +32,14 @@ export default function ServicesList() {
   const { data: prices, fetched: fetched_prices } = useReduxSelector(
     (s) => s.services_prices
   );
+  const [api_prices, set_api_prices] = useState<any>({});
 
   function get_price(serviceCode?: string) {
     return prices.find((p) => p.service === serviceCode);
+  }
+
+  function get_api_price(serviceCode: string): any {
+    return api_prices[serviceCode]?.cost || 0;
   }
 
   const search = useString("");
@@ -78,6 +85,13 @@ export default function ServicesList() {
       localStorage.getItem("favorite_services") || "[]"
     ) as SMSService[];
     setFavorites(favorite);
+
+    axios
+      .get(`/api/sms-active/action/getPrices?country=187`)
+      .then(({ data }) => {
+        console.log("data ", data?.data);
+        set_api_prices(data?.data["187"] || {});
+      });
   }, []);
 
   function addFavoriteHandle(service: SMSService) {
@@ -157,7 +171,8 @@ export default function ServicesList() {
 
                           <small className="text-orange-600 font-medium">
                             {setting?.public?.currency}
-                            {get_price(service?.shortName)?.user_cost || 0}
+                            {get_price(service?.shortName)?.user_cost ||
+                              get_api_price(service.shortName)}
                           </small>
                         </div>
                       </ListItemButton>
