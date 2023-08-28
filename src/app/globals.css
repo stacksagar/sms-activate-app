@@ -55,3 +55,14 @@ p {
 .shadow_unset * {
   box-shadow: unset !important;
 }
+
+#hero-section {
+  background: url("../../public/bangladeshisoftware-bg.jpg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+
+#how-it-works {
+  background: linear-gradient(to right, #ee2b94, #982881);
+}

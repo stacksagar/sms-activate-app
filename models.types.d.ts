@@ -45,6 +45,7 @@ interface SettingT extends ModelCommonAttributes {
     currency?: string;
     selected_country?: number | string;
     website_thumbnail?: string;
+    telegram_phone?: string;
   };
 
   private?: {

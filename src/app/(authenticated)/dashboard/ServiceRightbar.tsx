@@ -18,7 +18,6 @@ import toast_async from "@/lib/toast_async";
 import { activationActions } from "@/redux/features/activations/activationsSlice";
 import axios from "axios";
 import { fetchCountries } from "@/redux/features/services/requests";
-import { clearInterval } from "timers";
 import { useRefreshActivations } from "./hooks";
 import MuiSelect from "@/common/MaterialUi/Forms/MuiSelect";
 import useString from "@/hooks/state/useString";
@@ -46,7 +45,7 @@ const CountryDetails = ({ row }: { row: ActivationT }) => {
   useEffect(() => {
     if (countries_fetched) return;
     dispatch(fetchCountries({}));
-  }, [dispatch]);
+  }, [dispatch, countries_fetched]);
 
   return (
     <div className="flex flex-col gap-2">
@@ -209,7 +208,7 @@ export default function ServiceRightbar() {
   }
 
   return (
-    <div className="max-w-full lg:w-[calc(100%-350px)] bg-transparent dark:bg-gray-800 h-fit">
+    <div className="w-full xl:w-[calc(100vw-350px)] py-5 dark:bg-gray-800 h-fit">
       <MuiTable
         onRefreshData={() => dispatch(fetchActivations({ id: user._id }))}
         onDelete={onMultipleDelete}

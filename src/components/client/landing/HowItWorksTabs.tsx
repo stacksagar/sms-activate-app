@@ -43,11 +43,11 @@ export default function HowItWorksTabs() {
               key={category}
               className={({ selected }) =>
                 classNames(
-                  "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-blue-700",
+                  "w-full rounded-lg py-2.5 text-sm font-medium leading-5",
                   "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
                   selected
-                    ? "bg-white shadow"
-                    : "text-blue-100 hover:bg-white/[0.12] hover:text-white"
+                    ? "bg-white dark:bg-gray-950 shadow"
+                    : "text-white hover:bg-white/[0.12] hover:text-white"
                 )
               }
             >

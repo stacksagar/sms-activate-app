@@ -1,17 +1,22 @@
 "use client";
 import FIcon from "@/common/FIcon";
 import TextLogo from "@/common/TextLogo";
+import { useSetting } from "@/context/SettingProvider";
 import Link from "next/link";
 import React from "react";
 
 export default function ClientFooter() {
+  const { setting } = useSetting();
   return (
     <footer className="py-20 bg-white dark:bg-transparent dark:border-t dark:border-t-gray-600">
-      <div className="container py-8 flex flex-col md:flex-row items-center justify-between  gap-6">
+      <div className="container py-8 flex flex-col md:flex-row items-center justify-between gap-6">
         <TextLogo />
 
         <div className="flex items-center gap-1 xl:gap-6 text-lg flex-col md:flex-row">
-          <a href={`mailto:${"address"}`} className="flex gap-x-1">
+          <a
+            href={`mailto:${setting?.public?.telegram_phone}`}
+            className="flex gap-x-1"
+          >
             <span>
               <FIcon icon="envelope" />
             </span>

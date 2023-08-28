@@ -9,7 +9,7 @@ type FeatureCardProps = {
 
 const FeatureCard = ({ image, title, details }: FeatureCardProps) => {
   return (
-    <div className="flex items-start gap-2">
+    <div className="flex items-start gap-2 bg-white dark:bg-gray-800 p-5 rounded shadow">
       <div className="pt-1 pr-3">
         <div className="min-w-[45px] w-full bg-black bg-opacity-80 p-2 rounded shadow">
           <Image src={image} width={45} height={45} alt="feature" />
