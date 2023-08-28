@@ -37,6 +37,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           const activations = await Activation.find().sort({
             createdAt: -1,
           });
+
           return Res.json(res, { activations });
         }
       }

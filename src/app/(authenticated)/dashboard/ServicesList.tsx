@@ -21,9 +21,13 @@ import useBoolean from "@/hooks/state/useBoolean";
 import FIcon from "@/common/FIcon";
 import { fetchServicesPrices } from "@/redux/features/servicesPricesSlice/requests";
 import axios from "axios";
+import { useAuth } from "@/context/AuthProvider";
 
 export default function ServicesList() {
   const { setting } = useSetting();
+
+  const { user, setUser } = useAuth();
+
   const { services, loading, fetched, selectedService, visibleValue } =
     useReduxSelector((state) => state.services);
   const dispatch = useReduxDispatch();
@@ -77,38 +81,35 @@ export default function ServicesList() {
     }
   }, [search, dispatch, selectedService]);
 
-  const [favorites, setFavorites] = React.useState<SMSService[]>([]);
-
   useEffect(() => {
-    let favorite = JSON.parse(
-      localStorage.getItem("favorite_services") || "[]"
-    ) as SMSService[];
-    setFavorites(favorite);
-
     axios
       .get(`/api/sms-active/action/getPrices?country=187`)
       .then(({ data }) => {
-        console.log("data ", data?.data);
         set_api_prices(data?.data["187"] || {});
       });
   }, []);
 
-  function addFavoriteHandle(service: SMSService) {
-    let favorite = JSON.parse(
-      localStorage.getItem("favorite_services") || "[]"
-    ) as SMSService[];
+  async function addFavoriteHandle(service: SMSService) {
+    let favorites = user?.favorite_services || ([] as SMSService[]);
 
-    const exist = favorite.some((f) => f?.shortName === service?.shortName);
+    const exist = favorites.some((f) => f?.shortName === service?.shortName);
+
     if (exist) {
-      favorite = favorite.filter((f) => f?.shortName !== service?.shortName);
+      favorites = favorites.filter((f) => f?.shortName !== service?.shortName);
     } else {
-      favorite.push({
+      favorites.push({
         ...service,
         favorite: true,
       });
     }
-    localStorage.setItem("favorite_services", JSON.stringify(favorite));
-    setFavorites(favorite);
+    setUser((p) => ({
+      ...p,
+      favorite_services: favorites,
+    }));
+
+    await axios.put(`/api/auth/update?id=${user?._id}`, {
+      favorite_services: favorites,
+    });
   }
 
   return (
@@ -135,13 +136,17 @@ export default function ServicesList() {
               <>
                 {(search?.value?.length > 1
                   ? dynamic_filter(
-                      [...favorites, ...Object.values(services || {})],
+                      [
+                        ...(user?.favorite_services || []),
+                        ...Object.values(services || {}),
+                      ],
                       ["name"],
                       search.value
                     )
-                  : [...favorites, ...Object.values(services)].filter(
-                      (_, i) => i <= visibleValue
-                    )
+                  : [
+                      ...(user?.favorite_services || []),
+                      ...Object.values(services),
+                    ].filter((_, i) => i <= visibleValue)
                 )?.map((service: SMSService) =>
                   service?.name ? (
                     <ListItem
@@ -162,11 +167,10 @@ export default function ServicesList() {
                             height={20}
                             alt={``}
                           />
-                          <div
-                            dangerouslySetInnerHTML={{
-                              __html: service?.name || "",
-                            }}
-                          ></div>
+
+                          <span className="text-sm font-normal">
+                            {service?.name}
+                          </span>
 
                           <small className="text-orange-600 dark:text-orange-400 font-medium">
                             {setting?.public?.currency}

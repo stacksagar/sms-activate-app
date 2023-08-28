@@ -18,6 +18,8 @@ interface UserT extends ModelCommonAttributes {
   image?: string;
 
   role: Roles;
+
+  favorite_services?: SMSService[];
 }
 
 interface SettingT extends ModelCommonAttributes {

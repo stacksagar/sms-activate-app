@@ -7,7 +7,7 @@ import GridSkeleton from "../Skeleton/GridSkeleton";
 import { Box, Paper } from "@mui/material";
 
 interface Props {
-  tableTitle: string;
+  tableTitle: React.ReactNode | string;
 }
 
 export default function MuiTableSkeleton({ tableTitle }: Props) {

@@ -9,7 +9,7 @@ import useBoolean, { UseBoolean } from "@/hooks/state/useBoolean";
 import FIcon from "@/common/FIcon";
 
 interface Props {
-  tableTitle: string;
+  tableTitle: React.ReactNode | string;
   selected: ID[];
   showDeleteWarning?: UseBoolean;
   onRefreshData?: () => void;
@@ -75,14 +75,7 @@ export default function MuiTableHeadToolbar(props: Props) {
               </motion.div>
             ) : null}
 
-            <Typography
-              sx={{ flex: "1 1 100%" }}
-              variant="h6"
-              id="tableTitle"
-              component="div"
-            >
-              {tableTitle}
-            </Typography>
+            <div>{tableTitle}</div>
           </div>
         )}
         {selected.length > 0 ? (

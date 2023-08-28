@@ -51,7 +51,7 @@ export default function HeroSection() {
           </div>
 
           <div className="col-span-8">
-            <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
+            <div className="mx-auto max-w-2xl py-36">
               <div className="text-center">
                 <motion.h1
                   variants={{

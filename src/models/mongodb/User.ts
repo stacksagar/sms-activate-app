@@ -13,6 +13,8 @@ const userSchema = new mdb.Schema<UserT>(
       enum: ["user", "mode", "admin"],
       default: "user",
     },
+
+    favorite_services: { type: Array },
   },
   {
     timestamps: true,

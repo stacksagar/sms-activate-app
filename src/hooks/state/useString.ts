@@ -2,7 +2,7 @@ import { useState } from "react";
 import useBoolean from "./useBoolean";
 
 const useString = <T>(defaultValue?: T) => {
-  const [value, setValue] = useState<T | string>(defaultValue || "");
+  const [value, setValue] = useState<T>((defaultValue as T) || ("" as T));
   const loading = useBoolean();
 
   return {

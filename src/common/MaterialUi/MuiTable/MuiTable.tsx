@@ -32,7 +32,7 @@ export interface BodyRow {
 interface MuiTableProps {
   tableCells: MuiTableHeader<any>[];
   rows: any[];
-  tableTitle: string;
+  tableTitle: React.ReactNode | string;
   onDelete?: (id: ID[]) => void;
   deleting: UseBoolean;
   loading?: boolean;
@@ -180,7 +180,9 @@ export default function MuiTable({
                         startIcon,
                         endIcon,
                         ActionButtons,
+                        shouldHideDeleteButton,
                       } = cell;
+
                       return (
                         <React.Fragment key={key as string}>
                           <TableCell
@@ -211,20 +213,30 @@ export default function MuiTable({
                                 {ActionButtons ? (
                                   <ActionButtons row={row} />
                                 ) : null}
-                                <Button
-                                  onClick={() => {
-                                    setDeleteID(row?._id);
-                                    showDeleteWarning.setTrue();
-                                  }}
-                                  color="warning"
-                                  variant="contained"
-                                  size="small"
-                                  startIcon={
-                                    <FIcon icon="trash" className="w-3" />
-                                  }
-                                >
-                                  Delete
-                                </Button>
+
+                                {shouldHideDeleteButton &&
+                                shouldHideDeleteButton(row) ? (
+                                  <Button
+                                    color="success"
+                                    variant="contained"
+                                    size="small"
+                                  >
+                                    Completed
+                                  </Button>
+                                ) : (
+                                  <Button
+                                    title="Delete item"
+                                    onClick={() => {
+                                      setDeleteID(row?._id);
+                                      showDeleteWarning.setTrue();
+                                    }}
+                                    color="warning"
+                                    variant="contained"
+                                    size="small"
+                                  >
+                                    Delete
+                                  </Button>
+                                )}
                               </div>
                             ) : (
                               <>

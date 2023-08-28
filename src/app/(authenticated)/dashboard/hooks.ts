@@ -54,3 +54,7 @@ export function useOrderNumber() {
     }
   };
 }
+
+export function useMoveToHistory() {
+  return async () => {};
+}

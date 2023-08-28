@@ -43,6 +43,22 @@ export default async function getActiveActivations(stopInterval: () => void) {
         found.sms_text = active.smsText;
         found.status = "COMPLETED";
         await found.save();
+
+        setTimeout(() => {
+          Activation.findOneAndUpdate(
+            {
+              activationId: active?.activationId,
+            },
+            {
+              $set: {
+                status: "IN_HISTORY",
+              },
+            }
+          ).then(() => {
+            console.log("Moved to history");
+          });
+        }, 60000);
+
         console.log(`updatedActvID=${active?.activationId} - `, active.smsCode);
       } else if (found.status === "STATUS_WAIT_CODE") {
         const pastDate = new Date(found.createdAt as any) as any;

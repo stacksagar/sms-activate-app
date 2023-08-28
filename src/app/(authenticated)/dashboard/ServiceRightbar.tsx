@@ -20,6 +20,8 @@ import axios from "axios";
 import { fetchCountries } from "@/redux/features/services/requests";
 import { clearInterval } from "timers";
 import { useRefreshActivations } from "./hooks";
+import MuiSelect from "@/common/MaterialUi/Forms/MuiSelect";
+import useString from "@/hooks/state/useString";
 
 const ServiceDetails = ({ row }: { row: ActivationT }) => {
   return (
@@ -47,22 +49,18 @@ const CountryDetails = ({ row }: { row: ActivationT }) => {
   }, [dispatch]);
 
   return (
-    <div className="flex items-center gap-2">
-      <Image
-        className="dark:rounded-lg"
-        src={countryLogo(row.countryCode)}
-        alt=""
-        width={28}
-        height={28}
-      />
-      <span> {countries[row?.countryCode]?.eng} </span>
-    </div>
-  );
-};
+    <div className="flex flex-col gap-2">
+      <div className="flex items-center gap-1 pl-2">
+        <Image
+          className="dark:rounded-lg"
+          src={countryLogo(row.countryCode)}
+          alt=""
+          width={20}
+          height={20}
+        />
 
-const PhoneNumber = ({ row }: { row: ActivationT }) => {
-  return (
-    <div className="flex items-center gap-2">
+        <div> {countries[row?.countryCode]?.eng} </div>
+      </div>
       <ButtonWithCopy value={row?.phoneNumber} showValue />
     </div>
   );
@@ -87,10 +85,6 @@ const CodeAndStatus = ({ row }: { row: ActivationT }) => {
       )}
     </div>
   );
-};
-
-const ActionButtons = ({ row }: { row: ActivationT }) => {
-  return <div></div>;
 };
 
 const tableCells: MuiTableHeader<ActivationT>[] = [
@@ -119,14 +113,8 @@ const tableCells: MuiTableHeader<ActivationT>[] = [
   },
   {
     key: "countryCode",
-    label: "Country",
+    label: "Country/Phone",
     RenderComponent: CountryDetails,
-  },
-
-  {
-    key: "phoneNumber",
-    label: "Phone Number",
-    RenderComponent: PhoneNumber,
   },
 
   {
@@ -151,7 +139,9 @@ const tableCells: MuiTableHeader<ActivationT>[] = [
 
   {
     key: "actions",
-    ActionButtons,
+    shouldHideDeleteButton(row) {
+      return row.status === "COMPLETED" ? true : false;
+    },
   },
 ];
 
@@ -161,6 +151,8 @@ export default function ServiceRightbar() {
   const dispatch = useReduxDispatch();
   const { data } = useReduxSelector((s) => s.activations);
   const deleting = useBoolean();
+
+  const currentStatus = useString<ActivationStatus>("STATUS_WAIT_CODE");
 
   useEffect(() => {
     if (!user?._id) return;
@@ -217,13 +209,34 @@ export default function ServiceRightbar() {
   }
 
   return (
-    <div className="col-span-8 bg-transparent dark:bg-gray-800 h-fit">
+    <div className="max-w-full lg:w-[calc(100%-350px)] bg-transparent dark:bg-gray-800 h-fit">
       <MuiTable
         onRefreshData={() => dispatch(fetchActivations({ id: user._id }))}
         onDelete={onMultipleDelete}
         tableCells={tableCells}
-        rows={data}
-        tableTitle="My Activations"
+        rows={
+          currentStatus.value === "STATUS_WAIT_CODE"
+            ? data.filter(
+                (item) =>
+                  item.status === "STATUS_WAIT_CODE" ||
+                  item.status === "COMPLETED"
+              )
+            : data.filter((item) => item.status === currentStatus.value)
+        }
+        tableTitle={
+          <>
+            <MuiSelect
+              label="Select Activations"
+              value={currentStatus.value}
+              onChange={currentStatus.change}
+              options={[
+                { title: "Active Activations", value: "STATUS_WAIT_CODE" },
+                { title: "Completed Activations", value: "IN_HISTORY" },
+                { title: "Canceled Activations", value: "STATUS_CANCEL" },
+              ]}
+            />
+          </>
+        }
         deleting={deleting}
       />
     </div>

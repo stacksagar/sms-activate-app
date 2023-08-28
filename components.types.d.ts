@@ -14,6 +14,7 @@ type MuiTableHeader<T> = {
   align?: "left" | "center" | "right" | "justify" | "inherit";
   RenderComponent?: ({ row }: { row: T }) => React.ReactNode;
   ActionButtons?: ({ row }: { row: T }) => React.ReactNode;
+  shouldHideDeleteButton?: (row: T) => boolean;
   WrapperComponent?: ({
     children,
   }: {
