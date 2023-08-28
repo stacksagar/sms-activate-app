@@ -36,7 +36,7 @@ export default function ClientHeaderRight() {
     <TogglerOptions
       size="small"
       title={
-        <div className="flex items-center gap-2 sm:gap-4">
+        <div className="flex items-center gap-2 sm:gap-4 py-0.5">
           <Image
             src={user?.image || unkown_person}
             width={30}
@@ -45,14 +45,14 @@ export default function ClientHeaderRight() {
             alt=""
           />
 
-          <div className="flex flex-col gap-0 leading-4 items-start">
-            <span className="block max-w-[80px] sm:max-w-[120px] truncate">
+          <div className="flex flex-col gap-0 leading-5 items-start">
+            <span className="block max-w-[80px] sm:max-w-[120px] truncate font-medium">
               {user?.name}
             </span>
             <div className="flex items-center gap-1">
-              <small className="text-orange-600 dark:text-orange-300 font-medium">
+              <span className="text-orange-600 dark:text-orange-300 text-xs">
                 {setting?.public?.currency} {user?.balance?.toFixed(2)}
-              </small>
+              </span>
             </div>
           </div>
         </div>

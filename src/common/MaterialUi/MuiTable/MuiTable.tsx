@@ -35,7 +35,6 @@ interface MuiTableProps {
   tableTitle: string;
   onDelete?: (id: ID[]) => void;
   deleting: UseBoolean;
-  hideActions?: boolean;
   loading?: boolean;
   onRefreshData?: () => void;
 }
@@ -46,7 +45,6 @@ export default function MuiTable({
   tableTitle,
   onDelete,
   deleting,
-  hideActions,
   loading,
   onRefreshData,
 }: MuiTableProps) {
@@ -154,7 +152,6 @@ export default function MuiTable({
                 onRequestSort={handleRequestSort}
                 rowCount={rows.length}
                 headCells={tableCells}
-                hideActions={hideActions}
               />
 
               <TableBody>
@@ -173,8 +170,8 @@ export default function MuiTable({
                       <Checkbox color="primary" checked={isSelected(row._id)} />
                     </TableCell>
 
-                    {tableCells.map(
-                      ({
+                    {tableCells.map((cell, index) => {
+                      const {
                         key,
                         RenderComponent,
                         WrapperComponent,
@@ -182,68 +179,64 @@ export default function MuiTable({
                         align,
                         startIcon,
                         endIcon,
-                      }) => (
-                        <TableCell
-                          key={key as string}
-                          align={align}
-                          className={`${
-                            className ? className : ""
-                          } whitespace-nowrap pr-3`}
-                        >
-                          {RenderComponent ? (
-                            <RenderComponent row={row} />
-                          ) : typeof row[key] === "object" ? (
-                            index == 0 ? (
-                              <div className="max-w-[200px] text-yellow-600">
-                                Hey bro, this is got object, please use custom
-                                <b> RenderComponent </b>
-                                in tableCells
-                                <pre className="bg-black p-3 rounded text-yellow-300 mt-3">
-                                  {JSON.stringify(row[key], null, 2)}
-                                </pre>
+                        ActionButtons,
+                      } = cell;
+                      return (
+                        <React.Fragment key={key as string}>
+                          <TableCell
+                            align={align}
+                            className={`${
+                              className ? className : ""
+                            } whitespace-nowrap pr-3`}
+                          >
+                            {RenderComponent ? (
+                              <RenderComponent row={row} />
+                            ) : typeof row[key] === "object" ? (
+                              index == 0 ? (
+                                <div className="max-w-[200px] text-yellow-600">
+                                  Hey bro, this is got object, please use custom
+                                  <b> RenderComponent </b>
+                                  in tableCells
+                                  <pre className="bg-black p-3 rounded text-yellow-300 mt-3">
+                                    {JSON.stringify(row[key], null, 2)}
+                                  </pre>
+                                </div>
+                              ) : null
+                            ) : WrapperComponent ? (
+                              <WrapperComponent row={row}>
+                                {row[key]}
+                              </WrapperComponent>
+                            ) : key === "actions" ? (
+                              <div className="space-x-1 whitespace-nowrap">
+                                {ActionButtons ? (
+                                  <ActionButtons row={row} />
+                                ) : null}
+                                <Button
+                                  onClick={() => {
+                                    setDeleteID(row?._id);
+                                    showDeleteWarning.setTrue();
+                                  }}
+                                  color="warning"
+                                  variant="contained"
+                                  size="small"
+                                  startIcon={
+                                    <FIcon icon="trash" className="w-3" />
+                                  }
+                                >
+                                  Delete
+                                </Button>
                               </div>
-                            ) : null
-                          ) : WrapperComponent ? (
-                            <WrapperComponent row={row}>
-                              {row[key]}
-                            </WrapperComponent>
-                          ) : (
-                            <>
-                              {startIcon}
-                              {row[key]}
-                              {endIcon}
-                            </>
-                          )}
-                        </TableCell>
-                      )
-                    )}
-
-                    {hideActions ? null : (
-                      <TableCell>
-                        <div className="space-x-1 whitespace-nowrap">
-                          {/* <Button
-                            color="warning"
-                            variant="contained"
-                            size="small"
-                            startIcon={<FIcon icon="pencil" className="w-3" />} 
-                          >
-                            Edit
-                          </Button> */}
-                          <Button
-                            onClick={() => {
-                              setDeleteID(row?._id);
-                              showDeleteWarning.setTrue();
-                            }}
-                            color="warning"
-                            variant="contained"
-                            size="small"
-                            startIcon={<FIcon icon="trash" className="w-3" />}
-                          >
-                            Delete
-                          </Button>
-                        </div>
-                      </TableCell>
-                    )}
+                            ) : (
+                              <>
+                                {startIcon}
+                                {row[key]}
+                                {endIcon}
+                              </>
+                            )}
+                          </TableCell>
+                        </React.Fragment>
+                      );
+                    })}
                   </TableRow>
                 ))}
 

@@ -30,7 +30,6 @@ export default function Users() {
         rows={activations}
         tableTitle="Activations"
         deleting={deleting}
-        hideActions
       />
     </div>
   );

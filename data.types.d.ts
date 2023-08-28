@@ -29,4 +29,5 @@ type ActivationStatus =
   | "STATUS_WAIT_CODE"
   | "WRONG_ACTIVATION_ID"
   | "STATUS_CANCEL"
-  | "COMPLETED";
+  | "COMPLETED"
+  | "IN_HISTORY";

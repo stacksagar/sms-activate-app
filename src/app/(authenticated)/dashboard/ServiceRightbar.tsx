@@ -89,6 +89,10 @@ const CodeAndStatus = ({ row }: { row: ActivationT }) => {
   );
 };
 
+const ActionButtons = ({ row }: { row: ActivationT }) => {
+  return <div></div>;
+};
+
 const tableCells: MuiTableHeader<ActivationT>[] = [
   {
     key: "createdAt",
@@ -143,6 +147,11 @@ const tableCells: MuiTableHeader<ActivationT>[] = [
     key: "status",
     label: "Status/Code",
     RenderComponent: CodeAndStatus,
+  },
+
+  {
+    key: "actions",
+    ActionButtons,
   },
 ];
 
@@ -208,7 +217,7 @@ export default function ServiceRightbar() {
   }
 
   return (
-    <div className="col-span-8 bg-white dark:bg-gray-800">
+    <div className="col-span-8 bg-transparent dark:bg-gray-800 h-fit">
       <MuiTable
         onRefreshData={() => dispatch(fetchActivations({ id: user._id }))}
         onDelete={onMultipleDelete}

@@ -20,7 +20,6 @@ import { useOrderNumber } from "./hooks";
 import useBoolean from "@/hooks/state/useBoolean";
 import FIcon from "@/common/FIcon";
 import { fetchServicesPrices } from "@/redux/features/servicesPricesSlice/requests";
-import get_sms_service_price from "@/lib/sms-active/get_sms_service_price";
 import axios from "axios";
 
 export default function ServicesList() {
@@ -169,7 +168,7 @@ export default function ServicesList() {
                             }}
                           ></div>
 
-                          <small className="text-orange-600 font-medium">
+                          <small className="text-orange-600 dark:text-orange-400 font-medium">
                             {setting?.public?.currency}
                             {get_price(service?.shortName)?.user_cost ||
                               get_api_price(service.shortName)}
@@ -182,7 +181,7 @@ export default function ServicesList() {
                         className="ml-auto"
                       >
                         {service?.favorite ? (
-                          <FIcon icon="star" className="text-red-600" />
+                          <FIcon icon="star" className="text-red-500" />
                         ) : (
                           <FIcon icon="star" className="opacity-50" />
                         )}

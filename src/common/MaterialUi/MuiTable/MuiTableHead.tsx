@@ -19,8 +19,6 @@ interface Props {
   rowCount: number;
 
   headCells: MuiTableHeader<any>[];
-
-  hideActions?: boolean;
   hideCheckbox?: boolean;
 }
 
@@ -32,8 +30,6 @@ export default function MuiTableHead({
   rowCount,
   onRequestSort,
   headCells,
-
-  hideActions,
   hideCheckbox,
 }: Props) {
   const createSortHandler =
@@ -83,8 +79,6 @@ export default function MuiTableHead({
             </TableSortLabel>
           </TableCell>
         ))}
-
-        {hideActions ? null : <TableCell>Actions</TableCell>}
       </TableRow>
     </TableHead>
   );

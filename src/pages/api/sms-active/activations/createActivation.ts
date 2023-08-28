@@ -48,7 +48,7 @@ export default async function createActivation(
         action: "getNumberV2",
         service: serviceCode,
         country: countryCode,
-        operator: "tmobile",
+        operator: "cellular",
       },
     });
 
