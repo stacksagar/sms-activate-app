@@ -44,7 +44,7 @@ export default function Home() {
               width={44}
               height={44}
               className="rounded-full w-12"
-              src="./telegram.jpg"
+              src="https://i.ibb.co/gydv2pz/telegram.jpg"
               alt=""
             />
           </a>
