@@ -72,6 +72,11 @@ export default function HeaderSetting() {
             );
           },
         },
+
+        telegram_phone: {
+          type: "text",
+          value: setting?.public?.telegram_phone,
+        },
       }}
     />
   );

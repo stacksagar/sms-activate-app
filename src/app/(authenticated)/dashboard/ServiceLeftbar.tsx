@@ -9,8 +9,8 @@ export default function ServiceLeftbar() {
         SMS Verifications
       </Typography>
       <p>
-        Rent a phone for 5 minutes. Credits are only used if you receive the SMS
-        code.
+        Rent a phone for 10 minutes. Credits are only used if you receive the
+        SMS code.
       </p>
 
       <ServicesList />

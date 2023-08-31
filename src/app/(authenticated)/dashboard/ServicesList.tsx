@@ -22,7 +22,8 @@ import FIcon from "@/common/FIcon";
 import { fetchServicesPrices } from "@/redux/features/servicesPricesSlice/requests";
 import axios from "axios";
 import { useAuth } from "@/context/AuthProvider";
-
+import MuiSelect from "@/common/MaterialUi/Forms/MuiSelect";
+type SortBy = "sortBy" | "mostPopular" | "fromLow" | "fromHigh";
 export default function ServicesList() {
   const { setting } = useSetting();
 
@@ -45,10 +46,14 @@ export default function ServicesList() {
     return api_prices[serviceCode]?.cost || 0;
   }
 
+  const sortBy = useString<SortBy>("sortBy");
   const search = useString("");
-
   const ordering = useBoolean();
   const handleOrder = useOrderNumber();
+
+  const [allServices, setAllServices] = useState<
+    (SMSService & { default_price?: number })[]
+  >([]);
 
   function handleSetService(service: SMSService) {
     if (setting?.public?.selected_country) {
@@ -88,6 +93,39 @@ export default function ServicesList() {
         set_api_prices(data?.data["187"] || {});
       });
   }, []);
+
+  useEffect(() => {
+    const initialData = [
+      ...(user?.favorite_services || []),
+      ...Object.values(services || {}),
+    ].map((item) => ({
+      ...item,
+      default_price:
+        get_price(item?.shortName)?.user_cost || get_api_price(item.shortName),
+    }));
+    setAllServices(initialData);
+  }, [user, services, get_api_price, get_price]);
+
+  function changeSort(value: SortBy) {
+    sortBy.setCustom(value);
+
+    const initialData = [
+      ...(user?.favorite_services || []),
+      ...Object.values(services || {}),
+    ].map((item) => ({
+      ...item,
+      default_price:
+        get_price(item?.shortName)?.user_cost || get_api_price(item.shortName),
+    }));
+
+    setAllServices((prev) =>
+      value === "fromHigh"
+        ? prev.sort((a, b) => (b?.default_price || 0) - (a?.default_price || 0))
+        : value === "fromLow"
+        ? prev.sort((a, b) => (a?.default_price || 0) - (b?.default_price || 0))
+        : initialData
+    );
+  }
 
   async function addFavoriteHandle(service: SMSService) {
     let favorites = user?.favorite_services || ([] as SMSService[]);
@@ -129,81 +167,88 @@ export default function ServicesList() {
         <ManageSelectedService />
       ) : (
         <Box>
-          <div className="w-full h-[400px] max-h-full overflow-auto">
-            {loading || !fetched ? (
-              <ListSkeleton count={7} height={50} />
-            ) : (
-              <>
-                {(search?.value?.length > 1
-                  ? dynamic_filter(
-                      [
-                        ...(user?.favorite_services || []),
-                        ...Object.values(services || {}),
-                      ],
-                      ["name"],
-                      search.value
-                    )
-                  : [
-                      ...(user?.favorite_services || []),
-                      ...Object.values(services),
-                    ].filter((_, i) => i <= visibleValue)
-                )?.map((service: SMSService) =>
-                  service?.name ? (
-                    <ListItem
-                      key={uid()}
-                      component="div"
-                      className={`w-full flex items-start justify-between`}
-                    >
-                      <ListItemButton
-                        disabled={ordering.true}
-                        onClick={() => handleSetService(service)}
-                        className="block w-full"
-                      >
-                        <div className="flex items-center gap-2 w-full">
-                          <Image
-                            className="rounded"
-                            src={service.logo}
-                            width={20}
-                            height={20}
-                            alt={``}
-                          />
-
-                          <span className="text-sm font-normal">
-                            {service?.name}
-                          </span>
-
-                          <small className="text-orange-600 dark:text-orange-400 font-medium">
-                            {setting?.public?.currency}
-                            {get_price(service?.shortName)?.user_cost ||
-                              get_api_price(service.shortName)}
-                          </small>
-                        </div>
-                      </ListItemButton>
-                      <IconButton
-                        onClick={() => addFavoriteHandle(service)}
-                        size="small"
-                        className="ml-auto"
-                      >
-                        {service?.favorite ? (
-                          <FIcon icon="star" className="text-red-500" />
-                        ) : (
-                          <FIcon icon="star" className="opacity-50" />
-                        )}
-                      </IconButton>
-                    </ListItem>
-                  ) : null
-                )}
-
-                {/* Services Show/Less More Button */}
-                <ShowAndLessButton
-                  shouldHide={search?.value}
-                  fullLength={Object.keys(services).length}
-                  showLength={visibleValue}
-                  onMore={() => dispatch(serviceActions.moreVisible(20))}
-                  onLess={() => dispatch(serviceActions.resetVisible())}
+          <div>
+            {setting?.public?.selected_country ? (
+              <div className="flex justify-between">
+                <MuiSelect
+                  size="small"
+                  value={sortBy.value}
+                  onChange={(e) => changeSort(e.target.value as SortBy)}
+                  options={[
+                    { title: "Sort By", value: "sortBy" },
+                    { title: "MostPopular", value: "mostPopular" },
+                    { title: "From low prices", value: "fromLow" },
+                    { title: "From high prices", value: "fromHigh" },
+                  ]}
                 />
-              </>
-            )}
+              </div>
+            ) : null}
+
+            <div className="w-full h-[400px] max-h-full overflow-auto">
+              {loading || !fetched ? (
+                <ListSkeleton count={7} height={50} />
+              ) : (
+                <>
+                  {(search?.value?.length > 1
+                    ? dynamic_filter(allServices, ["name"], search.value)
+                    : allServices.filter((_, i) => i <= visibleValue)
+                  )?.map((service: SMSService & { default_price?: number }) =>
+                    service?.name ? (
+                      <ListItem
+                        key={uid()}
+                        component="div"
+                        className={`w-full flex items-start justify-between`}
+                      >
+                        <ListItemButton
+                          disabled={ordering.true}
+                          onClick={() => handleSetService(service)}
+                          className="block w-full"
+                        >
+                          <div className="flex items-center gap-2 w-full">
+                            <Image
+                              className="rounded"
+                              src={service.logo}
+                              width={20}
+                              height={20}
+                              alt={``}
+                            />
+
+                            <span className="text-sm font-normal">
+                              {service?.name}
+                            </span>
+
+                            <small className="text-orange-600 dark:text-orange-400 font-medium">
+                              {setting?.public?.currency}
+                              {service?.default_price}
+                            </small>
+                          </div>
+                        </ListItemButton>
+                        <IconButton
+                          onClick={() => addFavoriteHandle(service)}
+                          size="small"
+                          className="ml-auto"
+                        >
+                          {service?.favorite ? (
+                            <FIcon icon="star" className="text-red-500" />
+                          ) : (
+                            <FIcon icon="star" className="opacity-50" />
+                          )}
+                        </IconButton>
+                      </ListItem>
+                    ) : null
+                  )}
+
+                  {/* Services Show/Less More Button */}
+                  <ShowAndLessButton
+                    shouldHide={search?.value}
+                    fullLength={Object.keys(services).length}
+                    showLength={visibleValue}
+                    onMore={() => dispatch(serviceActions.moreVisible(20))}
+                    onLess={() => dispatch(serviceActions.resetVisible())}
+                  />
+                </>
+              )}
+            </div>
           </div>
         </Box>
       )}

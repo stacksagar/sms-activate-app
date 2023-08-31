@@ -40,7 +40,7 @@ export default function ManageSelectedService() {
   useEffect(() => {
     if (!selectedService?.shortName) return;
     const getServiceCountries = Object.values(
-      data[selectedService?.shortName]
+      data[selectedService?.shortName] || {}
     ).map((obj) => ({
       ...obj,
       ...(countries[obj.country] || {}),

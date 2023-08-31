@@ -1,7 +1,7 @@
 import mySequelize from "@/lib/database/mySequelize";
 import { Model, DataTypes, Optional } from "sequelize";
 
-class User extends Model<Optional<UserT, "_id">> {}
+class User extends Model<Optional<UserT, "_id" | "createdAt" | "updatedAt">> {}
 
 User.init(
   {

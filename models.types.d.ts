@@ -1,6 +1,6 @@
 type ModelCommonAttributes = {
   _id: string;
-  createdAt?: string;
+  createdAt: string;
   updatedAt?: string;
 };
 

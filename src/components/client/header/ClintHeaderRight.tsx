@@ -70,7 +70,7 @@ export default function ClientHeaderRight() {
         },
         {
           text: "Change Password",
-          href: "change-password",
+          href: "/auth/change-password",
           icon: "lock",
         },
         {

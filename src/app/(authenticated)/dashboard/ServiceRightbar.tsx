@@ -21,6 +21,7 @@ import { fetchCountries } from "@/redux/features/services/requests";
 import { useRefreshActivations } from "./hooks";
 import MuiSelect from "@/common/MaterialUi/Forms/MuiSelect";
 import useString from "@/hooks/state/useString";
+import CountdownTimer from "./Countdown";
 
 const ServiceDetails = ({ row }: { row: ActivationT }) => {
   return (
@@ -74,11 +75,7 @@ const CodeAndStatus = ({ row }: { row: ActivationT }) => {
           showValue
         />
       ) : row.status === "STATUS_WAIT_CODE" ? (
-        <div className="animate-spin">
-          <IconButton size="small">
-            <FIcon icon="refresh" />
-          </IconButton>
-        </div>
+        <CountdownTimer createdAt={new Date(row.createdAt)} />
       ) : (
         <span> {row.status} </span>
       )}
@@ -174,7 +171,7 @@ export default function ServiceRightbar() {
     }
 
     setCodeIntervals((p) => [...p, setInterval(refreshActivations, 15000)]);
-  }, [data]);
+  }, [data, codeIntervals, refreshActivations]);
 
   useEffect(() => {
     const last_interval_index = codeIntervals?.length - 1;

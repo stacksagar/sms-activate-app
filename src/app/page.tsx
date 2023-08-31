@@ -1,6 +1,5 @@
 "use client";
 
-import FIcon from "@/common/FIcon";
 import FAQSection from "@/components/client/landing/FAQSection";
 import FeaturesSection from "@/components/client/landing/FeaturesSection";
 import HeroSection from "@/components/client/landing/HeroSection";
@@ -8,6 +7,7 @@ import HowItWorks from "@/components/client/landing/HowItWorks";
 import ServiceSection from "@/components/client/landing/ServiceSection";
 import { useSetting } from "@/context/SettingProvider";
 import { motion, useScroll, useSpring } from "framer-motion";
+import Image from "next/image";
 
 export default function Home() {
   const { setting } = useSetting();
@@ -32,10 +32,23 @@ export default function Home() {
       <HowItWorks />
       <FAQSection />
 
-      <div className="sm:hidden fixed right-4 bottom-4 bg-[#31A8E0] text-white w-40 h-40 rounded z-[9999]">
-        <a title="telegram chat" href={setting?.public?.telegram_phone}>
-          <FIcon icon="telegram" />
-        </a>
+      <div className="fixed right-4 bottom-4 text-white rounded z-[9999]">
+        <motion.div whileHover={{ scale: 1.15 }} whileTap={{ scale: 0.8 }}>
+          <a
+            target="_blank"
+            className="cursor-pointer"
+            title="telegram chat"
+            href={`https://t.me/${setting?.public?.telegram_phone}`}
+          >
+            <Image
+              width={44}
+              height={44}
+              className="rounded-full w-12"
+              src="./telegram.jpg"
+              alt=""
+            />
+          </a>
+        </motion.div>
       </div>
     </>
   );

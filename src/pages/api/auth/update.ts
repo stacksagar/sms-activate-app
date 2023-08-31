@@ -1,4 +1,3 @@
-import bcrypt from "bcryptjs";
 import { NextApiRequest, NextApiResponse } from "next";
 
 import error_message from "@/lib/error_message";
