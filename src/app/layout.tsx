@@ -22,6 +22,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <meta name="cryptomus" content="e5aaf612" />
+
       <body
         className={
           roboto.className +
