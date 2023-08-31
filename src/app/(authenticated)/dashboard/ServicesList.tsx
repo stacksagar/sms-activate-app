@@ -101,10 +101,13 @@ export default function ServicesList() {
     ].map((item) => ({
       ...item,
       default_price:
-        get_price(item?.shortName)?.user_cost || get_api_price(item.shortName),
+        prices.find((p) => p.service === item.shortName)?.user_cost ||
+        api_prices[item.shortName]?.cost ||
+        0,
     }));
+
     setAllServices(initialData);
-  }, [user, services, get_api_price, get_price]);
+  }, [user, services]);
 
   function changeSort(value: SortBy) {
     sortBy.setCustom(value);
