@@ -49,7 +49,7 @@ export default function SignupForm() {
           redirect: true,
         });
 
-        router.replace("/dashboard");
+        router.replace("/services");
 
         toast({ message: "Registration Successfull!" });
       } catch (error) {

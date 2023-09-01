@@ -79,3 +79,9 @@ interface ActivationT extends ModelCommonAttributes {
 }
 
 type ActivationPromise = { activation: ActivationT };
+
+interface DepositT extends ModelCommonAttributes {
+  amount: number;
+  currency?: string;
+  method?: string;
+}

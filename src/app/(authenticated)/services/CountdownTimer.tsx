@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const Countdown = ({ createdAt }: { createdAt: Date }) => {
+const CountdownTimer = ({ createdAt }: { createdAt: Date }) => {
   const [countdown, setCountdown] = useState(0);
 
   useEffect(() => {
@@ -32,9 +32,9 @@ const Countdown = ({ createdAt }: { createdAt: Date }) => {
 
   return (
     <div>
-      {minutes} minutes {seconds} seconds
+      {minutes}: {seconds}
     </div>
   );
 };
 
-export default Countdown;
+export default CountdownTimer;

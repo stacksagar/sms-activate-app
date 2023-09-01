@@ -5,7 +5,7 @@ import SignupForm from "./SignupForm";
 
 export default async function Signup() {
   const session = await getServerSession(authOptions);
-  if (session) redirect("/dashboard");
+  if (session) redirect("profile/services");
 
   return <SignupForm />;
 }

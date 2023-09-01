@@ -6,6 +6,7 @@ const nextConfig = {
       "i.ibb.co",
       "smsactivate.s3.eu-central-1.amazonaws.com",
       "avatars.githubusercontent.com",
+      "s3.cryptwerk.com",
     ],
   },
   swcMinify: true,

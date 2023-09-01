@@ -59,8 +59,8 @@ export default function ClientHeaderRight() {
       }
       items={[
         {
-          text: "Dashboard",
-          href: "/dashboard",
+          text: "Servicecs",
+          href: "/services",
           icon: "list",
         },
         {
@@ -70,7 +70,7 @@ export default function ClientHeaderRight() {
         },
         {
           text: "Change Password",
-          href: "/auth/change-password",
+          href: "/profile/change-password",
           icon: "lock",
         },
         {

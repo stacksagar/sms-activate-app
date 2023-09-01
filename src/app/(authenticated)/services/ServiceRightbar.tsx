@@ -10,7 +10,6 @@ import ButtonWithCopy from "@/common/ButtonWithCopy";
 import { countryLogo, serviceLogo } from "@/data/dynamic_logos";
 import showDate from "@/lib/showDate";
 import services_name from "@/data/services_name";
-import moment from "moment";
 import { useSetting } from "@/context/SettingProvider";
 import { fetchActivations } from "@/redux/features/activations/requests";
 import { useAuth } from "@/context/AuthProvider";
@@ -21,7 +20,7 @@ import { fetchCountries } from "@/redux/features/services/requests";
 import { useRefreshActivations } from "./hooks";
 import MuiSelect from "@/common/MaterialUi/Forms/MuiSelect";
 import useString from "@/hooks/state/useString";
-import CountdownTimer from "./Countdown";
+import CountdownTimer from "./CountdownTimer";
 
 const ServiceDetails = ({ row }: { row: ActivationT }) => {
   return (
@@ -94,9 +93,6 @@ const tableCells: MuiTableHeader<ActivationT>[] = [
           <div>
             {new Date(row?.createdAt || Date.now()).toLocaleTimeString()}
           </div>
-          <small>
-            {moment(new Date(row?.createdAt || Date.now())).fromNow()}
-          </small>
         </div>
       );
     },

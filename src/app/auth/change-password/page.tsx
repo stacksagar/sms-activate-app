@@ -27,7 +27,7 @@ export default function ChangePassword() {
 
     onSubmit: async (values) => {
       try {
-        await axios.put(`/api/auth/change-password?id=${user._id}`, {
+        await axios.put(`/api/profile/change-password?id=${user._id}`, {
           old_password: values.password,
           new_password: values.new_password,
         });

@@ -9,75 +9,64 @@ import toast from "@/lib/toast";
 import { all_fields_required } from "@/validations/formik_validations";
 import axios from "axios";
 import { useFormik } from "formik";
-import { useEffect } from "react";
 
-export default function Profile() {
+export default function ChangePassword() {
   const { user } = useAuth();
 
   const formik = useFormik({
     initialValues: {
-      name: "",
-      email: "",
-      phone: "",
+      password: "",
+      new_password: "",
     },
 
     validate: all_fields_required,
 
     onSubmit: async (values) => {
       try {
-        await axios.put(`/api/auth/update?id=${user._id}`, {
-          name: values.name,
-          email: values.email,
-          phone: values.phone,
+        await axios.put(`/api/profile/change-password?id=${user._id}`, {
+          old_password: values.password,
+          new_password: values.new_password,
         });
 
-        toast({ message: "Updated!" });
+        toast({ message: "Password updated!" });
       } catch (error) {
         toast({ message: error_message(error), type: "error" });
       }
     },
   });
 
-  useEffect(() => {
-    formik.setFieldValue("name", user?.name || "");
-    formik.setFieldValue("email", user?.email || "");
-    formik.setFieldValue("phone", user?.phone || "");
-  }, [user]);
-
   return (
     <form onSubmit={formik.handleSubmit} className="h-fit w-full space-y-6">
       <h2 className="flex items-center gap-x-2 pb-4 text-center text-2xl font-semibold text-blue-500">
-        <FIcon icon="user" />
-        <span> Profile Info </span>
+        <FIcon icon="lock" />
+        <span>Change Your Password</span>
       </h2>
 
       <MuiTextField
         required={true}
-        label="Name"
-        {...formik.getFieldProps("name")}
-        touched={formik.touched.name}
-        error={formik.errors.name}
+        label="Old Password"
+        type="password"
+        autoComplete="off"
+        aria-autocomplete="none"
+        {...formik.getFieldProps("password")}
+        touched={formik.touched.password}
+        error={formik.errors.password}
       />
 
       <MuiTextField
         required={true}
-        label="Email"
-        {...formik.getFieldProps("email")}
-        touched={formik.touched.email}
-        error={formik.errors.email}
-      />
-
-      <MuiTextField
-        required={true}
-        label="Phone"
-        {...formik.getFieldProps("phone")}
-        touched={formik.touched.phone}
-        error={formik.errors.phone}
+        label="New Password"
+        type="password"
+        autoComplete="off"
+        aria-autocomplete="none"
+        {...formik.getFieldProps("new_password")}
+        touched={formik.touched.new_password}
+        error={formik.errors.new_password}
       />
 
       <div className="w-full sm:w-fit">
         <MuiButton loading={formik.isSubmitting} type="submit">
-          Update
+          Update Password
         </MuiButton>
       </div>
     </form>

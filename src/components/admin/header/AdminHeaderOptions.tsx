@@ -55,8 +55,8 @@ export default function AdminHeaderOptions() {
       }
       items={[
         {
-          text: "Dashboard",
-          href: "/dashboard",
+          text: "Services",
+          href: "/services",
           icon: "list",
         },
         {

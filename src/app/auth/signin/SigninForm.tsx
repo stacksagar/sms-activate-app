@@ -45,7 +45,7 @@ export default function SigninForm() {
             message: "You're logged in now!",
             duration: 2000,
           });
-          router.push("/dashboard");
+          router.push("/services");
         }
       } catch (error) {
         toast({ message: error_message(error), type: "error" });
