@@ -33,10 +33,7 @@ export default function SigninForm() {
         const data = await signIn("credentials", {
           email: values.email,
           password: values.password,
-          redirect: false,
         });
-
-        console.log("data ", data);
 
         if (data?.error) {
           setError("Invalid Credentials!");

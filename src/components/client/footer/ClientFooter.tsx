@@ -13,20 +13,17 @@ export default function ClientFooter() {
         <TextLogo />
 
         <div className="flex items-center gap-1 xl:gap-6 text-lg flex-col md:flex-row">
-          <a
-            href={`mailto:${setting?.public?.telegram_phone}`}
-            className="flex gap-x-1"
-          >
+          <a href={`mailto:${"support@yensms.com"}`} className="flex gap-x-1">
             <span>
               <FIcon icon="envelope" />
             </span>
             Send us an e-mail
           </a>
-          <a href={`mailto:${"address"}`} className="flex gap-x-1">
+          <a href={`mailto:${"support@yensms.com"}`} className="flex gap-x-1">
             <span>
               <FIcon icon="contact-book" />
             </span>
-            If you need help, open a ticket
+            Contact US
           </a>
         </div>
       </div>
@@ -37,12 +34,6 @@ export default function ClientFooter() {
           </span>
 
           <div className="flex items-center justify-center xl:justify-end flex-wrap gap-1 md:gap-2 xl:gap-5">
-            <Link
-              href="/blog"
-              className="hover:underline text-lg hover:text-blue-500 "
-            >
-              Blog
-            </Link>
             <Link
               href="/contact"
               className="hover:underline text-lg hover:text-blue-500"

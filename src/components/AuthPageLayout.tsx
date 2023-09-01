@@ -10,7 +10,7 @@ interface Props {
 export default function AuthPageLayout({ children, hideText, text }: Props) {
   const constraintsRef = React.useRef(null);
   return (
-    <div className="container py-10 md:py-20 xl:py-40">
+    <div className="container py-32 xl:py-40">
       <div className="grid grid-cols-1 md:w-[600px] xl:w-auto xl:max-w-[1200px] mx-auto xl:grid-cols-2 p-6 lg:p-12 shadow bg-white dark:bg-gray-950">
         <div className="hidden xl:flex flex-col gap-6 items-center justify-center xl:border-r dark:border-gray-700 xl:mr-10">
           {hideText ? null : text ? text : null}
@@ -38,7 +38,6 @@ export default function AuthPageLayout({ children, hideText, text }: Props) {
             </div>
           </motion.div>
         </div>
-
         <div className="flex items-center">{children}</div>
       </div>
     </div>
