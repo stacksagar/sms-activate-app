@@ -186,8 +186,10 @@ export default function AdminLayout({ children }: Props) {
           <div className="ml-auto flex items-center gap-2">
             <div className="mx-8 gap-4 flex items-center">
               <IconButton>
-                <Link href="/">
-                  <FIcon icon="internet-explorer" />
+                <Link href="/" legacyBehavior>
+                  <a>
+                    <FIcon icon="internet-explorer" />
+                  </a>
                 </Link>
               </IconButton>
               <ThemeToggler />
@@ -198,8 +200,10 @@ export default function AdminLayout({ children }: Props) {
       </AppBar>
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
-          <Link href="/admin" className="pr-4">
-            <TextLogo />
+          <Link href="/admin" className="pr-4" legacyBehavior>
+            <a>
+              <TextLogo />
+            </a>
           </Link>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "rtl" ? (
@@ -213,28 +217,30 @@ export default function AdminLayout({ children }: Props) {
         <List>
           {top_links.map((item) => (
             <ListItem key={item.name} disablePadding sx={{ display: "block" }}>
-              <Link href={item.href || "/admin"}>
-                <ListItemButton
-                  sx={{
-                    minHeight: 48,
-                    justifyContent: open ? "initial" : "center",
-                    px: 2.5,
-                  }}
-                >
-                  <ListItemIcon
+              <Link href={item.href || "/admin"} legacyBehavior>
+                <a>
+                  <ListItemButton
                     sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : "auto",
-                      justifyContent: "center",
+                      minHeight: 48,
+                      justifyContent: open ? "initial" : "center",
+                      px: 2.5,
                     }}
                   >
-                    <FIcon icon={item.icon || "list"} />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={item.name}
-                    sx={{ opacity: open ? 1 : 0 }}
-                  />
-                </ListItemButton>
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <FIcon icon={item.icon || "list"} />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={item.name}
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
+                  </ListItemButton>
+                </a>
               </Link>
             </ListItem>
           ))}
@@ -243,28 +249,30 @@ export default function AdminLayout({ children }: Props) {
         <List>
           {bottom_links.map((item) => (
             <ListItem key={item.name} disablePadding sx={{ display: "block" }}>
-              <Link href={item.href || "/admin"}>
-                <ListItemButton
-                  sx={{
-                    minHeight: 48,
-                    justifyContent: open ? "initial" : "center",
-                    px: 2.5,
-                  }}
-                >
-                  <ListItemIcon
+              <Link href={item.href || "/admin"} legacyBehavior>
+                <a>
+                  <ListItemButton
                     sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : "auto",
-                      justifyContent: "center",
+                      minHeight: 48,
+                      justifyContent: open ? "initial" : "center",
+                      px: 2.5,
                     }}
                   >
-                    <FIcon icon={item.icon || "list"} />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={item.name}
-                    sx={{ opacity: open ? 1 : 0 }}
-                  />
-                </ListItemButton>
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <FIcon icon={item.icon || "list"} />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={item.name}
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
+                  </ListItemButton>
+                </a>
               </Link>
             </ListItem>
           ))}

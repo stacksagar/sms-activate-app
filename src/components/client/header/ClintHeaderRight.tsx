@@ -91,15 +91,19 @@ export default function ClientHeaderRight() {
     />
   ) : (
     <>
-      <Link href="/auth/signin" className="w-fit">
-        <MuiButton size="medium">
-          <FIcon icon="lock" /> Login
-        </MuiButton>
+      <Link href="/auth/signin" className="w-fit" legacyBehavior>
+        <a>
+          <MuiButton size="medium">
+            <FIcon icon="lock" /> Login
+          </MuiButton>
+        </a>
       </Link>
-      <Link href="/auth/signup" className="w-fit">
-        <MuiButton size="medium" color="info">
-          <FIcon icon="user" /> Signup
-        </MuiButton>
+      <Link href="/auth/signup" className="w-fit" legacyBehavior>
+        <a>
+          <MuiButton size="medium" color="info">
+            <FIcon icon="user" /> Signup
+          </MuiButton>
+        </a>
       </Link>
     </>
   );

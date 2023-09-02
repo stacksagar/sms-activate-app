@@ -111,14 +111,16 @@ export default function TogglerOptions({ title, items, size }: Props) {
           item.href ? (
             item?.hidden ? null : (
               <MenuItem key={item.text}>
-                <Link key={item.text} href={item.href}>
-                  <button {...item.button}>
-                    <span className="text-left w-8 inline-block">
-                      <FIcon icon={item.icon || "circle-notch"} />
-                    </span>
-                    <span>{item.text}</span>
-                  </button>
-                  {item?.loading ? <CircleSpinner /> : null}
+                <Link key={item.text} href={item.href} legacyBehavior>
+                  <a>
+                    <button {...item.button}>
+                      <span className="text-left w-8 inline-block">
+                        <FIcon icon={item.icon || "circle-notch"} />
+                      </span>
+                      <span>{item.text}</span>
+                    </button>
+                    {item?.loading ? <CircleSpinner /> : null}
+                  </a>
                 </Link>
               </MenuItem>
             )

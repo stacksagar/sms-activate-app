@@ -20,9 +20,6 @@ import ClientHeaderRight from "./ClintHeaderRight";
 import ThemeToggler from "@/common/ThemeToggler";
 
 interface Props {
-  
-
-  
   window?: () => Window;
 }
 
@@ -44,18 +41,22 @@ export default function ClientHeader(props: Props) {
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
       <Typography variant="h6" sx={{ my: 2 }}>
-        <Link href="/" className="flex items-center justify-center">
-          <TextLogo />
+        <Link href="/" legacyBehavior>
+          <a>
+            <TextLogo />
+          </a>
         </Link>
       </Typography>
       <Divider />
       <List>
         {navigation.map((item) => (
           <ListItem key={item.name} disablePadding>
-            <Link href={item.href}>
-              <ListItemButton sx={{ textAlign: "center" }}>
-                <ListItemText primary={item.name} />
-              </ListItemButton>
+            <Link href={item.href} legacyBehavior>
+              <a>
+                <ListItemButton sx={{ textAlign: "center" }}>
+                  <ListItemText primary={item.name} />
+                </ListItemButton>
+              </a>
             </Link>
           </ListItem>
         ))}
@@ -95,14 +96,18 @@ export default function ClientHeader(props: Props) {
                   display: { display: "none", md: "block" },
                 }}
               >
-                <Link href="/">
-                  <TextLogo />
+                <Link href="/" legacyBehavior>
+                  <a>
+                    <TextLogo />
+                  </a>
                 </Link>
               </Typography>
               <Box sx={{ display: { display: "none", md: "block" } }}>
                 {navigation.map((item) => (
-                  <Link key={item.name} href={item.href}>
-                    <Button>{item.name}</Button>
+                  <Link key={item.name} href={item.href} legacyBehavior>
+                    <a>
+                      <Button>{item.name}</Button>
+                    </a>
                   </Link>
                 ))}
               </Box>

@@ -50,8 +50,10 @@ export default function HeroSection() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.9 }}
                 >
-                  <Link href="/services">
-                    <MuiButton color="success">Order Now</MuiButton>
+                  <Link href="/services" legacyBehavior>
+                    <a>
+                      <MuiButton color="success">Order Now</MuiButton>
+                    </a>
                   </Link>
                 </motion.div>
               </motion.div>
