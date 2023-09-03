@@ -132,7 +132,9 @@ const tableCells: MuiTableHeader<ActivationT>[] = [
   {
     key: "actions",
     shouldHideDeleteButton(row) {
-      return row.status === "COMPLETED" ? true : false;
+      return row.status === "COMPLETED" || row.status === "IN_HISTORY"
+        ? true
+        : false;
     },
   },
 ];
