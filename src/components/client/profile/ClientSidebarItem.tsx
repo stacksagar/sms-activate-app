@@ -69,7 +69,7 @@ export function ClientSidebarItemLink({
 
   return (
     <li>
-      <Link
+      <a
         href={to}
         className={`${
           pathname === to
@@ -87,7 +87,7 @@ export function ClientSidebarItemLink({
           )}
           {text}
         </div>
-      </Link>
+      </a>
     </li>
   );
 }

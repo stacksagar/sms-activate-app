@@ -34,24 +34,24 @@ export default function ClientFooter() {
           </span>
 
           <div className="flex items-center justify-center xl:justify-end flex-wrap gap-1 md:gap-2 xl:gap-5">
-            <Link
+            <a
               href="/contact"
               className="hover:underline text-lg hover:text-blue-500"
             >
               Contact
-            </Link>
-            <Link
+            </a>
+            <a
               href="/privacy-policy"
               className="hover:underline text-lg hover:text-blue-500"
             >
               Privacy Policy
-            </Link>
-            <Link
+            </a>
+            <a
               href="/terms-of-service"
               className="hover:underline text-lg hover:text-blue-500 "
             >
               Terms of Service
-            </Link>
+            </a>
           </div>
         </div>
       </div>

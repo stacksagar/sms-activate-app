@@ -60,6 +60,7 @@ type Item = {
   loading?: boolean;
   button?: React.ButtonHTMLAttributes<HTMLButtonElement>;
   hidden?: boolean;
+  blank?: boolean;
 };
 
 interface Props {
@@ -111,17 +112,19 @@ export default function TogglerOptions({ title, items, size }: Props) {
           item.href ? (
             item?.hidden ? null : (
               <MenuItem key={item.text}>
-                <Link key={item.text} href={item.href} legacyBehavior>
-                  <a>
-                    <button {...item.button}>
-                      <span className="text-left w-8 inline-block">
-                        <FIcon icon={item.icon || "circle-notch"} />
-                      </span>
-                      <span>{item.text}</span>
-                    </button>
-                    {item?.loading ? <CircleSpinner /> : null}
-                  </a>
-                </Link>
+                <a
+                  key={item.text}
+                  href={item.href}
+                  target={item?.blank ? "_blank" : "_self"}
+                >
+                  <button {...item.button}>
+                    <span className="text-left w-8 inline-block">
+                      <FIcon icon={item.icon || "circle-notch"} />
+                    </span>
+                    <span>{item.text}</span>
+                  </button>
+                  {item?.loading ? <CircleSpinner /> : null}
+                </a>
               </MenuItem>
             )
           ) : item?.hidden ? null : (

@@ -41,22 +41,18 @@ export default function ClientHeader(props: Props) {
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
       <Typography variant="h6" sx={{ my: 2 }}>
-        <Link href="/" legacyBehavior>
-          <a>
-            <TextLogo />
-          </a>
-        </Link>
+        <a href="/" title="go home">
+          <TextLogo />
+        </a>
       </Typography>
       <Divider />
       <List>
         {navigation.map((item) => (
           <ListItem key={item.name} disablePadding>
-            <Link href={item.href} legacyBehavior>
-              <a>
-                <ListItemButton sx={{ textAlign: "center" }}>
-                  <ListItemText primary={item.name} />
-                </ListItemButton>
-              </a>
+            <Link href={item.href} title="#">
+              <ListItemButton sx={{ textAlign: "center" }}>
+                <ListItemText primary={item.name} />
+              </ListItemButton>
             </Link>
           </ListItem>
         ))}
@@ -96,19 +92,17 @@ export default function ClientHeader(props: Props) {
                   display: { display: "none", md: "block" },
                 }}
               >
-                <Link href="/" legacyBehavior>
-                  <a>
-                    <TextLogo />
-                  </a>
-                </Link>
+                <a href="/" title="go home">
+                  <TextLogo />
+                </a>
               </Typography>
               <Box sx={{ display: { display: "none", md: "block" } }}>
                 {navigation.map((item) => (
-                  <Link key={item.name} href={item.href} legacyBehavior>
+                  <a key={item.name} href={item.href} title="#">
                     <a>
                       <Button>{item.name}</Button>
                     </a>
-                  </Link>
+                  </a>
                 ))}
               </Box>
               <div className="ml-auto flex items-center gap-2">

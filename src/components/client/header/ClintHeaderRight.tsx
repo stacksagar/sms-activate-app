@@ -78,6 +78,7 @@ export default function ClientHeaderRight() {
           href: "/admin",
           icon: "user-gear",
           hidden: user?.role !== "admin",
+          blank: true,
         },
         {
           text: "Logout",
@@ -91,20 +92,17 @@ export default function ClientHeaderRight() {
     />
   ) : (
     <>
-      <Link href="/auth/signin" className="w-fit" legacyBehavior>
-        <a>
-          <MuiButton size="medium">
-            <FIcon icon="lock" /> Login
-          </MuiButton>
-        </a>
-      </Link>
-      <Link href="/auth/signup" className="w-fit" legacyBehavior>
-        <a>
-          <MuiButton size="medium" color="info">
-            <FIcon icon="user" /> Signup
-          </MuiButton>
-        </a>
-      </Link>
+      <a href="/auth/signin" className="w-fit">
+        <MuiButton size="medium">
+          <FIcon icon="lock" /> Login
+        </MuiButton>
+      </a>
+
+      <a href="/auth/signup" className="w-fit">
+        <MuiButton size="medium" color="info">
+          <FIcon icon="user" /> Signup
+        </MuiButton>
+      </a>
     </>
   );
 }

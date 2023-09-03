@@ -85,12 +85,12 @@ export default function SigninForm() {
         />
         {/* Forgot Password Message */}
         <small>
-          <Link
+          <a
             href="/auth/forgot-password"
             className="text-primary-600 dark:text-primary-500 hover:underline"
           >
             Forgot Password?
-          </Link>
+          </a>
         </small>
         <div className="flex items-center gap-2 dark:text-white">
           <Checkbox id="remember" />
@@ -110,12 +110,12 @@ export default function SigninForm() {
         {/* Signup Message */}
         <p className="text-gray-500 dark:text-gray-400 text-sm font-light">
           <span className="mr-1"> Do not have an account? </span>
-          <Link
+          <a
             href="/auth/signup"
             className="text-primary-600 dark:text-primary-500 font-medium hover:underline"
           >
             Create account!
-          </Link>
+          </a>
         </p>
       </form>
     </AuthPageLayout>

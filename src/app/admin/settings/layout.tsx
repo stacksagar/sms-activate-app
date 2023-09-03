@@ -21,19 +21,17 @@ interface LinkTabProps {
 
 function LinkTab({ href, onClick, info, ...props }: LinkTabProps) {
   return (
-    <Link onClick={onClick} href={href || "/"} legacyBehavior>
-      <a>
-        <Tab
-          component="button"
-          {...props}
-          label={
-            <div className="flex items-center gap-1">
-              <FIcon icon={info.icon || "cogs"} />
-              {info.label}
-            </div>
-          }
-        />
-      </a>
+    <Link onClick={onClick} href={href || "/"}>
+      <Tab
+        component="button"
+        {...props}
+        label={
+          <div className="flex items-center gap-1">
+            <FIcon icon={info.icon || "cogs"} />
+            {info.label}
+          </div>
+        }
+      />
     </Link>
   );
 }
