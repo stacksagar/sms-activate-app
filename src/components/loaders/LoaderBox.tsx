@@ -4,7 +4,7 @@ interface Props {
   fullScreen?: boolean;
 }
 
-export default function BoxesLoader({ fullScreen }: Props) {
+export default function LoaderBox({ fullScreen }: Props) {
   return fullScreen ? (
     <div className="w-full h-screen flex items-center justify-center">
       <div className="boxes">

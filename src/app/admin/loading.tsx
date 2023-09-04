@@ -1,6 +1,6 @@
-import BoxesLoader from "@/components/Loaders/BoxesLoader";
+import LoaderBox from "@/components/Loaders/LoaderBox";
 import React from "react";
 
 export default function loading() {
-  return <BoxesLoader />;
+  return <LoaderBox />;
 }

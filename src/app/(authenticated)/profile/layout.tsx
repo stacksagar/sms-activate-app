@@ -13,7 +13,7 @@ import FIcon from "@/common/FIcon";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import BoxesLoader from "@/components/Loaders/BoxesLoader";
+import BoxesLoader from "@/components/Loaders/LoaderBox";
 
 const prfile_links: {
   title: string;
