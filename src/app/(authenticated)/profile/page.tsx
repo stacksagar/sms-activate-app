@@ -42,7 +42,7 @@ export default function Profile() {
     formik.setFieldValue("name", user?.name || "");
     formik.setFieldValue("email", user?.email || "");
     formik.setFieldValue("phone", user?.phone || "");
-  }, [user]);
+  }, [user, formik]);
 
   return (
     <form onSubmit={formik.handleSubmit} className="h-fit w-full space-y-6">

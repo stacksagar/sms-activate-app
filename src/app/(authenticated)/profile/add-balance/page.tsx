@@ -1,3 +1,4 @@
+import MuiTextField from "@/common/MaterialUi/Forms/MuiTextField";
 import {
   Button,
   List,
@@ -15,19 +16,20 @@ const methods = [
     name: "Cryptomus",
     logo: "https://s3.cryptwerk.com/companies/cryptomus-com_6e683a07d101a6c2154c1295035c2548.jpg",
   },
-  {
-    name: "Coinbase",
-    logo: "https://s3.cryptwerk.com/companies/cryptomus-com_6e683a07d101a6c2154c1295035c2548.jpg",
-  },
-  {
-    name: "Paypal",
-    logo: "https://s3.cryptwerk.com/companies/cryptomus-com_6e683a07d101a6c2154c1295035c2548.jpg",
-  },
 ];
 
 export default function AddBalance() {
   return (
     <div>
+      <div>
+        <MuiTextField
+          type="number"
+          placeholder="Amount"
+          label="Deposit Amount"
+        />
+      </div>
+      <br />
+
       <Typography variant="h6"> Choose Payment Option </Typography>
 
       <Divider />

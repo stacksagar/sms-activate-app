@@ -1,6 +1,6 @@
 import MuiButton from "@/common/MaterialUi/MuiButton";
 import TogglerOptions from "@/common/MaterialUi/TogglerOptions";
-import { signOut, useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
 import Image from "next/image";
@@ -92,17 +92,17 @@ export default function ClientHeaderRight() {
     />
   ) : (
     <>
-      <a href="/auth/signin" className="w-fit">
+      <Link href="/auth/signin" className="w-fit">
         <MuiButton size="medium">
           <FIcon icon="lock" /> Login
         </MuiButton>
-      </a>
+      </Link>
 
-      <a href="/auth/signup" className="w-fit">
+      <Link href="/auth/signup" className="w-fit">
         <MuiButton size="medium" color="info">
           <FIcon icon="user" /> Signup
         </MuiButton>
-      </a>
+      </Link>
     </>
   );
 }

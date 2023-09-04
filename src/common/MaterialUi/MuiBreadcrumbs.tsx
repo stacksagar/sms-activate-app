@@ -19,14 +19,14 @@ export default function MuiBreadcrumbs({ links }: Props) {
       <Breadcrumbs aria-label="breadcrumb">
         {links.map((item) =>
           item?.href ? (
-            <a
+            <Link
               key={item?.title}
               href={item?.href}
               className="flex items-center gap-1"
             >
               <FIcon icon={item?.icon || "link"} />
               {item?.title}
-            </a>
+            </Link>
           ) : (
             <Typography
               key={item.title}

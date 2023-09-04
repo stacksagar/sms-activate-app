@@ -49,12 +49,12 @@ export default function ForgotPasswordForm() {
         {/* Signup Message */}
         <p className="text-gray-500 dark:text-gray-400 text-sm font-light">
           <span className="mr-1"> Wanna signin? </span>
-          <a
+          <Link
             href="/auth/signin"
             className="text-primary-600 dark:text-primary-500 font-medium hover:underline"
           >
             Signin from here
-          </a>
+          </Link>
         </p>
       </form>
     </AuthPageLayout>

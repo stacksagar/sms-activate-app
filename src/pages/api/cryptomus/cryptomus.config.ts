@@ -1,6 +1,5 @@
 export const cryptomusConfig = {
-  API_KEY:
-    "F1Dk66WSGvl5eT1Nqz2ESN24ZrORCDGywvr38xHkZA8VsXWGRSxKtoclJ6vBmB5QEPphqx470QlV6tXsB2NDIHN7oiVeryPFHMIZOpxvl4j57MHgs9WUeJi1l4NAvdjSF1Dk66WSGvl5eT1Nqz2ESN24ZrORCDGywvr38xHkZA8VsXWGRSxKtoclJ6vBmB5QEPphqx470QlV6tXsB2NDIHN7oiVeryPFHMIZOpxvl4j57MHgs9WUeJi1l4NAvdjS",
-  MERCHANT_ID: "e5aaf612-efd1-4b78-98bf-376f887246a9",
+  API_KEY: process.env.CRYPTOMUS_APIKEY as string,
+  MERCHANT_ID: process.env.CRYPTOMUS_MERCHANT_ID as string,
   API_URL: "https://api.cryptomus.com/v1",
 };

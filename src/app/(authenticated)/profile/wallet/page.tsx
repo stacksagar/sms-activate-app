@@ -24,15 +24,15 @@ export default function Wallet() {
           <span>Available Balance:</span>
           <span className="font-bold text-yellow-600">
             {setting?.public?.currency}
-            {user?.balance}
+            {user?.balance?.toFixed(2)}
           </span>
         </h2>
         <div className="w-fit">
-          <a href="/profile/add-balance">
+          <Link href="/profile/add-balance">
             <Button variant="contained" startIcon={<FIcon icon="plus" />}>
               Add Balance
             </Button>
-          </a>
+          </Link>
         </div>
       </div>
       <br />

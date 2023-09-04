@@ -5,7 +5,6 @@ import CssBaseline from "@mui/material/CssBaseline";
 import NextAppDirEmotionCacheProvider from "./EmotionCache";
 import { useTheme } from "@/context/ThemeProvider";
 import { createTheme } from "@mui/material";
-import cookie from "js-cookie";
 
 export default function MaterialThemeProvider({
   children,
@@ -19,7 +18,7 @@ export default function MaterialThemeProvider({
       <ThemeProvider
         theme={createTheme({
           palette: {
-            mode: theme || (cookie.get("theme") as Theme) || "light",
+            mode: theme,
             background: {
               paper: theme === "dark" ? "#0f172a" : "#ffffff",
               default: theme === "dark" ? "#020617" : "#ffffff",

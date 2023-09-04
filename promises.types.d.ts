@@ -19,3 +19,46 @@ type GetActiveActivations = {
   status?: "success" | "error";
   activeActivations?: ActiveActivation[];
 };
+
+type CreateInvoicePromise = {
+  state: number;
+  result: {
+    uuid: string;
+    order_id: string;
+    amount: string;
+    payment_amount: string;
+    payer_amount: string;
+    discount_percent: number;
+    discount: string;
+    payer_currency: string;
+    currency: string;
+    comments?: any;
+    merchant_amount: string;
+    network: string;
+    address: string;
+    from?: string;
+    txid?: string;
+    payment_status:
+      | " paid"
+      | "paid_over"
+      | "wrong_amount"
+      | "process"
+      | "confirm_check"
+      | "wrong_amount_waiting"
+      | "check"
+      | "fail"
+      | "cancel"
+      | "system_fail"
+      | "refund_process"
+      | "refund_fail"
+      | "refund_paid"
+      | "locked";
+    url: "https://pay.cryptomus.com/pay/e44b6da7-6a7e-49ed-bfc6-c404695a5779";
+    expired_at: number;
+    status: string;
+    is_final: boolean;
+    additional_data?: object | unknown;
+    created_at: string;
+    updated_at: string;
+  };
+};

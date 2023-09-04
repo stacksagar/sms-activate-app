@@ -82,7 +82,7 @@ export default function NotFound() {
 
             <div>
               <a
-                href="#"
+                href="/blog"
                 className="inline-flex items-center text-sm text-blue-500 gap-x-2 dark:text-blue-400 hover:underline"
               >
                 <span>Our blog</span>
@@ -110,7 +110,7 @@ export default function NotFound() {
 
             <div>
               <a
-                href="#"
+                href="/contact"
                 className="inline-flex items-center text-sm text-blue-500 gap-x-2 dark:text-blue-400 hover:underline"
               >
                 <span>Chat to support</span>

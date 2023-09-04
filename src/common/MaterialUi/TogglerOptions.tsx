@@ -111,12 +111,12 @@ export default function TogglerOptions({ title, items, size }: Props) {
         {items?.map((item) =>
           item.href ? (
             item?.hidden ? null : (
-              <MenuItem key={item.text}>
-                <a
-                  key={item.text}
-                  href={item.href}
-                  target={item?.blank ? "_blank" : "_self"}
-                >
+              <Link
+                key={item.text}
+                href={item.href}
+                target={item?.blank ? "_blank" : "_self"}
+              >
+                <MenuItem>
                   <button {...item.button}>
                     <span className="text-left w-8 inline-block">
                       <FIcon icon={item.icon || "circle-notch"} />
@@ -124,8 +124,8 @@ export default function TogglerOptions({ title, items, size }: Props) {
                     <span>{item.text}</span>
                   </button>
                   {item?.loading ? <CircleSpinner /> : null}
-                </a>
-              </MenuItem>
+                </MenuItem>
+              </Link>
             )
           ) : item?.hidden ? null : (
             <MenuItem key={item.text}>

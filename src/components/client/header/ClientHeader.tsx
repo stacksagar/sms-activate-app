@@ -25,9 +25,9 @@ interface Props {
 
 const drawerWidth = 240;
 const navigation = [
-  { name: "Features", href: "#features" },
-  { name: "How It Work", href: "#how-it-works" },
-  { name: "F.A.Q", href: "#faq" },
+  { name: "Features", href: "/#features" },
+  { name: "How It Work", href: "/#how-it-works" },
+  { name: "F.A.Q", href: "/#faq" },
 ];
 
 export default function ClientHeader(props: Props) {
@@ -40,11 +40,11 @@ export default function ClientHeader(props: Props) {
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
-      <Typography variant="h6" sx={{ my: 2 }}>
-        <a href="/" title="go home">
+      <a href="/" title="go home">
+        <Typography variant="h6" sx={{ my: 2 }}>
           <TextLogo />
-        </a>
-      </Typography>
+        </Typography>
+      </a>
       <Divider />
       <List>
         {navigation.map((item) => (
@@ -84,28 +84,33 @@ export default function ClientHeader(props: Props) {
               >
                 <MenuIcon />
               </IconButton>
-              <Typography
-                variant="h6"
-                component="div"
+
+              <a href="/" title="go home">
+                <Typography
+                  variant="h6"
+                  component="div"
+                  sx={{
+                    flexGrow: 1,
+                    display: { display: "none", md: "block" },
+                  }}
+                >
+                  <TextLogo />
+                </Typography>
+              </a>
+
+              <Box
                 sx={{
-                  flexGrow: 1,
                   display: { display: "none", md: "block" },
+                  marginLeft: "auto",
                 }}
               >
-                <a href="/" title="go home">
-                  <TextLogo />
-                </a>
-              </Typography>
-              <Box sx={{ display: { display: "none", md: "block" } }}>
                 {navigation.map((item) => (
-                  <a key={item.name} href={item.href} title="#">
-                    <a>
-                      <Button>{item.name}</Button>
-                    </a>
-                  </a>
+                  <Link key={item.name} href={item.href} title="#">
+                    <Button>{item.name}</Button>
+                  </Link>
                 ))}
               </Box>
-              <div className="ml-auto flex items-center gap-2">
+              <div className="flex items-center gap-2">
                 <div className="mx-8">
                   <ThemeToggler />
                 </div>

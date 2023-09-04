@@ -75,7 +75,7 @@ const BlogCard = ({ image, date, CardTitle, CardDescription }: any) => {
             )}
             <h3>
               <a
-                href="/#"
+                href="#"
                 className="inline-block mb-4 text-xl font-semibold text-dark hover:text-primary sm:text-2xl lg:text-xl xl:text-2xl"
               >
                 {CardTitle}

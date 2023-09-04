@@ -198,9 +198,9 @@ export default function AdminLayout({ children }: Props) {
       </AppBar>
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
-          <a title="Admin" href="/admin" className="pr-4">
+          <Link title="Admin" href="/admin" className="pr-4">
             <TextLogo />
-          </a>
+          </Link>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "rtl" ? (
               <ChevronRightIcon />
@@ -242,8 +242,8 @@ export default function AdminLayout({ children }: Props) {
         <Divider />
         <List>
           {bottom_links.map((item) => (
-            <ListItem key={item.name} disablePadding sx={{ display: "block" }}>
-              <Link href={item.href || "/admin"} title="go">
+            <Link key={item.name} href={item.href || "/admin"} title="go">
+              <ListItem disablePadding sx={{ display: "block" }}>
                 <ListItemButton
                   sx={{
                     minHeight: 48,
@@ -265,8 +265,8 @@ export default function AdminLayout({ children }: Props) {
                     sx={{ opacity: open ? 1 : 0 }}
                   />
                 </ListItemButton>
-              </Link>
-            </ListItem>
+              </ListItem>
+            </Link>
           ))}
         </List>
       </Drawer>

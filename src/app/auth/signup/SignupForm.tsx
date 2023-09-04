@@ -115,12 +115,12 @@ export default function SignupForm() {
         {/* Signup Message */}
         <p className="text-gray-500 dark:text-gray-400 text-sm font-light">
           <span className="mr-1"> Already have an account? </span>
-          <a
+          <Link
             href="/auth/signin"
             className="text-primary-600 dark:text-primary-500 font-medium hover:underline"
           >
             Sign in here
-          </a>
+          </Link>
         </p>
       </form>
     </AuthPageLayout>
