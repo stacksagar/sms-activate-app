@@ -14,6 +14,7 @@ export default async function handler(
   const data: any = {
     order_id: order_id || uid(),
     url_callback: callback || "http://localhost:3000/api/cryptomus/callback",
+    is_payment_multiple: true,
   };
 
   if (amount) {

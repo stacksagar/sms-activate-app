@@ -6,6 +6,7 @@ import useBoolean from "@/hooks/state/useBoolean";
 import { useReduxSelector } from "@/redux/redux_store";
 import { useOrderNumber } from "./hooks";
 import { useSetting } from "@/context/SettingProvider";
+import MuiSelect from "@/common/MaterialUi/Forms/MuiSelect";
 
 export default function CountryDetailsByService({
   service,
@@ -28,6 +29,29 @@ export default function CountryDetailsByService({
           }
           className="flex items-center justify-between gap-2"
         >
+          <MuiSelect
+            label="Select Currency"
+            options={[
+              { title: "Bitcoin (BTC)", value: "BTC" },
+              { title: "Ethereum (ETH)", value: "ETH" },
+              { title: "Litecoin (LTC)", value: "LTC" },
+              { title: "Tether (USDT)", value: "USDT" },
+              { title: "Dogecoin (DOGE)", value: "DOGE" },
+              { title: "Binance Coin (BNB)", value: "BNB" },
+              { title: "Tron (TRX)", value: "TRX" },
+              { title: "Bitcoin Cash (BCH)", value: "BCH" },
+              { title: "Dash (DASH)", value: "DASH" },
+              { title: "Ripple (XRP)", value: "XRP" },
+              { title: "USD Coin (USDC)", value: "USDC" },
+              { title: "Polkadot (DOT)", value: "DOT" },
+              { title: "Solana (SOL)", value: "SOL" },
+              { title: "Avalanche (AVAX)", value: "AVAX" },
+              { title: "Terra (LUNA)", value: "LUNA" },
+              { title: "Axie Infinity (AXS)", value: "AXS" },
+              { title: "Polygon (MATIC)", value: "MATIC" },
+            ]}
+          />
+
           <div className="flex items-center gap-2">
             <Image
               src={`https://smsactivate.s3.eu-central-1.amazonaws.com/assets/ico/country/${service?.country}.svg`}

@@ -1,5 +1,7 @@
-import { useState } from 'react';
-import useBoolean from './useBoolean';
+"use client";
+
+import { useState } from "react";
+import useBoolean from "./useBoolean";
 
 export default function useNumber(defaultValue?: number) {
   const [value, setValue] = useState<number>(defaultValue || 0);
