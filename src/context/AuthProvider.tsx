@@ -37,7 +37,9 @@ export default function AuthProvider({
   useEffect(() => {
     const sessionUser = session?.data?.user as UserT;
     if (!sessionUser?.email) {
-      setFetched(true);
+      setTimeout(() => {
+        setFetched(true);
+      }, 500);
       return;
     }
 

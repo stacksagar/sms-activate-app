@@ -1,7 +1,6 @@
 import MuiButton from "@/common/MaterialUi/MuiButton";
 import TogglerOptions from "@/common/MaterialUi/TogglerOptions";
 import { signOut } from "next-auth/react";
-import Link from "next/link";
 import React from "react";
 import Image from "next/image";
 import { useAuth } from "@/context/AuthProvider";
