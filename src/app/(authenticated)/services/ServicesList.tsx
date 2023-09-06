@@ -107,7 +107,7 @@ export default function ServicesList() {
     }));
 
     setAllServices(initialData);
-  }, [user, services, api_prices]);
+  }, [user, services, prices, api_prices]);
 
   function changeSort(value: SortBy) {
     sortBy.setCustom(value);

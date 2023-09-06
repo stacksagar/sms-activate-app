@@ -160,7 +160,7 @@ export default function AdminLayout({ children }: Props) {
     if (user?.role === "user") {
       router.replace("/profile");
     }
-  }, [session]);
+  }, [session, router]);
 
   useEffect(() => {
     if (window && window?.innerWidth <= 768) {
