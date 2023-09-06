@@ -13,7 +13,13 @@ const ServiceCard = ({ service, logo, price }: ServiceCardProps) => {
   return (
     <div className="flex items-center justify-between rounded overflow-hidden">
       <div className="bg-gray-200 dark:bg-gray-800 p-3 flex items-center gap-1">
-        <Image width={25} height={25} alt="" src={logo} className="rounded" />
+        <Image
+          width={25}
+          height={25}
+          alt=""
+          src={logo || "/"}
+          className="rounded"
+        />
         {service}
       </div>
       <div className="bg-gray-100 dark:bg-gray-700 p-3">

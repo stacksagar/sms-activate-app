@@ -2,19 +2,19 @@ import mdb from "@/lib/database/mongoDB";
 
 const userSchema = new mdb.Schema<UserT>(
   {
+    name: String,
+    email: String,
+    phone: String,
+    password: String,
+    image: String,
+    favorite_services: Array,
+
     balance: { type: Number, default: 0 },
-    name: { type: String },
-    email: { type: String, required: true },
-    phone: { type: String },
-    password: { type: String },
-    image: { type: String },
     role: {
       type: String,
       enum: ["user", "mode", "admin"],
       default: "user",
     },
-
-    favorite_services: { type: Array },
   },
   {
     timestamps: true,

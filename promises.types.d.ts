@@ -20,7 +20,24 @@ type GetActiveActivations = {
   activeActivations?: ActiveActivation[];
 };
 
-type CreateInvoicePromise = {
+type PaymentStatus =
+  | "paid"
+  | "completed"
+  | "paid_over"
+  | "wrong_amount"
+  | "process"
+  | "confirm_check"
+  | "wrong_amount_waiting"
+  | "check"
+  | "fail"
+  | "cancel"
+  | "system_fail"
+  | "refund_process"
+  | "refund_fail"
+  | "refund_paid"
+  | "locked";
+
+type CryptoMusCreateInvoiceResponse = {
   state: number;
   result: {
     uuid: string;
@@ -38,21 +55,7 @@ type CreateInvoicePromise = {
     address: string;
     from?: string;
     txid?: string;
-    payment_status:
-      | " paid"
-      | "paid_over"
-      | "wrong_amount"
-      | "process"
-      | "confirm_check"
-      | "wrong_amount_waiting"
-      | "check"
-      | "fail"
-      | "cancel"
-      | "system_fail"
-      | "refund_process"
-      | "refund_fail"
-      | "refund_paid"
-      | "locked";
+    payment_status: PaymentStatus;
     url: "https://pay.cryptomus.com/pay/e44b6da7-6a7e-49ed-bfc6-c404695a5779";
     expired_at: number;
     status: string;

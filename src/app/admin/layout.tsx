@@ -23,6 +23,8 @@ import FIcon from "@/common/FIcon";
 import Link from "next/link";
 import ThemeToggler from "@/common/ThemeToggler";
 import AdminHeaderOptions from "@/components/admin/header/AdminHeaderOptions";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const drawerWidth = 240;
 
@@ -140,6 +142,8 @@ interface Props {
 }
 
 export default function AdminLayout({ children }: Props) {
+  const router = useRouter();
+  const session = useSession();
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
 
@@ -150,6 +154,13 @@ export default function AdminLayout({ children }: Props) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  useEffect(() => {
+    const user = session.data?.user as UserT;
+    if (user?.role === "user") {
+      router.replace("/profile");
+    }
+  }, [session]);
 
   useEffect(() => {
     if (window && window?.innerWidth <= 768) {

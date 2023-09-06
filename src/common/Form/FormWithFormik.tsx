@@ -73,7 +73,7 @@ export default function FormWithFormik({
                 className="w-20 rounded pb-3"
                 width={5}
                 height={5}
-                src={formik.values[key] || ""}
+                src={formik.values[key] || "/"}
                 alt=""
               />
             ) : null}

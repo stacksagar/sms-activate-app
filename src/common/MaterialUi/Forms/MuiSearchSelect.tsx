@@ -99,7 +99,7 @@ export default function MuiSearchSelect({
                     height={30}
                     alt=""
                     className="rounded w-8 h-auto"
-                    src={option[imageKey]}
+                    src={option[imageKey] || "/"}
                   />
                 ) : null}
                 {parts.map((part: any) => (

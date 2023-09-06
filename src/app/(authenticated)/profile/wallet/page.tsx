@@ -6,16 +6,34 @@ import { useAuth } from "@/context/AuthProvider";
 import { useSetting } from "@/context/SettingProvider";
 import useBoolean from "@/hooks/state/useBoolean";
 import { Button, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import walletTableCells from "./walletTableCells";
-import Link from "next/link";
+import axios from "axios";
+import toast from "@/lib/toast";
 
 export default function Wallet() {
   const { setting } = useSetting();
   const { user } = useAuth();
 
+  const [deposits, setDeposits] = useState([] as DepositT[]);
+
+  useEffect(() => {
+    if (!user._id) return;
+    axios
+      .get<{ deposits: DepositT[] }>(`/api/deposits?userId=${user._id}`)
+      .then(({ data }) => {
+        setDeposits(data?.deposits || []);
+      });
+  }, [user]);
+
   const deleting = useBoolean();
-  function onMultipleDelete() {}
+  function onMultipleDelete() {
+    deleting.setTrue();
+    setTimeout(() => {
+      toast({ message: "Deposit can't be delete!", type: "warning" });
+      deleting.setFalse();
+    }, 500);
+  }
 
   return (
     <div>
@@ -40,9 +58,9 @@ export default function Wallet() {
         onRefreshData={() => {}}
         onDelete={onMultipleDelete}
         tableCells={walletTableCells}
-        rows={[]}
+        rows={deposits}
         loading={false}
-        tableTitle="Deposits History"
+        tableTitle="Your Deposits History"
         deleting={deleting}
       />
     </div>

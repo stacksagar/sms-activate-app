@@ -81,7 +81,25 @@ interface ActivationT extends ModelCommonAttributes {
 type ActivationPromise = { activation: ActivationT };
 
 interface DepositT extends ModelCommonAttributes {
+  user: UserT;
+
   amount: number;
+  status: PaymentStatus;
+
+  // Cryptomus
+  uuid?: string;
+  order_id?: string;
+  payment_amount?: number | string;
+  payment_amount_usd?: number | string;
+  merchant_amount?: number | string;
+  from: string;
+  network: string;
   currency?: string;
-  method?: string;
+  payer_currency?: string;
+  txid?: string;
+
+  additional_data?: {
+    payable_amount: number | string;
+    userId: string;
+  };
 }

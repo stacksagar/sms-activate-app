@@ -61,7 +61,7 @@ const BlogCard = ({ image, date, CardTitle, CardDescription }: any) => {
           <div className="mb-8 overflow-hidden rounded">
             <Image
               alt=""
-              src={image}
+              src={image || "/"}
               width={300}
               height={180}
               className="w-full"

@@ -210,7 +210,7 @@ export default function ServicesList() {
                           <div className="flex items-center gap-2 w-full">
                             <Image
                               className="rounded"
-                              src={service.logo}
+                              src={service.logo || "/"}
                               width={20}
                               height={20}
                               alt={``}

@@ -26,7 +26,7 @@ export default function WithCryptomus() {
 
     loading.setTrue();
     try {
-      const { data } = await axios.post<CreateInvoicePromise>(
+      const { data } = await axios.post<CryptoMusCreateInvoiceResponse>(
         "/api/cryptomus/create-invoice",
         {
           amount: amount.value.toString(),

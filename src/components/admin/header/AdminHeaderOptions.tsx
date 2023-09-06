@@ -31,7 +31,7 @@ export default function AdminHeaderOptions() {
           <div className="flex items-center gap-2 sm:gap-4">
             {user?.image ? (
               <Image
-                src={user?.image}
+                src={user?.image || "/"}
                 width={30}
                 height={30}
                 className="rounded"

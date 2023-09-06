@@ -55,7 +55,7 @@ export default function ManageSelectedService() {
         <div className="flex items-center gap-2">
           <Image
             className="rounded"
-            src={selectedService?.logo}
+            src={selectedService?.logo || "/"}
             width={20}
             height={20}
             alt={``}

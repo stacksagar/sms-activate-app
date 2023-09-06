@@ -2,10 +2,10 @@ import mdb from "@/lib/database/mongoDB";
 
 const SMSServicePriceSchema = new mdb.Schema<SMSServicePrice>(
   {
-    service: { type: String },
-    country: { type: String },
-    api_cost: { type: Number },
-    user_cost: { type: Number },
+    service: String,
+    country: String,
+    api_cost: Number,
+    user_cost: Number,
   },
   {
     timestamps: true,

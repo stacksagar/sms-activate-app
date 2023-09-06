@@ -14,7 +14,7 @@ function Service({ row }: RenderProps) {
   return (
     <div className="flex items-center gap-1">
       <Image
-        src={services[row?.service]?.logo || ""}
+        src={services[row?.service]?.logo || "/"}
         width={25}
         height={25}
         alt=""
@@ -28,7 +28,12 @@ function Country({ row }: RenderProps) {
   const { countries } = useReduxSelector((s) => s.services);
   return (
     <div className="flex items-center gap-1">
-      <Image src={countryLogo(row.country)} width={25} height={25} alt="" />
+      <Image
+        src={countryLogo(row.country) || "/"}
+        width={25}
+        height={25}
+        alt=""
+      />
       <span>{countries[row?.country]?.eng}</span>
     </div>
   );

@@ -34,7 +34,7 @@ interface MuiTableProps {
   rows: any[];
   tableTitle: React.ReactNode | string;
   onDelete?: (id: ID[]) => void;
-  deleting: UseBoolean;
+  deleting?: UseBoolean;
   loading?: boolean;
   onRefreshData?: () => void;
 }

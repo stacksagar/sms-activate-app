@@ -5,9 +5,9 @@ import useTracking from "@/hooks/useTracking";
 
 interface Props {
   showDeleteWarning: UseBoolean;
-  deleting: UseBoolean;
+  deleting?: UseBoolean;
   onConfirm: () => void;
-  total?:number;
+  total?: number;
 }
 
 export default function MuiTableDeleteWarning({

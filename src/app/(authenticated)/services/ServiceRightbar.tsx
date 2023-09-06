@@ -27,7 +27,7 @@ const ServiceDetails = ({ row }: { row: ActivationT }) => {
     <div className="flex items-center gap-2">
       <Image
         className="dark:rounded-lg"
-        src={serviceLogo(row.serviceCode)}
+        src={serviceLogo(row.serviceCode) || "/"}
         alt=""
         width={28}
         height={28}
@@ -52,7 +52,7 @@ const CountryDetails = ({ row }: { row: ActivationT }) => {
       <div className="flex items-center gap-1 pl-2">
         <Image
           className="dark:rounded-lg"
-          src={countryLogo(row.countryCode)}
+          src={countryLogo(row.countryCode) || "/"}
           alt=""
           width={20}
           height={20}

@@ -1,5 +1,4 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import cookie from "js-cookie";
 
 interface Context {
   theme: Theme;
@@ -13,7 +12,7 @@ export default function ThemeProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [theme, setTheme] = useState<Theme>(cookie.get("theme") as Theme || 'light');
+  const [theme, setTheme] = useState<Theme>("light");
 
   useEffect(() => {
     if (theme === "light") {
@@ -21,7 +20,6 @@ export default function ThemeProvider({
     } else {
       document.documentElement.classList.add("dark");
     }
-    cookie.set("theme", theme, { expires: 365.25 });
   }, [theme]);
 
   return (

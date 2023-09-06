@@ -39,9 +39,13 @@ export default function Profile() {
   });
 
   useEffect(() => {
+    if (formik.values.name) return;
+
     formik.setFieldValue("name", user?.name || "");
     formik.setFieldValue("email", user?.email || "");
     formik.setFieldValue("phone", user?.phone || "");
+
+    console.log("[user, formik]");
   }, [user, formik]);
 
   return (
