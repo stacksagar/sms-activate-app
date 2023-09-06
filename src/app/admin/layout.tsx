@@ -107,7 +107,7 @@ type SidebarLink = {
 const top_links: SidebarLink[] = [
   {
     name: "Dashboard",
-    href: "/admin/pricing",
+    href: "/admin",
     icon: "dashboard",
   },
 

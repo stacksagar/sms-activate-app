@@ -58,26 +58,38 @@ export default function ClientHeaderRight() {
       }
       items={[
         {
-          text: "Servicecs",
-          href: "/services",
-          icon: "list",
-        },
-        {
           text: "Profile",
           href: "/profile",
           icon: "user",
         },
         {
-          text: "Change Password",
-          href: "/profile/change-password",
-          icon: "lock",
+          text: "Wallet",
+          href: "/profile/wallet",
+          icon: "money-bill",
         },
+        {
+          text: "Add Balance",
+          href: "/profile/add-balance",
+          icon: "money-bill-transfer",
+        },
+
+        {
+          text: "Servicecs",
+          href: "/services",
+          icon: "list",
+        },
+
         {
           text: "Admin",
           href: "/admin",
           icon: "user-gear",
           hidden: user?.role !== "admin",
           blank: true,
+        },
+        {
+          text: "Change Password",
+          href: "/profile/change-password",
+          icon: "lock",
         },
         {
           text: "Logout",

@@ -27,6 +27,8 @@ export default async function createActivation(
     });
 
     if (serviceCustomPrice) {
+      console.log("serviceCustomPrice ", serviceCustomPrice);
+      console.log("user.balance ", user?.balance);
       if (user.balance < serviceCustomPrice.user_cost)
         throw new Error("Insufficient balance!");
     } else {
@@ -35,6 +37,7 @@ export default async function createActivation(
         serviceCode,
         countryCode
       );
+
       const api_cost = serviceApiPrice?.cost as number;
       if (user.balance < api_cost) throw new Error("Insufficient balance!");
     }
@@ -48,7 +51,7 @@ export default async function createActivation(
         action: "getNumberV2",
         service: serviceCode,
         country: countryCode,
-        operator: "cellular",
+        operator: "tmobile",
       },
     });
 
@@ -106,6 +109,6 @@ export default async function createActivation(
 
     return { activation, message: "Congrats, Order created!" };
   } catch (error) {
-    return Res.err(res, error);
+    return Res.msg(res, "Not available, try few minutes later", 400);
   }
 }

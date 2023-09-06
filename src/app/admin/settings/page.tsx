@@ -73,6 +73,11 @@ export default function HeaderSetting() {
           },
         },
 
+        email: {
+          type: "text",
+          value: setting?.public?.email,
+        },
+
         telegram_phone: {
           type: "text",
           value: setting?.public?.telegram_phone,

@@ -22,9 +22,13 @@ export default async function get_sms_service_price(
       url += `?country=${country} `;
     }
 
-    const respnose = await axios.get(url);
+    const response = await axios.get(
+      process.env.NODE_ENV === "development"
+        ? `http://localhost:3000/${url}`
+        : `https://sms-verification.vercel.app/${url}`
+    );
 
-    const data = respnose?.data?.data as any;
+    const data = response?.data?.data as any;
 
     if (service && country) {
       return data[country][service] as CostAndCount;
@@ -46,6 +50,7 @@ export default async function get_sms_service_price(
       };
     }
   } catch (error) {
+    console.log("ERROR:", error);
     toast({ message: error_message(error) });
   }
 }

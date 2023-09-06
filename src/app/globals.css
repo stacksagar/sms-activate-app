@@ -64,7 +64,8 @@ p {
 }
 
 #how-it-works {
-  background: linear-gradient(to right, #ee2b94, #982881);
+  @apply bg-gradient-conic from-gray-900 to-gray-950
+  /* background: linear-gradient(to right, #ee2b94, #982881); */;
 }
 
 /* Loding Boxes */

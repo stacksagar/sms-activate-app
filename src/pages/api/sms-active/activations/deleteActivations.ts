@@ -15,6 +15,12 @@ export default async function deleteActivations(
       user.balance = (user?.balance || 0) + (activation?.total_cost || 0);
       await user.save();
     }
-    await activation?.deleteOne();
+
+    if (
+      activation?.status !== "IN_HISTORY" &&
+      activation?.status !== "COMPLETED"
+    ) {
+      await activation?.deleteOne();
+    }
   }
 }

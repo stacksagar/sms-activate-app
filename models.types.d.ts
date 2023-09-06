@@ -40,6 +40,7 @@ interface SettingT extends ModelCommonAttributes {
   public?: {
     site_title?: string;
     favicon?: string;
+    email?: string;
     currency?: string;
     selected_country?: number | string;
     website_thumbnail?: string;

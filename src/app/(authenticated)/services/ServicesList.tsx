@@ -22,8 +22,7 @@ import FIcon from "@/common/FIcon";
 import { fetchServicesPrices } from "@/redux/features/servicesPricesSlice/requests";
 import axios from "axios";
 import { useAuth } from "@/context/AuthProvider";
-import MuiSelect from "@/common/MaterialUi/Forms/MuiSelect";
-type SortBy = "sortBy" | "mostPopular" | "fromLow" | "fromHigh";
+
 export default function ServicesList() {
   const { setting } = useSetting();
 
@@ -38,15 +37,6 @@ export default function ServicesList() {
   );
   const [api_prices, set_api_prices] = useState<any>({});
 
-  function get_price(serviceCode?: string) {
-    return prices.find((p) => p.service === serviceCode);
-  }
-
-  function get_api_price(serviceCode: string): any {
-    return api_prices[serviceCode]?.cost || 0;
-  }
-
-  const sortBy = useString<SortBy>("sortBy");
   const search = useString("");
   const ordering = useBoolean();
   const handleOrder = useOrderNumber();
@@ -109,27 +99,6 @@ export default function ServicesList() {
     setAllServices(initialData);
   }, [user, services, prices, api_prices]);
 
-  function changeSort(value: SortBy) {
-    sortBy.setCustom(value);
-
-    const initialData = [
-      ...(user?.favorite_services || []),
-      ...Object.values(services || {}),
-    ].map((item) => ({
-      ...item,
-      default_price:
-        get_price(item?.shortName)?.user_cost || get_api_price(item.shortName),
-    }));
-
-    setAllServices((prev) =>
-      value === "fromHigh"
-        ? prev.sort((a, b) => (b?.default_price || 0) - (a?.default_price || 0))
-        : value === "fromLow"
-        ? prev.sort((a, b) => (a?.default_price || 0) - (b?.default_price || 0))
-        : initialData
-    );
-  }
-
   async function addFavoriteHandle(service: SMSService) {
     let favorites = user?.favorite_services || ([] as SMSService[]);
 
@@ -171,22 +140,6 @@ export default function ServicesList() {
       ) : (
         <Box>
           <div>
-            {setting?.public?.selected_country ? (
-              <div className="flex justify-between">
-                <MuiSelect
-                  size="small"
-                  value={sortBy.value}
-                  onChange={(e) => changeSort(e.target.value as SortBy)}
-                  options={[
-                    { title: "Sort By", value: "sortBy" },
-                    { title: "MostPopular", value: "mostPopular" },
-                    { title: "From low prices", value: "fromLow" },
-                    { title: "From high prices", value: "fromHigh" },
-                  ]}
-                />
-              </div>
-            ) : null}
-
             <div className="w-full h-[400px] max-h-full overflow-auto">
               {loading || !fetched ? (
                 <ListSkeleton count={7} height={50} />

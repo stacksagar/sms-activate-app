@@ -12,25 +12,27 @@ export default function ClientFooter() {
       <div className="container py-8 flex flex-col md:flex-row items-center justify-between gap-6">
         <TextLogo />
 
-        <div className="flex items-center gap-1 xl:gap-6 text-lg flex-col md:flex-row">
-          <a href={`mailto:${"support@yensms.com"}`} className="flex gap-x-1">
+        <div className="flex items-center gap-2 xl:gap-6 text-lg flex-col md:flex-row">
+          <a href={`mailto:${setting?.public?.email}`} className="flex gap-x-1">
             <span>
               <FIcon icon="envelope" />
             </span>
             Send us an e-mail
           </a>
-          <a href={`mailto:${"support@yensms.com"}`} className="flex gap-x-1">
-            <span>
-              <FIcon icon="contact-book" />
-            </span>
-            Contact US
+          <a
+            href={`https://t.me/${setting?.public?.telegram_phone}`}
+            className="flex gap-x-1 items-center"
+          >
+            <FIcon icon="telegram" className="text-[#0088cc]" />
+            Telegram
           </a>
         </div>
       </div>
+
       <div className="container py-8 border-t">
         <div className="flex flex-col-reverse md:flex-row items-center justify-between">
           <span className="block text-lg text-gray-500 sm:text-center dark:text-gray-400">
-            ©YanSMS 2023 All Rights Reserved.
+            {setting?.footer?.copyright}
           </span>
 
           <div className="flex items-center justify-center xl:justify-end flex-wrap gap-1 md:gap-2 xl:gap-5">

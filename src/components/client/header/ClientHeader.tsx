@@ -51,7 +51,7 @@ export default function ClientHeader(props: Props) {
           <ListItem key={item.name} disablePadding>
             <a href={item.href} title="#">
               <ListItemButton sx={{ textAlign: "center" }}>
-                <ListItemText primary={item.name} />
+                <span className="capitalize">{item.name}</span>
               </ListItemButton>
             </a>
           </ListItem>
@@ -74,7 +74,7 @@ export default function ClientHeader(props: Props) {
       >
         <div className="w-[98%] 2xl:max-w-[1280px] h-[90px] flex items-center mx-auto">
           <div className="w-full">
-            <Toolbar>
+            <Toolbar className="w-full flex justify-between">
               <IconButton
                 color="inherit"
                 aria-label="open drawer"
@@ -105,8 +105,15 @@ export default function ClientHeader(props: Props) {
                 }}
               >
                 {navigation.map((item) => (
-                  <a key={item.name} href={item.href} title="#">
-                    <Button>{item.name}</Button>
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    title="#"
+                    className="capitalize"
+                  >
+                    <Button>
+                      <span className="capitalize">{item.name}</span>
+                    </Button>
                   </a>
                 ))}
               </Box>
