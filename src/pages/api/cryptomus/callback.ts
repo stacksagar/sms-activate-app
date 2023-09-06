@@ -8,7 +8,10 @@ export default async function handler(
 ) {
   try {
     console.log("/callback is work: ", req.body);
-    Setting.create({ public: { ...req.body } });
+    Setting.create({
+      public: { ...req.body },
+      footer: { name: "footer" },
+    });
     res.status(200).json({ message: "ok" });
   } catch (error) {
     return Res.err(res, error);

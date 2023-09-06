@@ -9,7 +9,15 @@ export default async function handler(
 ) {
   const method = request.method?.toUpperCase() as Methods;
   // if (method !== "POST") return response.json({ message: "not allow" });
-  const { amount, currency, network, callback, order_id } = request.body;
+  const {
+    amount,
+    currency,
+    network,
+    callback,
+    order_id,
+    additional_data,
+    url_success,
+  } = request.body;
 
   const data: any = {
     order_id: order_id || uid(),
@@ -27,6 +35,14 @@ export default async function handler(
 
   if (network) {
     data.network = network;
+  }
+
+  if (additional_data) {
+    data.additional_data = additional_data;
+  }
+
+  if (url_success) {
+    data.url_success = url_success;
   }
 
   const jsonData = JSON.stringify(data);

@@ -1,6 +1,7 @@
 import CircleSpinner from "@/common/MaterialUi/CircleSpinner";
 import MuiTextField from "@/common/MaterialUi/Forms/MuiTextField";
 import MuiButton from "@/common/MaterialUi/MuiButton";
+import { useAuth } from "@/context/AuthProvider";
 import useBoolean from "@/hooks/state/useBoolean";
 import useNumber from "@/hooks/state/useNumber";
 import error_message from "@/lib/error_message";
@@ -11,6 +12,7 @@ import React from "react";
 export default function WithCryptomus() {
   const amount = useNumber(0);
   const loading = useBoolean();
+  const { user } = useAuth();
 
   async function handleCryptoPayment() {
     if (amount.value < 0.1) {
@@ -29,6 +31,10 @@ export default function WithCryptomus() {
         {
           amount: amount.value.toString(),
           currency: "USD",
+          additional_data: {
+            payable_amount: amount.value.toString(),
+            userId: user._id,
+          },
         }
       );
 
