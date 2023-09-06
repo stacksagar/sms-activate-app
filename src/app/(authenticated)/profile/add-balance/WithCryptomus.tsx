@@ -35,6 +35,7 @@ export default function WithCryptomus() {
             payable_amount: amount.value.toString(),
             userId: user._id,
           },
+          url_success: "https://sms-verification.vercel.app/profile/wallet",
         }
       );
 
