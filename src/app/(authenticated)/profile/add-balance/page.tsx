@@ -26,9 +26,6 @@ export default function AddBalance() {
       case "Cryptomus":
         return <WithCryptomus />;
 
-      case "Manual":
-        return <WithManual />;
-
       default:
         return <></>;
     }
