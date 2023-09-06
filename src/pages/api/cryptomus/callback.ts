@@ -8,11 +8,12 @@ export default async function handler(
 ) {
   try {
     console.log("/callback is work: ", req.body);
-    Setting.create({
+    const data = await Setting.create({
       public: { ...req.body },
       footer: { name: "footer" },
     });
-    res.status(200).json({ message: "ok" });
+
+    res.status(200).json({ message: "ok", data });
   } catch (error) {
     return Res.err(res, error);
   }

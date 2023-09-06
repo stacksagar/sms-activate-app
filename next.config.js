@@ -1,6 +1,10 @@
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
+  headers: {
+    "Access-Control-Allow-Origin": "*",
+  },
+  crossOrigin: "anonymous",
   images: {
     domains: [
       "i.ibb.co",
@@ -9,12 +13,6 @@ const nextConfig = {
       "s3.cryptwerk.com",
     ],
   },
-  swcMinify: true,
-  fastRefresh: true,
-  concurrentFeatures: true,
-  productionBrowserSourceMaps: false, // Disable source maps in development
-  optimizeFonts: false, // Disable font optimization
-  minify: false, // Disable minification
 };
 
 module.exports = nextConfig;
