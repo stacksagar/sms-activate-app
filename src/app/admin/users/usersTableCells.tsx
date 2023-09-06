@@ -1,6 +1,7 @@
 import ButtonWithCopy from "@/common/ButtonWithCopy";
 import FIcon from "@/common/FIcon";
 import unkown_person from "@/data/unkown_person";
+import { Button } from "@mui/material";
 import Image from "next/image";
 
 const usersTableCells: MuiTableHeader<UserT>[] = [
@@ -57,6 +58,22 @@ const usersTableCells: MuiTableHeader<UserT>[] = [
   {
     key: "balance",
     startIcon: "৳ ",
+  },
+
+  {
+    key: "actions",
+    ActionButtons({ row }) {
+      return (
+        <>
+          <Button variant="contained" size="small" color="secondary">
+            Edit
+          </Button>
+          <Button variant="contained" size="small" color="warning">
+            Ban User
+          </Button>
+        </>
+      );
+    },
   },
 ];
 

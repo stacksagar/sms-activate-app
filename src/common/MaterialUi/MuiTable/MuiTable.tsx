@@ -230,7 +230,7 @@ export default function MuiTable({
                                       setDeleteID(row?._id);
                                       showDeleteWarning.setTrue();
                                     }}
-                                    color="warning"
+                                    color="error"
                                     variant="contained"
                                     size="small"
                                   >

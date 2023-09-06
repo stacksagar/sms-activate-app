@@ -5,7 +5,6 @@ import { fetchUsers } from "@/redux/features/users/requests";
 import { useReduxDispatch, useReduxSelector } from "@/redux/redux_store";
 import React, { useEffect } from "react";
 import usersTableCells from "./usersTableCells";
-import delay from "@/lib/delay";
 import toast_async from "@/lib/toast_async";
 import axios from "axios";
 import { userActions } from "@/redux/features/users/usersSlice";

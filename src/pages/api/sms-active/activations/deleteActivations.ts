@@ -1,3 +1,4 @@
+import Res from "@/lib/server/Res";
 import Activation from "@/models/mongodb/Activation";
 import User from "@/models/mongodb/User";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -21,6 +22,6 @@ export default async function deleteActivations(
       activation?.status !== "COMPLETED"
     ) {
       await activation?.deleteOne();
-    }
+    } else return Res.msg(res, "You can't delete!", 400);
   }
 }
