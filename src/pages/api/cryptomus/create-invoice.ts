@@ -39,7 +39,7 @@ export default async function handler(
   }
 
   if (additional_data) {
-    data.additional_data = additional_data;
+    data.additional_data = JSON.stringify(additional_data || {});
   }
 
   if (url_success) {
