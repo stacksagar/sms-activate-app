@@ -49,11 +49,11 @@ export default function ClientHeader(props: Props) {
       <List>
         {navigation.map((item) => (
           <ListItem key={item.name} disablePadding>
-            <Link href={item.href} title="#">
+            <a href={item.href} title="#">
               <ListItemButton sx={{ textAlign: "center" }}>
                 <ListItemText primary={item.name} />
               </ListItemButton>
-            </Link>
+            </a>
           </ListItem>
         ))}
       </List>
@@ -105,9 +105,9 @@ export default function ClientHeader(props: Props) {
                 }}
               >
                 {navigation.map((item) => (
-                  <Link key={item.name} href={item.href} title="#">
+                  <a key={item.name} href={item.href} title="#">
                     <Button>{item.name}</Button>
-                  </Link>
+                  </a>
                 ))}
               </Box>
               <div className="flex items-center gap-2">

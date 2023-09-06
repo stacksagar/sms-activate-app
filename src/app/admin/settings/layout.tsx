@@ -21,7 +21,7 @@ interface LinkTabProps {
 
 function LinkTab({ href, onClick, info, ...props }: LinkTabProps) {
   return (
-    <Link onClick={onClick} href={href || "/"}>
+    <a onClick={onClick} href={href || "/"}>
       <Tab
         component="button"
         {...props}
@@ -32,7 +32,7 @@ function LinkTab({ href, onClick, info, ...props }: LinkTabProps) {
           </div>
         }
       />
-    </Link>
+    </a>
   );
 }
 

@@ -111,7 +111,7 @@ export default function TogglerOptions({ title, items, size }: Props) {
         {items?.map((item) =>
           item.href ? (
             item?.hidden ? null : (
-              <Link
+              <a
                 key={item.text}
                 href={item.href}
                 target={item?.blank ? "_blank" : "_self"}
@@ -125,7 +125,7 @@ export default function TogglerOptions({ title, items, size }: Props) {
                   </button>
                   {item?.loading ? <CircleSpinner /> : null}
                 </MenuItem>
-              </Link>
+              </a>
             )
           ) : item?.hidden ? null : (
             <MenuItem key={item.text}>

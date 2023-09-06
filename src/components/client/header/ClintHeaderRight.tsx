@@ -92,17 +92,17 @@ export default function ClientHeaderRight() {
     />
   ) : (
     <>
-      <Link href="/auth/signin" className="w-fit">
+      <a href="/auth/signin" className="w-fit">
         <MuiButton size="medium">
           <FIcon icon="lock" /> Login
         </MuiButton>
-      </Link>
+      </a>
 
-      <Link href="/auth/signup" className="w-fit">
+      <a href="/auth/signup" className="w-fit">
         <MuiButton size="medium" color="info">
           <FIcon icon="user" /> Signup
         </MuiButton>
-      </Link>
+      </a>
     </>
   );
 }

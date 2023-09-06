@@ -85,12 +85,12 @@ export default function SigninForm() {
         />
         {/* Forgot Password Message */}
         <small>
-          <Link
+          <a
             href="/auth/forgot-password"
             className="text-primary-600 dark:text-primary-500 hover:underline"
           >
             Forgot Password?
-          </Link>
+          </a>
         </small>
         <div className="flex items-center gap-2 dark:text-white">
           <Checkbox id="remember" />

@@ -1,3 +1,5 @@
+"use client";
+
 import "./globals.css";
 import "react-responsive-pagination/themes/classic.css";
 

@@ -57,7 +57,7 @@ export default function ClippedDrawer({
           <List>
             {prfile_links.map((item) => (
               <ListItem key={item.title} disablePadding>
-                <Link
+                <a
                   href={item.href}
                   className={`block min-w-full ${
                     pathname === item.href ? "bg-blue-600 text-white" : ""
@@ -73,7 +73,7 @@ export default function ClippedDrawer({
                     </ListItemIcon>
                     <ListItemText primary={item.title} />
                   </ListItemButton>
-                </Link>
+                </a>
               </ListItem>
             ))}
           </List>

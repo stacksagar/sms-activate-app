@@ -28,11 +28,11 @@ export default function Wallet() {
           </span>
         </h2>
         <div className="w-fit">
-          <Link href="/profile/add-balance">
+          <a href="/profile/add-balance">
             <Button variant="contained" startIcon={<FIcon icon="plus" />}>
               Add Balance
             </Button>
-          </Link>
+          </a>
         </div>
       </div>
       <br />
