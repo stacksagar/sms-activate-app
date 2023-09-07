@@ -62,16 +62,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       case "DELETE": {
-        await deleteActivations(req, res);
-        return Res.msg(res, "Successfully deleted", 200);
+        try {
+          await deleteActivations(req, res);
+          return Res.msg(res, "Successfully deleted", 200);
+        } catch (error) {
+          return Res.err(res, error);
+        }
       }
     }
   } catch (error) {
-
-
-    
- 
-
     return Res.err(res, error);
   }
 };

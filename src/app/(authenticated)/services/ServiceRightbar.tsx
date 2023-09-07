@@ -23,6 +23,7 @@ import useString from "@/hooks/state/useString";
 import CountdownTimer from "./CountdownTimer";
 import { differenceInMinutes } from "date-fns";
 import toast from "@/lib/toast";
+import error_message from "@/lib/error_message";
 
 const ServiceDetails = ({ row }: { row: ActivationT }) => {
   return (
@@ -234,7 +235,7 @@ export default function ServiceRightbar() {
         {
           start: "Deleting.. wait a moment!",
           success: `Successfully deleted ${ids?.length} items!`,
-          error: "",
+          error: "You can't delete",
         }
       );
 

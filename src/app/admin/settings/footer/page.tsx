@@ -9,8 +9,6 @@ export default function FooterSetting() {
     <SettingForm
       keyValue="footer"
       fields={{
-        logo: { type: "text", value: setting?.footer?.logo },
-        location: { type: "text", value: setting?.footer?.location },
         copyright: { type: "text", value: setting?.footer?.copyright },
       }}
     />
