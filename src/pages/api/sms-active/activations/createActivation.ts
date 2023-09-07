@@ -1,5 +1,4 @@
 import Res from "@/lib/server/Res";
-import get_sms_service_price from "@/lib/sms-active/get_sms_service_price";
 import Activation from "@/models/mongodb/Activation";
 import SMSServicePrice from "@/models/mongodb/SMSServicePrice";
 import User from "@/models/mongodb/User";
@@ -25,23 +24,6 @@ export default async function createActivation(
       service: serviceCode,
       country: countryCode?.toString(),
     });
-
-    if (serviceCustomPrice) {
-      if (user.balance < serviceCustomPrice.user_cost) {
-        return Res.msg(res, "Insufficient balance!", 400);
-      }
-    } else {
-      // :: check service API price
-      const serviceApiPrice = await get_sms_service_price(
-        serviceCode,
-        countryCode
-      );
-
-      const api_cost = serviceApiPrice?.cost as number;
-      if (user.balance < api_cost) {
-        return Res.msg(res, "Insufficient balance!", 400);
-      }
-    }
 
     // :: order number with API
     const { data: orderData } = await axios.request({

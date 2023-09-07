@@ -67,6 +67,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       }
     }
   } catch (error) {
+
+
+    
+ 
+
     return Res.err(res, error);
   }
 };

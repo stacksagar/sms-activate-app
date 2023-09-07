@@ -49,7 +49,7 @@ export default function ServicesList() {
     if (setting?.public?.selected_country) {
       handleOrder(
         service?.shortName,
-        setting?.public?.selected_country,
+        setting?.public?.selected_country as string,
         ordering
       );
     } else {

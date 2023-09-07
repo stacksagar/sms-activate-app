@@ -56,7 +56,7 @@ export default function Pricing() {
 
   useEffect(() => {
     if (fetched_prices) return;
-    dispatch(fetchServicesPrices({ test: "ok" }));
+    dispatch(fetchServicesPrices({ }));
   }, [dispatch, fetched_prices]);
 
   useEffect(() => {
