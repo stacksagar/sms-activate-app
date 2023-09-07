@@ -36,6 +36,7 @@ export function useOrderNumber() {
         }),
         {
           start: "Creating your order...",
+          error: "Not available, Please try letter!",
         }
       );
 
