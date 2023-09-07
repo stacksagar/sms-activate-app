@@ -53,10 +53,11 @@ export function useOrderNumber() {
 
       if (serviceCustomPrice) {
         if (user.balance < serviceCustomPrice.user_cost) {
-          return toast({
+          toast({
             message: "Insufficient balance, Please deposit!",
             type: "warning",
           });
+          return;
         }
       } else {
         // :: check service API price
@@ -67,7 +68,8 @@ export function useOrderNumber() {
 
         const api_cost = serviceApiPrice?.cost as number;
         if (user.balance < api_cost) {
-          return toast({ message: "Insufficient balance!!", type: "warning" });
+          toast({ message: "Insufficient balance!!", type: "warning" });
+          return;
         }
       }
 

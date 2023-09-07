@@ -24,8 +24,8 @@ export default async function get_sms_service_price(
 
     const response = await axios.get(
       process.env.NODE_ENV === "development"
-        ? `http://localhost:3000/${url}`
-        : `https://sms-verification.vercel.app/${url}`
+        ? `http://localhost:3000${url}`
+        : `https://sms-verification.vercel.app${url}`
     );
 
     const data = response?.data?.data as any;

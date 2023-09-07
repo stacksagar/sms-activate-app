@@ -64,6 +64,7 @@ export default function CountryDetailsByService({
               className="h-8 w-auto"
               alt={""}
             />
+
             <div className="flex flex-col items-start gap-0 leading-5">
               <span className="font-medium"> {service?.eng} </span>
               <small>{service?.count || 0} pcs </small>
