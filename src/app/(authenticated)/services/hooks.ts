@@ -46,9 +46,7 @@ export function useOrderNumber() {
     try {
       // :: check this service custom price is added or not
       const serviceCustomPrice = servicePrices.find(
-        (p) =>
-          p.service === serviceCode &&
-          p.country?.toString() === countryCode?.toString()
+        (p) => p.service === serviceCode
       );
 
       if (serviceCustomPrice) {
@@ -59,6 +57,7 @@ export function useOrderNumber() {
           });
           return;
         }
+        console.log("serviceCustomPrice");
       } else {
         // :: check service API price
         const serviceApiPrice = await get_sms_service_price(
@@ -71,6 +70,7 @@ export function useOrderNumber() {
           toast({ message: "Insufficient balance!!", type: "warning" });
           return;
         }
+        console.log("serviceApiPrice");
       }
 
       const { data } = await toast_async<ActivationPromise>(

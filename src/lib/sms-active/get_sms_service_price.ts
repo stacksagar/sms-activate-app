@@ -12,7 +12,7 @@ export default async function get_sms_service_price(
   country?: string
 ) {
   try {
-    let url = `/api/sms-active/action/getPrices`;
+    let url = `sms-active/action/getPrices`;
 
     if (service && country) {
       url += `?service=${service}&country=${country}`;
@@ -22,11 +22,7 @@ export default async function get_sms_service_price(
       url += `?country=${country} `;
     }
 
-    const response = await axios.get(
-      process.env.NODE_ENV === "development"
-        ? `http://localhost:3000${url}`
-        : `https://sms-verification.vercel.app${url}`
-    );
+    const response = await axios.get(`/api/${url}`);
 
     const data = response?.data?.data as any;
 
