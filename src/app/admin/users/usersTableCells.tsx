@@ -1,8 +1,13 @@
 import ButtonWithCopy from "@/common/ButtonWithCopy";
 import FIcon from "@/common/FIcon";
+import MuiModal from "@/common/MaterialUi/Modal/MuiModal";
+import MuiButton from "@/common/MaterialUi/MuiButton";
 import unkown_person from "@/data/unkown_person";
+import useBoolean from "@/hooks/state/useBoolean";
 import { Button } from "@mui/material";
 import Image from "next/image";
+import EditUserModal from "./EditUserModal";
+import { useSetting } from "@/context/SettingProvider";
 
 const usersTableCells: MuiTableHeader<UserT>[] = [
   {
@@ -57,23 +62,18 @@ const usersTableCells: MuiTableHeader<UserT>[] = [
 
   {
     key: "balance",
-    startIcon: "৳ ",
+    RenderComponent({ row }) {
+      const { setting } = useSetting();
+      return (
+        <div>
+          {setting?.public?.currency} {row.balance.toFixed(2)}
+        </div>
+      );
+    },
   },
 
   {
     key: "actions",
-    ActionButtons({ row }) {
-      return (
-        <>
-          <Button variant="contained" size="small" color="secondary">
-            Edit
-          </Button>
-          <Button variant="contained" size="small" color="warning">
-            Ban User
-          </Button>
-        </>
-      );
-    },
   },
 ];
 

@@ -21,6 +21,8 @@ import { useRefreshActivations } from "./hooks";
 import MuiSelect from "@/common/MaterialUi/Forms/MuiSelect";
 import useString from "@/hooks/state/useString";
 import CountdownTimer from "./CountdownTimer";
+import { differenceInMinutes } from "date-fns";
+import toast from "@/lib/toast";
 
 const ServiceDetails = ({ row }: { row: ActivationT }) => {
   return (
@@ -136,6 +138,20 @@ const tableCells: MuiTableHeader<ActivationT>[] = [
         ? true
         : false;
     },
+
+    shouldDisableDeleteButton(row) {
+      const currentTime = new Date();
+      const timeDifference = differenceInMinutes(
+        currentTime,
+        new Date(row?.createdAt)
+      );
+
+      if (timeDifference > 20) {
+        return false;
+      } else {
+        return true;
+      }
+    },
   },
 ];
 
@@ -182,9 +198,39 @@ export default function ServiceRightbar() {
 
   async function onMultipleDelete(ids: ID[]) {
     deleting.setTrue();
+
+    const allow_ids = [] as ID[];
+    const not_allow = [] as ID[];
+
+    ids.forEach((id) => {
+      const ac = data.find((a) => a._id === id);
+      if (!ac) return;
+
+      const currentTime = new Date();
+      const timeDifference = differenceInMinutes(
+        currentTime,
+        new Date(ac?.createdAt)
+      );
+
+      if (timeDifference > 20) {
+        allow_ids.push(id);
+      } else {
+        not_allow.push(id);
+      }
+    });
+
+    if (not_allow.length > 0) {
+      setTimeout(() => {
+        deleting.setFalse();
+      }, 100);
+      return toast({ message: "Please try again letter!", type: "warning" });
+    }
+
     try {
       await toast_async<any>(
-        axios.delete("/api/sms-active/activations", { data: { ids } }),
+        axios.delete("/api/sms-active/activations", {
+          data: { ids: allow_ids },
+        }),
         {
           start: "Deleting.. wait a moment!",
           success: `Successfully deleted ${ids?.length} items!`,
@@ -196,7 +242,7 @@ export default function ServiceRightbar() {
         `/api/auth/_fetch?id=${user?._id}`
       );
       setUser((p) => ({ ...p, balance: userRes?.data?.user?.balance }));
-      dispatch(activationActions.deleteByIds(ids));
+      dispatch(activationActions.deleteByIds(allow_ids));
     } finally {
       deleting.setFalse();
     }
@@ -218,18 +264,16 @@ export default function ServiceRightbar() {
             : data.filter((item) => item.status === currentStatus.value)
         }
         tableTitle={
-          <>
-            <select
-              title="Show Activations"
-              value={currentStatus.value}
-              onChange={currentStatus.change}
-              className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            >
-              <option value="STATUS_WAIT_CODE">Active Activations</option>
-              <option value="IN_HISTORY">Completed Activations</option>
-              <option value="STATUS_CANCEL">Canceled Activations</option>
-            </select>
-          </>
+          <select
+            title="Show Activations"
+            value={currentStatus.value}
+            onChange={currentStatus.change}
+            className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          >
+            <option value="STATUS_WAIT_CODE">Active Activations</option>
+            <option value="IN_HISTORY">Completed Activations</option>
+            <option value="STATUS_CANCEL">Canceled Activations</option>
+          </select>
         }
         deleting={deleting}
       />

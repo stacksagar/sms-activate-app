@@ -9,11 +9,15 @@ import toast_async from "@/lib/toast_async";
 import axios from "axios";
 import { userActions } from "@/redux/features/users/usersSlice";
 import MuiBreadcrumbs from "@/common/MaterialUi/MuiBreadcrumbs";
+import EditUserModal from "./EditUserModal";
+import useString from "@/hooks/state/useString";
 
 export default function Users() {
   const { data: users, fetched } = useReduxSelector((state) => state.users);
   const dispatch = useReduxDispatch();
   const deleting = useBoolean();
+  const editModal = useBoolean();
+  const editId = useString("");
 
   useEffect(() => {
     if (fetched) return;
@@ -52,15 +56,24 @@ export default function Users() {
         ]}
       />
       <br />
-      <MuiTable
-        onRefreshData={() => dispatch(fetchUsers(null))}
-        onDelete={onMultipleDelete}
-        tableCells={usersTableCells}
-        rows={users}
-        loading={!fetched}
-        tableTitle="Users"
-        deleting={deleting}
-      />
+
+      <EditUserModal open={editModal} userId={editId.value} />
+
+      <div className="max-w-full overflow-hidden">
+        <MuiTable
+          onRefreshData={() => dispatch(fetchUsers(null))}
+          onDelete={onMultipleDelete}
+          tableCells={usersTableCells}
+          rows={users}
+          loading={!fetched}
+          tableTitle="Users"
+          deleting={deleting}
+          onEditButton={(id) => {
+            editModal.setTrue();
+            editId.setCustom(id);
+          }}
+        />
+      </div>
     </div>
   );
 }

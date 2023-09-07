@@ -23,6 +23,24 @@ const usersSlice = createSlice({
       const ids = action.payload;
       state.data = state.data.filter((user) => !ids.includes(user?._id));
     },
+
+    updateUser(state, action: PayloadAction<UserT>) {
+      if (!action.payload?._id) return;
+
+      let index = -1;
+      for (let i = 0; i < state.data.length; i++) {
+        if (state.data[i]._id === action.payload?._id) {
+          index = i;
+          break;
+        }
+      }
+
+      if (index < 0) return;
+      state.data[index] = {
+        ...state.data[index],
+        ...action.payload,
+      };
+    },
   },
 
   extraReducers: (builder) => {

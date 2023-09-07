@@ -27,8 +27,6 @@ export default async function createActivation(
     });
 
     if (serviceCustomPrice) {
-      console.log("serviceCustomPrice ", serviceCustomPrice);
-      console.log("user.balance ", user?.balance);
       if (user.balance < serviceCustomPrice.user_cost)
         throw new Error("Insufficient balance!");
     } else {
@@ -57,7 +55,6 @@ export default async function createActivation(
 
     // :: order creation check
     if (!orderData || typeof (orderData || orderData?.data) === "string") {
-      console.log("orderData ", orderData);
       throw new Error(orderData || orderData?.data);
     }
 
@@ -74,10 +71,8 @@ export default async function createActivation(
 
     // :: Let's calculate user balance and minus
     if (serviceCustomPrice) {
-      console.log("Service cost");
       user.balance = user.balance - serviceCustomPrice.user_cost;
     } else {
-      console.log("default cost");
       user.balance = user.balance - Number(activationCost || "0");
     }
     await user.save();
@@ -108,7 +103,11 @@ export default async function createActivation(
     }, 30000);
 
     return { activation, message: "Congrats, Order created!" };
-  } catch (error) {
-    return Res.msg(res, "Not available, try few minutes later", 400);
+  } catch (error: any) {
+    return Res.msg(
+      res,
+      error?.message || "Not available, try few minutes later",
+      400
+    );
   }
 }

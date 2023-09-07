@@ -37,6 +37,7 @@ interface MuiTableProps {
   deleting?: UseBoolean;
   loading?: boolean;
   onRefreshData?: () => void;
+  onEditButton?: (id: string) => void;
 }
 
 export default function MuiTable({
@@ -47,6 +48,7 @@ export default function MuiTable({
   deleting,
   loading,
   onRefreshData,
+  onEditButton,
 }: MuiTableProps) {
   const [order, setOrder] = React.useState<TableOrder>("asc");
   const [orderBy, setOrderBy] = React.useState<keyof BodyRow>("name");
@@ -181,6 +183,7 @@ export default function MuiTable({
                         endIcon,
                         ActionButtons,
                         shouldHideDeleteButton,
+                        shouldDisableDeleteButton,
                       } = cell;
 
                       return (
@@ -225,6 +228,10 @@ export default function MuiTable({
                                   </Button>
                                 ) : (
                                   <Button
+                                    disabled={
+                                      shouldDisableDeleteButton &&
+                                      shouldDisableDeleteButton(row)
+                                    }
                                     title="Delete item"
                                     onClick={() => {
                                       setDeleteID(row?._id);
@@ -237,6 +244,16 @@ export default function MuiTable({
                                     Delete
                                   </Button>
                                 )}
+
+                                {onEditButton ? (
+                                  <Button
+                                    onClick={() => onEditButton(row?._id)}
+                                    variant="contained"
+                                    size="small"
+                                  >
+                                    Edit
+                                  </Button>
+                                ) : null}
                               </div>
                             ) : (
                               <>
