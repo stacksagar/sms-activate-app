@@ -146,7 +146,7 @@ const tableCells: MuiTableHeader<ActivationT>[] = [
         new Date(row?.createdAt)
       );
 
-      if (timeDifference > 20) {
+      if (timeDifference > 10) {
         return false;
       } else {
         return true;
@@ -212,7 +212,7 @@ export default function ServiceRightbar() {
         new Date(ac?.createdAt)
       );
 
-      if (timeDifference > 20) {
+      if (timeDifference > 10) {
         allow_ids.push(id);
       } else {
         not_allow.push(id);

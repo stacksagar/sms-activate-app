@@ -8,7 +8,7 @@ const CountdownTimer = ({ createdAt }: { createdAt: Date }) => {
     const timeDifference = currentTime - createdAt.getTime();
 
     const initialCountdown = Math.max(
-      Math.floor(20 * 60 - timeDifference / 1000),
+      Math.floor(10 * 60 - timeDifference / 1000),
       0
     );
 
@@ -20,6 +20,7 @@ const CountdownTimer = ({ createdAt }: { createdAt: Date }) => {
           clearInterval(interval);
           return 0;
         }
+
         return prevCountdown - 1;
       });
     }, 1000);
