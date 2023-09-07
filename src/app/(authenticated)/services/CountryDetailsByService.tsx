@@ -25,7 +25,11 @@ export default function CountryDetailsByService({
         <ListItemButton
           disabled={loading.true}
           onClick={() =>
-            handleOrder(selectedService?.shortName, service.country, loading)
+            handleOrder(
+              selectedService?.shortName,
+              service.country as string,
+              loading
+            )
           }
           className="flex items-center justify-between gap-2"
         >
