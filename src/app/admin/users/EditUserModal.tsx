@@ -53,8 +53,8 @@ export default function EditUserModal({ open, userId }: Props) {
       balance: user?.balance || 0,
       role: user?.role || "",
     });
-    console.log("useEffect: [userId, users, formik]");
-  }, [userId, users, formik]);
+    console.log("useEffect: [userId, users]");
+  }, [userId, users]);
 
   return (
     <MuiModal open={open}>
