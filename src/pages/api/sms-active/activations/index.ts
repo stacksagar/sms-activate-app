@@ -12,8 +12,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     switch (method) {
       case "POST": {
-        const data = await createActivation(req, res);
-        return Res.json(res, { ...data });
+        try {
+          const data = await createActivation(req, res);
+          return Res.json(res, { ...data });
+        } catch (error) {
+          return Res.err(res, error);
+        }
       }
 
       case "GET": {

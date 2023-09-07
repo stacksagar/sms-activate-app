@@ -27,8 +27,9 @@ export default async function createActivation(
     });
 
     if (serviceCustomPrice) {
-      if (user.balance < serviceCustomPrice.user_cost)
-        throw new Error("Insufficient balance!");
+      if (user.balance < serviceCustomPrice.user_cost) {
+        return Res.msg(res, "Insufficient balance!", 400);
+      }
     } else {
       // :: check service API price
       const serviceApiPrice = await get_sms_service_price(
@@ -37,7 +38,9 @@ export default async function createActivation(
       );
 
       const api_cost = serviceApiPrice?.cost as number;
-      if (user.balance < api_cost) throw new Error("Insufficient balance!");
+      if (user.balance < api_cost) {
+        return Res.msg(res, "Insufficient balance!", 400);
+      }
     }
 
     // :: order number with API
@@ -106,7 +109,9 @@ export default async function createActivation(
   } catch (error: any) {
     return Res.msg(
       res,
-      error?.message || "Not available, try few minutes later",
+      error?.message?.includes("status code")
+        ? "Not available, try few minutes later"
+        : error?.message,
       400
     );
   }
