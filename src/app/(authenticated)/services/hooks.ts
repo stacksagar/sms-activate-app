@@ -85,8 +85,9 @@ export function useOrderNumber() {
           user: user?._id,
           serviceCode,
           countryCode,
-          usd_to_ruble_pric: setting?.public?.["1_usd_to_ruble"],
+          usd_to_ruble_price: Number(setting?.public?.["1_usd_to_ruble"]),
         }),
+
         {
           start: "Creating your order...",
         }
@@ -94,13 +95,10 @@ export function useOrderNumber() {
 
       data?.activation &&
         dispatch(activationActions.addActivation(data?.activation));
+
       setUser((p) => ({
         ...p,
-        balance:
-          p.balance -
-          (typeof data?.activation?.total_cost === "number"
-            ? data?.activation?.total_cost
-            : 0),
+        balance: data?.newBalance || 0,
       }));
     } finally {
       loading && loading.setFalse();

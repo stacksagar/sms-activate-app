@@ -89,17 +89,17 @@ export default function ServicesList() {
     const initialData = [
       ...(user?.favorite_services || []),
       ...Object.values(services || {}),
-    ].map((item) => ({
-      ...item,
-      default_price:
-        prices.find((p) => p.service === item.shortName)?.user_cost ||
-        setting?.public?.["1_usd_to_ruble"]
-          ? ruble_to_usd(
-              api_prices[item.shortName]?.cost as number,
-              Number(setting?.public?.["1_usd_to_ruble"])
-            )
-          : 0,
-    }));
+    ].map((item) => {
+      return {
+        ...item,
+        default_price:
+          prices.find((p) => p.service === item.shortName)?.user_cost ||
+          ruble_to_usd(
+            api_prices[item.shortName]?.cost as number,
+            Number(setting?.public?.["1_usd_to_ruble"])
+          ),
+      };
+    });
 
     setAllServices(initialData);
   }, [user, services, prices, api_prices]);

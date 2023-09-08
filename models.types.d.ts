@@ -80,7 +80,7 @@ interface ActivationT extends ModelCommonAttributes {
   sms_text?: string[];
 }
 
-type ActivationPromise = { activation: ActivationT };
+type ActivationPromise = { activation: ActivationT; newBalance: number };
 
 interface DepositT extends ModelCommonAttributes {
   user: UserT;

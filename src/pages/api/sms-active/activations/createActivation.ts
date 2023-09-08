@@ -59,13 +59,12 @@ export default async function createActivation(
     if (serviceCustomPrice) {
       user.balance = user.balance - serviceCustomPrice.user_cost;
     } else {
-      // user.balance = user.balance - Number(activationCost || "0");
-      user.balance =
-        user.balance -
-        ruble_to_usd(
-          Number(activationCost || "0"),
-          req.body?.usd_to_ruble_price || 98
-        );
+      const cost = ruble_to_usd(
+        Number(activationCost || "0"),
+        req.body?.usd_to_ruble_price
+      );
+
+      user.balance = user.balance - cost;
     }
     await user.save();
 
@@ -76,7 +75,13 @@ export default async function createActivation(
       activationTime,
       activationOperator,
       activationCost,
-      total_cost: serviceCustomPrice?.user_cost || activationCost,
+      total_cost:
+        serviceCustomPrice?.user_cost ||
+        ruble_to_usd(
+          Number(activationCost || "0"),
+          req.body?.usd_to_ruble_price
+        ),
+
       phoneNumber,
       canGetAnotherSms,
       countryCode,
@@ -94,7 +99,11 @@ export default async function createActivation(
       console.log("GetActiveActivations count=", count);
     }, 30000);
 
-    return { activation, message: "Congrats, Order created!" };
+    return {
+      activation,
+      message: "Congrats, Order created!",
+      newBalance: user.balance,
+    };
   } catch (error: any) {
     return Res.msg(
       res,
