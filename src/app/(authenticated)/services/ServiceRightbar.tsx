@@ -224,7 +224,7 @@ export default function ServiceRightbar() {
       setTimeout(() => {
         deleting.setFalse();
       }, 100);
-      return toast({ message: "Please try again letter!", type: "warning" });
+      return toast({ message: "Please try again later!", type: "warning" });
     }
 
     try {

@@ -5,6 +5,7 @@ import User from "@/models/mongodb/User";
 import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
 import getActiveActivations from "./getActiveActivations";
+import ruble_to_usd from "@/lib/ruble_to_usd";
 
 export default async function createActivation(
   req: NextApiRequest,
@@ -58,7 +59,13 @@ export default async function createActivation(
     if (serviceCustomPrice) {
       user.balance = user.balance - serviceCustomPrice.user_cost;
     } else {
-      user.balance = user.balance - Number(activationCost || "0");
+      // user.balance = user.balance - Number(activationCost || "0");
+      user.balance =
+        user.balance -
+        ruble_to_usd(
+          Number(activationCost || "0"),
+          req.body?.usd_to_ruble_price || 98
+        );
     }
     await user.save();
 

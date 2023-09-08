@@ -22,6 +22,7 @@ import FIcon from "@/common/FIcon";
 import { fetchServicesPrices } from "@/redux/features/servicesPricesSlice/requests";
 import axios from "axios";
 import { useAuth } from "@/context/AuthProvider";
+import ruble_to_usd from "@/lib/ruble_to_usd";
 
 export default function ServicesList() {
   const { setting } = useSetting();
@@ -92,8 +93,12 @@ export default function ServicesList() {
       ...item,
       default_price:
         prices.find((p) => p.service === item.shortName)?.user_cost ||
-        api_prices[item.shortName]?.cost ||
-        0,
+        setting?.public?.["1_usd_to_ruble"]
+          ? ruble_to_usd(
+              api_prices[item.shortName]?.cost as number,
+              Number(setting?.public?.["1_usd_to_ruble"])
+            )
+          : 0,
     }));
 
     setAllServices(initialData);

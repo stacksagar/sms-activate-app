@@ -47,6 +47,5 @@ export default async function get_sms_service_price(
     }
   } catch (error) {
     console.log("ERROR:", error);
-    toast({ message: error_message(error) });
   }
 }

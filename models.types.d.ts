@@ -42,6 +42,7 @@ interface SettingT extends ModelCommonAttributes {
     favicon?: string;
     email?: string;
     currency?: string;
+    "1_usd_to_ruble": string;
     selected_country?: number | string;
     website_thumbnail?: string;
     telegram_phone?: string;

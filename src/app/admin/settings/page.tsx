@@ -49,6 +49,11 @@ export default function HeaderSetting() {
           value: setting?.public?.currency,
         },
 
+        "1_usd_to_ruble": {
+          type: "text",
+          value: setting?.public?.["1_usd_to_ruble"],
+        },
+
         selected_country: {
           value: setting?.public?.selected_country as any,
           CustomComponent({ setValue, value }) {
