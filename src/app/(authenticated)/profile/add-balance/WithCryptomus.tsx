@@ -10,7 +10,7 @@ import axios from "axios";
 import React from "react";
 
 export default function WithCryptomus() {
-  const amount = useNumber(0);
+  const amount = useNumber("" as unknown as number);
   const loading = useBoolean();
   const { user } = useAuth();
 

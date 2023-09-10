@@ -4,7 +4,7 @@ import { useState } from "react";
 import useBoolean from "./useBoolean";
 
 export default function useNumber(defaultValue?: number) {
-  const [value, setValue] = useState<number>(defaultValue || 0);
+  const [value, setValue] = useState<number>(defaultValue as number);
   const loading = useBoolean();
 
   return {
@@ -12,7 +12,7 @@ export default function useNumber(defaultValue?: number) {
     set: setValue,
     reset: () => setValue(0),
     change: (e: any) => setValue(Number(e.target.value)),
-    setCustom: (val?: number) => setValue(val || 0),
+    setCustom: (val?: number) => setValue(val as number),
     loading,
   };
 }
