@@ -8,6 +8,12 @@ import { Button } from "@mui/material";
 import Image from "next/image";
 import EditUserModal from "./EditUserModal";
 import { useSetting } from "@/context/SettingProvider";
+import MuiTableDeleteWarning from "@/common/MaterialUi/MuiTable/MuiTableDeleteWarning";
+import MuiConfirmationDialog from "@/common/MaterialUi/Modal/MuiConfirmationDialog";
+import axios from "axios";
+import { useReduxDispatch } from "@/redux/redux_store";
+import { userActions } from "@/redux/features/users/usersSlice";
+import toast from "@/lib/toast";
 
 const usersTableCells: MuiTableHeader<UserT>[] = [
   {
@@ -74,6 +80,49 @@ const usersTableCells: MuiTableHeader<UserT>[] = [
 
   {
     key: "actions",
+    ActionButtons({ row }) {
+      const dispatch = useReduxDispatch();
+      const banning = useBoolean();
+      const showBanWarning = useBoolean();
+      async function banHandler() {
+        try {
+          const { data } = await axios.put<{ user: UserT }>(
+            `/api/users?id=${row._id}`,
+            { banned: row.banned ? false : true }
+          );
+          dispatch(userActions.updateUser(data.user));
+          toast({
+            message: `${row.name} has been ${
+              row.banned ? "Un-banned" : "banned"
+            }!`,
+            type: "warning",
+          });
+        } finally {
+          banning.setFalse();
+          showBanWarning.setFalse();
+        }
+      }
+      return (
+        <>
+          <MuiConfirmationDialog
+            loading={banning?.true}
+            showModal={showBanWarning}
+            warningText={`Want to ${row.banned ? "unban" : "ban"} ${row.name}?`}
+            onConfirm={banHandler}
+            confirmButtonText={row.banned ? "Un-Ban User" : "Ban User"}
+          />
+
+          <Button
+            onClick={showBanWarning.toggle}
+            variant="contained"
+            size="small"
+            color="warning"
+          >
+            {row.banned ? "UnBan" : "Ban"}
+          </Button>
+        </>
+      );
+    },
   },
 ];
 

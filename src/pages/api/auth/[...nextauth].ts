@@ -29,8 +29,9 @@ export const authOptions: AuthOptions = {
           if (!user?._id) throw new Error("Invalid info.., not found!");
 
           const passwordsMatch = await bcrypt.compare(password, user?.password);
-
           if (!passwordsMatch) throw new Error("Invalid credentials!");
+
+          if (user?.banned) throw new Error("You're banned!");
 
           return user?._doc as any;
         } catch (error) {

@@ -33,10 +33,11 @@ export default function SigninForm() {
         const data = await signIn("credentials", {
           email: values.email,
           password: values.password,
+          redirect: false,
         });
 
         if (data?.error) {
-          setError("Invalid Credentials!");
+          setError(data.error);
           setTimeout(() => {
             setError("");
           }, 2500);

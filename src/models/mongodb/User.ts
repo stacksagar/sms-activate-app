@@ -8,6 +8,7 @@ const userSchema = new mdb.Schema<UserT>(
     password: String,
     image: String,
     favorite_services: Array,
+    banned: Boolean,
 
     balance: { type: Number, default: 0 },
     role: {
