@@ -46,10 +46,10 @@ export default function SignupForm() {
         await signIn("credentials", {
           email: values.email,
           password: values.password,
-          redirect: true,
+          redirect: false,
         });
 
-        router.replace("/services");
+        router.replace("/");
 
         toast({ message: "Registration Successfull!" });
       } catch (error) {
