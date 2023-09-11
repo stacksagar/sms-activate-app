@@ -53,7 +53,7 @@ export default function WithCryptomus() {
       <MuiTextField
         required={false}
         onChange={amount.change}
-        value={amount.value}
+        value={amount.value > 0 ? amount.value : ""}
         type="number"
         placeholder="Amount"
         label="Deposit Amount"

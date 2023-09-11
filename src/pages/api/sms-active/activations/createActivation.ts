@@ -41,7 +41,7 @@ export default async function createActivation(
 
     // :: order creation check
     if (!orderData || typeof (orderData || orderData?.data) === "string") {
-      throw new Error(orderData || orderData?.data);
+      throw new Error("Not available now, Try later!");
     }
 
     const {
