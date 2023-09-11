@@ -166,6 +166,8 @@ export default function AdminLayout({ children }: Props) {
     if (window && window?.innerWidth <= 768) {
       setOpen(false);
     }
+
+    console.log("::Admin");
   }, []);
 
   return (
