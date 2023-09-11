@@ -90,6 +90,7 @@ export function useOrderNumber() {
 
         {
           start: "Creating your order...",
+          error: "Please try later",
         }
       );
 

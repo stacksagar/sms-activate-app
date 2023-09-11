@@ -22,12 +22,12 @@ export default async function toast_async<Data>(
       },
       error: {
         render({ data }: any) {
-          return messages?.error?.includes("status")
-            ? "Please try later!"
-            : messages?.error ||
-                data?.response?.data?.message ||
-                data?.message ||
-                data?.data?.message;
+          return (
+            messages?.error ||
+            data?.response?.data?.message ||
+            data?.message ||
+            data?.data?.message
+          );
         },
       },
     },
