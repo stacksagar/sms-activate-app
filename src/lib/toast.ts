@@ -7,7 +7,11 @@ interface Props extends ToastOptions {
 
 export default function toast({ message, duration, ...props }: Props) {
   Toastify(
-    typeof message === "string" ? message : "Something wrong, try later!",
+    typeof message === "string"
+      ? message?.includes("status")
+        ? "Please try later!"
+        : message
+      : "Something wrong, try later!",
     {
       position: props.position || "top-center",
       autoClose: props.autoClose || duration || 1500,
