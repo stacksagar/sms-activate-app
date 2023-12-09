@@ -61,7 +61,7 @@ const CountryDetails = ({ row }: { row: ActivationT }) => {
           height={20}
         />
 
-        <div> {countries[row?.countryCode]?.eng} </div>
+        <div> {countries && countries?.length && countries[row?.countryCode]?.eng} </div>
       </div>
       <ButtonWithCopy value={row?.phoneNumber} showValue />
     </div>
